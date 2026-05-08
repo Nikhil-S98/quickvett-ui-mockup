@@ -899,7 +899,6 @@ function App() {
           <div className={`results-layout${sidebarCollapsed ? ' sidebar-collapsed' : ''}`}>
             <aside className="results-sidebar" aria-hidden={sidebarCollapsed}>
               <div className="results-history">
-                <p className="history-label">Search history</p>
                 <div className="history-filter">
                   <span className="material-symbols-outlined ui-icon" aria-hidden="true">
                     search
@@ -1014,7 +1013,20 @@ function App() {
                       </button>
                     </div>
                   </header>
-                  <HeaderBrand logoFont={logoFont} onClick={openHomePage} />
+                  <div className="results-header-end">
+                    <button
+                      type="button"
+                      className="dark-mode-toggle"
+                      onClick={() => setDarkMode((prev) => !prev)}
+                      aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                      title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                    >
+                      <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                        {darkMode ? 'light_mode' : 'dark_mode'}
+                      </span>
+                    </button>
+                    <HeaderBrand logoFont={logoFont} onClick={openHomePage} />
+                  </div>
                 </div>
 
               </div>

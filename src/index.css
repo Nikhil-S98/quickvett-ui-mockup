@@ -531,7 +531,7 @@ button.header-brand:active {
 .results-sidebar {
   background: var(--surface);
   border-right: 1px solid var(--border);
-  padding: 1rem 0.85rem;
+  padding: 1.5rem 0.85rem;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -559,9 +559,8 @@ button.header-brand:active {
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text-secondary);
-  border-radius: 0.3rem;
+  border-radius: 0.25rem;
   cursor: pointer;
-  margin-top: 0.1rem;
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
@@ -620,7 +619,7 @@ button.header-brand:active {
 
 .results-header-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
@@ -630,6 +629,13 @@ button.header-brand:active {
 .results-header {
   flex: 1;
   min-width: 0;
+}
+
+.results-header-end {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
 }
 
 .results-content {
