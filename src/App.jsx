@@ -1,15 +1,33 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 
 gsap.defaults({ ease: 'power1.out' })
 
-function HeaderBrand({ logoFont }) {
-  return (
-    <div className={`header-brand logo-font-${logoFont}`} aria-label="QuickVett">
+function HeaderBrand({ logoFont, onClick }) {
+  const className = `header-brand logo-font-${logoFont}${onClick ? ' header-brand-clickable' : ''}`
+  const inner = (
+    <>
       <span className="material-symbols-outlined ui-icon header-logo-icon" aria-hidden="true">
         shield
       </span>
       <span>QuickVett</span>
+    </>
+  )
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        className={className}
+        onClick={onClick}
+        aria-label="QuickVett — return to home"
+      >
+        {inner}
+      </button>
+    )
+  }
+  return (
+    <div className={className} aria-label="QuickVett">
+      {inner}
     </div>
   )
 }
@@ -37,7 +55,6 @@ function DataMerchCard({ businessName }) {
           <span className="result-card-label">DataMerch</span>
           <h3>{businessName || 'Business'}</h3>
         </div>
-        <span className="status-pill status-pill-danger">MATCH FOUND</span>
       </header>
       <div className="datamerch-meta">
         <span>EIN 85-3201948</span>
@@ -50,9 +67,6 @@ function DataMerchCard({ businessName }) {
         {records.map((record) => (
           <li key={`${record.category}-${record.reportedAt}`}>
             <div className="datamerch-record-head">
-              <span className={`category-tag category-${record.category.toLowerCase()}`}>
-                {record.category}
-              </span>
               <span className="datamerch-record-date">{record.reportedAt}</span>
             </div>
             <p className="datamerch-record-note">{record.note}</p>
@@ -65,8 +79,10 @@ function DataMerchCard({ businessName }) {
 }
 
 function DefaultHistoryCard({ businessName }) {
+  const business = businessName || 'Khera Brothers Inc'
   const cases = [
     {
+      caption: `Velocity Capital LLC v. ${business}`,
       caseNumber: '2024-CV-04821',
       court: 'NY Supreme Court — Kings County',
       filedOn: '2024-06-12',
@@ -74,7 +90,7 @@ function DefaultHistoryCard({ businessName }) {
       status: 'Open',
       parties: [
         { role: 'Plaintiff', name: 'Velocity Capital LLC' },
-        { role: 'Defendant', name: businessName || 'Business' },
+        { role: 'Defendant', name: business },
         { role: 'Defendant', name: 'Rajiv Khera (personal guaranty)' },
       ],
       judge: 'Hon. Lawrence Knipel',
@@ -84,6 +100,7 @@ function DefaultHistoryCard({ businessName }) {
       documents: 14,
     },
     {
+      caption: `Yellowstone Capital East v. ${business}`,
       caseNumber: '2023-CV-11204',
       court: 'NJ Superior Court — Bergen County',
       filedOn: '2023-09-30',
@@ -91,7 +108,7 @@ function DefaultHistoryCard({ businessName }) {
       status: 'Judgment Entered',
       parties: [
         { role: 'Plaintiff', name: 'Yellowstone Capital East' },
-        { role: 'Defendant', name: businessName || 'Business' },
+        { role: 'Defendant', name: business },
       ],
       judge: 'Hon. Estela M. De La Cruz',
       attorneys: [{ for: 'Plaintiff', name: 'Giuliano McDonnell & Perrone' }],
@@ -100,6 +117,7 @@ function DefaultHistoryCard({ businessName }) {
       documents: 6,
     },
     {
+      caption: `Northbridge Funding Group v. ${business}`,
       caseNumber: '2024-CV-00188',
       court: 'US District Court — EDNY',
       filedOn: '2024-01-09',
@@ -107,7 +125,7 @@ function DefaultHistoryCard({ businessName }) {
       status: 'Open',
       parties: [
         { role: 'Plaintiff', name: 'Northbridge Funding Group' },
-        { role: 'Defendant', name: businessName || 'Business' },
+        { role: 'Defendant', name: business },
         { role: 'Co-Defendant', name: 'KB Logistics Holdings Inc' },
       ],
       judge: 'Hon. Margo K. Brodie',
@@ -117,6 +135,7 @@ function DefaultHistoryCard({ businessName }) {
       documents: 31,
     },
     {
+      caption: `Roosevelt Plaza Holdings LLC v. ${business}`,
       caseNumber: '2022-LT-07733',
       court: 'NY Civil Court — Queens County',
       filedOn: '2022-11-04',
@@ -124,7 +143,7 @@ function DefaultHistoryCard({ businessName }) {
       status: 'Closed',
       parties: [
         { role: 'Plaintiff', name: 'Roosevelt Plaza Holdings LLC' },
-        { role: 'Defendant', name: businessName || 'Business' },
+        { role: 'Defendant', name: business },
       ],
       judge: 'Hon. Sergio Jimenez',
       attorneys: [{ for: 'Plaintiff', name: 'Belkin Burden Goldman LLP' }],
@@ -132,13 +151,179 @@ function DefaultHistoryCard({ businessName }) {
       lastDocket: { date: '2023-04-19', entry: 'Stipulation of settlement filed; case closed.' },
       documents: 9,
     },
+    {
+      caption: `${business} v. Pinnacle Merchant Services LLC`,
+      caseNumber: '2025-CV-02199',
+      court: 'NY Supreme Court — New York County',
+      filedOn: '2025-02-21',
+      caseType: 'Breach of Contract / Counterclaim',
+      status: 'Open',
+      parties: [
+        { role: 'Plaintiff', name: business },
+        { role: 'Defendant', name: 'Pinnacle Merchant Services LLC' },
+      ],
+      judge: 'Hon. Andrea Masley',
+      attorneys: [{ for: 'Plaintiff', name: 'Davidoff Hutcher & Citron LLP' }],
+      amount: '$76,300',
+      lastDocket: { date: '2026-01-30', entry: 'Answer with counterclaims filed by defendant.' },
+      documents: 11,
+    },
+    {
+      caption: `Atlantic Lender Group LLC v. ${business}`,
+      caseNumber: '2023-CV-08820',
+      court: 'NJ Superior Court — Hudson County',
+      filedOn: '2023-04-15',
+      caseType: 'Account Stated',
+      status: 'Closed',
+      parties: [
+        { role: 'Plaintiff', name: 'Atlantic Lender Group LLC' },
+        { role: 'Defendant', name: business },
+      ],
+      judge: 'Hon. Joseph A. Turula',
+      attorneys: [{ for: 'Plaintiff', name: 'Loeb & Loeb LLP' }],
+      amount: '$31,500',
+      lastDocket: { date: '2023-11-02', entry: 'Settlement agreement filed; case dismissed with prejudice.' },
+      documents: 7,
+    },
+    {
+      caption: `Brookhaven Wholesale Co v. ${business}`,
+      caseNumber: '2022-CV-31194',
+      court: 'NY Civil Court — Bronx County',
+      filedOn: '2022-08-22',
+      caseType: 'Goods Sold and Delivered',
+      status: 'Closed',
+      parties: [
+        { role: 'Plaintiff', name: 'Brookhaven Wholesale Co' },
+        { role: 'Defendant', name: business },
+      ],
+      judge: 'Hon. Lucindo Suarez',
+      attorneys: [{ for: 'Plaintiff', name: 'Furman Kornfeld & Brennan LLP' }],
+      amount: '$14,750',
+      lastDocket: { date: '2023-02-07', entry: 'Stipulation of discontinuance filed.' },
+      documents: 4,
+    },
+    {
+      caption: `${business} v. United Freight Holdings Corp`,
+      caseNumber: '2023-CV-15042',
+      court: 'NY Supreme Court — Nassau County',
+      filedOn: '2023-12-04',
+      caseType: 'Breach of Service Contract',
+      status: 'Closed',
+      parties: [
+        { role: 'Plaintiff', name: business },
+        { role: 'Defendant', name: 'United Freight Holdings Corp' },
+      ],
+      judge: 'Hon. Sharon M.J. Gianelli',
+      attorneys: [{ for: 'Plaintiff', name: 'Tannenbaum Helpern Syracuse & Hirschtritt LLP' }],
+      amount: '$53,400',
+      lastDocket: { date: '2024-09-18', entry: 'Confidential settlement; case closed.' },
+      documents: 12,
+    },
+    {
+      caption: `Empire Capital Funding Inc v. ${business}`,
+      caseNumber: '2024-CV-09877',
+      court: 'NJ Superior Court — Essex County',
+      filedOn: '2024-03-19',
+      caseType: 'Confession of Judgment',
+      status: 'Judgment Entered',
+      parties: [
+        { role: 'Plaintiff', name: 'Empire Capital Funding Inc' },
+        { role: 'Defendant', name: business },
+        { role: 'Defendant', name: 'Rajiv Khera (personal guaranty)' },
+      ],
+      judge: 'Hon. Stephanie M. Wauters',
+      attorneys: [{ for: 'Plaintiff', name: 'Akerman LLP' }],
+      amount: '$128,900',
+      lastDocket: { date: '2024-04-02', entry: 'Judgment by confession entered; abstract docketed.' },
+      documents: 5,
+    },
+    {
+      caption: `Pioneer Tax Services LLC v. ${business}`,
+      caseNumber: '2024-CV-22018',
+      court: 'NY Civil Court — Kings County',
+      filedOn: '2024-05-29',
+      caseType: 'Professional Services Collection',
+      status: 'Closed',
+      parties: [
+        { role: 'Plaintiff', name: 'Pioneer Tax Services LLC' },
+        { role: 'Defendant', name: business },
+      ],
+      judge: 'Hon. Sandra E. Roper',
+      attorneys: [{ for: 'Plaintiff', name: 'Klein Slowik PLLC' }],
+      amount: '$8,200',
+      lastDocket: { date: '2024-10-11', entry: 'Settled and discontinued.' },
+      documents: 3,
+    },
+    {
+      caption: `Bayside Equipment Leasing Corp v. ${business}`,
+      caseNumber: '2025-CV-04412',
+      court: 'NY Supreme Court — Suffolk County',
+      filedOn: '2025-01-08',
+      caseType: 'UCC / Replevin',
+      status: 'Open',
+      parties: [
+        { role: 'Plaintiff', name: 'Bayside Equipment Leasing Corp' },
+        { role: 'Defendant', name: business },
+      ],
+      judge: 'Hon. Robert F. Quinlan',
+      attorneys: [{ for: 'Plaintiff', name: 'Wilson Elser Moskowitz Edelman & Dicker LLP' }],
+      amount: '$67,500',
+      lastDocket: { date: '2026-02-26', entry: 'Order of seizure granted as to leased equipment.' },
+      documents: 8,
+    },
+    {
+      caption: `${business} v. Coastal Insurance Brokers Inc`,
+      caseNumber: '2025-CV-07733',
+      court: 'NY Supreme Court — New York County',
+      filedOn: '2025-03-04',
+      caseType: 'Insurance Coverage Dispute',
+      status: 'Open',
+      parties: [
+        { role: 'Plaintiff', name: business },
+        { role: 'Defendant', name: 'Coastal Insurance Brokers Inc' },
+        { role: 'Defendant', name: 'Atlas Surety & Casualty Co' },
+      ],
+      judge: 'Hon. Joel M. Cohen',
+      attorneys: [{ for: 'Plaintiff', name: 'Greenberg Traurig LLP' }],
+      amount: '$215,000',
+      lastDocket: { date: '2026-04-15', entry: 'Plaintiff opposition to motion to dismiss filed.' },
+      documents: 19,
+    },
+    {
+      caption: `State of New York v. ${business}`,
+      caseNumber: '2023-TW-00428',
+      court: 'NY Division of Tax Appeals',
+      filedOn: '2023-07-11',
+      caseType: 'Tax Warrant',
+      status: 'Judgment Entered',
+      parties: [
+        { role: 'Petitioner', name: 'NY State Department of Taxation and Finance' },
+        { role: 'Respondent', name: business },
+      ],
+      judge: 'Hon. Dennis M. Galliher (ALJ)',
+      attorneys: [{ for: 'Petitioner', name: 'NY State Office of Counsel' }],
+      amount: '$38,200',
+      lastDocket: { date: '2023-12-02', entry: 'Tax warrant docketed; partial release recorded 2024-08.' },
+      documents: 5,
+    },
+    {
+      caption: `Brennan & Associates CPAs PLLC v. ${business}`,
+      caseNumber: '2025-CV-01284',
+      court: 'NY Supreme Court — Westchester County',
+      filedOn: '2025-04-22',
+      caseType: 'Professional Services Collection',
+      status: 'Open',
+      parties: [
+        { role: 'Plaintiff', name: 'Brennan & Associates CPAs PLLC' },
+        { role: 'Defendant', name: business },
+      ],
+      judge: 'Hon. Linda S. Jamieson',
+      attorneys: [{ for: 'Plaintiff', name: 'Bell Davis & Pitt PA' }],
+      amount: '$11,400',
+      lastDocket: { date: '2026-03-19', entry: 'Defendant served; answer due April 30.' },
+      documents: 2,
+    },
   ]
-
-  const statusToPill = (status) => {
-    if (status === 'Open') return 'status-pill-warning'
-    if (status === 'Judgment Entered') return 'status-pill-danger'
-    return 'status-pill-neutral'
-  }
 
   return (
     <article className="result-card card-default-history">
@@ -147,7 +332,6 @@ function DefaultHistoryCard({ businessName }) {
           <span className="result-card-label">Default History</span>
           <h3>{cases.length} cases found</h3>
         </div>
-        <span className="status-pill status-pill-warning">2 OPEN</span>
       </header>
       <div className="case-list">
         {cases.map((c) => (
@@ -155,15 +339,18 @@ function DefaultHistoryCard({ businessName }) {
             <summary>
               <div className="case-summary-main">
                 <div className="case-summary-top">
-                  <span className="case-number">{c.caseNumber}</span>
-                  <span className={`status-pill ${statusToPill(c.status)}`}>{c.status}</span>
+                  <span className="case-caption">{c.caption}</span>
                 </div>
                 <div className="case-summary-meta">
+                  <span className="case-number">{c.caseNumber}</span>
+                  <span aria-hidden="true">·</span>
                   <span className="case-type">{c.caseType}</span>
                   <span aria-hidden="true">·</span>
                   <span>{c.court}</span>
                   <span aria-hidden="true">·</span>
                   <span>Filed {c.filedOn}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{c.status}</span>
                 </div>
               </div>
               <span className="material-symbols-outlined ui-icon case-chevron" aria-hidden="true">
@@ -223,7 +410,6 @@ function DeepSearchCard({ businessName }) {
           <span className="result-card-label">Deep Search</span>
           <h3>{business} — Intelligence Report</h3>
         </div>
-        <span className="status-pill status-pill-warning">ELEVATED RISK</span>
       </header>
       <p className="deep-meta">
         <span className="material-symbols-outlined ui-icon" aria-hidden="true">
@@ -340,17 +526,17 @@ function DeepSearchCard({ businessName }) {
         <ul className="deep-news">
           <li>
             <p className="deep-news-title">Brooklyn wholesaler named in $412K RICO suit by funding group</p>
-            <p className="deep-news-meta">deBanked · 2024-01-22 · <span className="sentiment-tag sentiment-negative">Negative</span></p>
+            <p className="deep-news-meta">deBanked · 2024-01-22</p>
             <p>Coverage of the EDNY filing alleging coordinated stacking and misrepresentation across at least three funders.</p>
           </li>
           <li>
             <p className="deep-news-title">Funders share growing list of stackers as 2024 defaults climb</p>
-            <p className="deep-news-meta">Daily Funder · 2024-11-08 · <span className="sentiment-tag sentiment-negative">Negative</span></p>
+            <p className="deep-news-meta">Daily Funder · 2024-11-08</p>
             <p>Industry roundup mentions {business} among recent DataMerch entries flagged by multiple funders.</p>
           </li>
           <li>
             <p className="deep-news-title">Local supply chains adapt as Brooklyn wholesalers shift to hybrid models</p>
-            <p className="deep-news-meta">Brooklyn Eagle · 2023-05-14 · <span className="sentiment-tag sentiment-neutral">Neutral</span></p>
+            <p className="deep-news-meta">Brooklyn Eagle · 2023-05-14</p>
             <p>Profile piece on small wholesalers in East New York including {business} discussing post-pandemic operations.</p>
           </li>
         </ul>
@@ -435,6 +621,9 @@ function App() {
   const [ownerName, setOwnerName] = useState('')
   const [businessName, setBusinessName] = useState('')
   const [historyQuery, setHistoryQuery] = useState('')
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [headerOwner, setHeaderOwner] = useState('')
+  const [headerBusiness, setHeaderBusiness] = useState('')
   const pageContentRef = useRef(null)
   const isInitialPagePaint = useRef(true)
 
@@ -532,6 +721,21 @@ function App() {
   const openHomePage = () => {
     transitionToPage('home')
   }
+  const submitHeaderSearch = () => {
+    const trimmedOwner = headerOwner.trim()
+    const trimmedBusiness = headerBusiness.trim()
+    if (!trimmedOwner && !trimmedBusiness) return
+    if (trimmedOwner === ownerName.trim() && trimmedBusiness === businessName.trim()) return
+    transitionToPage('results', () => {
+      setOwnerName(headerOwner)
+      setBusinessName(headerBusiness)
+    })
+  }
+
+  useEffect(() => {
+    setHeaderOwner(ownerName)
+    setHeaderBusiness(businessName)
+  }, [ownerName, businessName])
 
   useLayoutEffect(() => {
     if (!pageContentRef.current) return
@@ -692,15 +896,8 @@ function App() {
             </div>
           </main>
         ) : (
-          <div className="results-layout">
-            <aside className="results-sidebar">
-              <button type="button" className="new-search-sidebar-btn" onClick={openHomePage}>
-                <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                  add
-                </span>
-                <span>New Search</span>
-              </button>
-
+          <div className={`results-layout${sidebarCollapsed ? ' sidebar-collapsed' : ''}`}>
+            <aside className="results-sidebar" aria-hidden={sidebarCollapsed}>
               <div className="results-history">
                 <p className="history-label">Search history</p>
                 <div className="history-filter">
@@ -760,13 +957,64 @@ function App() {
             <main className="results-main">
               <div className="results-header-strip">
                 <div className="results-header-row">
+                  <button
+                    type="button"
+                    className="sidebar-toggle"
+                    onClick={() => setSidebarCollapsed((prev) => !prev)}
+                    aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                    aria-expanded={!sidebarCollapsed}
+                  >
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      {sidebarCollapsed ? 'menu' : 'menu_open'}
+                    </span>
+                  </button>
                   <header className="results-header">
-                    <h2>Background Search</h2>
-                    <p>
-                      {businessName || 'Business'} {ownerName ? `• Owner: ${ownerName}` : ''}
-                    </p>
+                    <div className="header-search">
+                      <div className="header-search-bar" role="search">
+                        <div className="header-search-field">
+                          <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
+                            person
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="Owner name"
+                            aria-label="Owner name"
+                            value={headerOwner}
+                            onChange={(event) => setHeaderOwner(event.target.value)}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter') submitHeaderSearch()
+                            }}
+                          />
+                        </div>
+                        <div className="header-search-field">
+                          <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
+                            business_center
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="Business name"
+                            aria-label="Business name"
+                            value={headerBusiness}
+                            onChange={(event) => setHeaderBusiness(event.target.value)}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter') submitHeaderSearch()
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        className="header-search-btn"
+                        onClick={submitHeaderSearch}
+                        aria-label="Search"
+                      >
+                        <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                          search
+                        </span>
+                      </button>
+                    </div>
                   </header>
-                  <HeaderBrand logoFont={logoFont} />
+                  <HeaderBrand logoFont={logoFont} onClick={openHomePage} />
                 </div>
 
               </div>
