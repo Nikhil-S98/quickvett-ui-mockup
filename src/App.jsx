@@ -3,6 +3,429 @@ import gsap from 'gsap'
 
 gsap.defaults({ ease: 'power1.out' })
 
+function HeaderBrand({ logoFont }) {
+  return (
+    <div className={`header-brand logo-font-${logoFont}`} aria-label="QuickVett">
+      <span className="material-symbols-outlined ui-icon header-logo-icon" aria-hidden="true">
+        shield
+      </span>
+      <span>QuickVett</span>
+    </div>
+  )
+}
+
+function DataMerchCard({ businessName }) {
+  const records = [
+    {
+      category: 'Default',
+      reportedBy: 'Anonymous Funder #142',
+      reportedAt: '2024-11-03',
+      note: 'Stopped ACH on day 9 of contract. No response to outreach calls or emails after initial draw.',
+    },
+    {
+      category: 'Stacking',
+      reportedBy: 'Anonymous Funder #87',
+      reportedAt: '2024-08-17',
+      note: 'Took 3 concurrent positions within 72 hrs without disclosure. Original contract explicitly prohibited.',
+    },
+  ]
+
+  return (
+    <article className="result-card card-datamerch">
+      <header className="result-card-header">
+        <div className="result-card-heading">
+          <span className="result-card-label">DataMerch</span>
+          <h3>{businessName || 'Business'}</h3>
+        </div>
+        <span className="status-pill status-pill-danger">MATCH FOUND</span>
+      </header>
+      <div className="datamerch-meta">
+        <span>EIN 85-3201948</span>
+        <span aria-hidden="true">·</span>
+        <span>{records.length} records</span>
+        <span aria-hidden="true">·</span>
+        <span>Searched 2s ago</span>
+      </div>
+      <ul className="datamerch-records">
+        {records.map((record) => (
+          <li key={`${record.category}-${record.reportedAt}`}>
+            <div className="datamerch-record-head">
+              <span className={`category-tag category-${record.category.toLowerCase()}`}>
+                {record.category}
+              </span>
+              <span className="datamerch-record-date">{record.reportedAt}</span>
+            </div>
+            <p className="datamerch-record-note">{record.note}</p>
+            <p className="datamerch-record-source">— {record.reportedBy}</p>
+          </li>
+        ))}
+      </ul>
+    </article>
+  )
+}
+
+function DefaultHistoryCard({ businessName }) {
+  const cases = [
+    {
+      caseNumber: '2024-CV-04821',
+      court: 'NY Supreme Court — Kings County',
+      filedOn: '2024-06-12',
+      caseType: 'Breach of Contract',
+      status: 'Open',
+      parties: [
+        { role: 'Plaintiff', name: 'Velocity Capital LLC' },
+        { role: 'Defendant', name: businessName || 'Business' },
+        { role: 'Defendant', name: 'Rajiv Khera (personal guaranty)' },
+      ],
+      judge: 'Hon. Lawrence Knipel',
+      attorneys: [{ for: 'Plaintiff', name: 'Berkovitch & Bouskila PLLC' }],
+      amount: '$184,500',
+      lastDocket: { date: '2026-04-22', entry: 'Motion for summary judgment filed by plaintiff.' },
+      documents: 14,
+    },
+    {
+      caseNumber: '2023-CV-11204',
+      court: 'NJ Superior Court — Bergen County',
+      filedOn: '2023-09-30',
+      caseType: 'Confession of Judgment',
+      status: 'Judgment Entered',
+      parties: [
+        { role: 'Plaintiff', name: 'Yellowstone Capital East' },
+        { role: 'Defendant', name: businessName || 'Business' },
+      ],
+      judge: 'Hon. Estela M. De La Cruz',
+      attorneys: [{ for: 'Plaintiff', name: 'Giuliano McDonnell & Perrone' }],
+      amount: '$92,800',
+      lastDocket: { date: '2024-02-14', entry: 'Default judgment entered against defendant.' },
+      documents: 6,
+    },
+    {
+      caseNumber: '2024-CV-00188',
+      court: 'US District Court — EDNY',
+      filedOn: '2024-01-09',
+      caseType: 'RICO / Fraud',
+      status: 'Open',
+      parties: [
+        { role: 'Plaintiff', name: 'Northbridge Funding Group' },
+        { role: 'Defendant', name: businessName || 'Business' },
+        { role: 'Co-Defendant', name: 'KB Logistics Holdings Inc' },
+      ],
+      judge: 'Hon. Margo K. Brodie',
+      attorneys: [{ for: 'Plaintiff', name: 'White & Williams LLP' }],
+      amount: '$412,000',
+      lastDocket: { date: '2026-03-08', entry: 'Discovery motion granted; deposition scheduled.' },
+      documents: 31,
+    },
+    {
+      caseNumber: '2022-LT-07733',
+      court: 'NY Civil Court — Queens County',
+      filedOn: '2022-11-04',
+      caseType: 'Commercial Landlord-Tenant',
+      status: 'Closed',
+      parties: [
+        { role: 'Plaintiff', name: 'Roosevelt Plaza Holdings LLC' },
+        { role: 'Defendant', name: businessName || 'Business' },
+      ],
+      judge: 'Hon. Sergio Jimenez',
+      attorneys: [{ for: 'Plaintiff', name: 'Belkin Burden Goldman LLP' }],
+      amount: '$48,200',
+      lastDocket: { date: '2023-04-19', entry: 'Stipulation of settlement filed; case closed.' },
+      documents: 9,
+    },
+  ]
+
+  const statusToPill = (status) => {
+    if (status === 'Open') return 'status-pill-warning'
+    if (status === 'Judgment Entered') return 'status-pill-danger'
+    return 'status-pill-neutral'
+  }
+
+  return (
+    <article className="result-card card-default-history">
+      <header className="result-card-header">
+        <div className="result-card-heading">
+          <span className="result-card-label">Default History</span>
+          <h3>{cases.length} cases found</h3>
+        </div>
+        <span className="status-pill status-pill-warning">2 OPEN</span>
+      </header>
+      <div className="case-list">
+        {cases.map((c) => (
+          <details key={c.caseNumber} className="case-row">
+            <summary>
+              <div className="case-summary-main">
+                <div className="case-summary-top">
+                  <span className="case-number">{c.caseNumber}</span>
+                  <span className={`status-pill ${statusToPill(c.status)}`}>{c.status}</span>
+                </div>
+                <div className="case-summary-meta">
+                  <span className="case-type">{c.caseType}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{c.court}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>Filed {c.filedOn}</span>
+                </div>
+              </div>
+              <span className="material-symbols-outlined ui-icon case-chevron" aria-hidden="true">
+                expand_more
+              </span>
+            </summary>
+            <div className="case-detail">
+              <div className="case-detail-grid">
+                <div className="case-detail-block">
+                  <p className="case-detail-label">Parties</p>
+                  <ul>
+                    {c.parties.map((p) => (
+                      <li key={`${p.role}-${p.name}`}>
+                        <span className="case-detail-role">{p.role}:</span> {p.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="case-detail-block">
+                  <p className="case-detail-label">Judge</p>
+                  <p>{c.judge}</p>
+                  <p className="case-detail-label case-detail-label-spaced">Plaintiff counsel</p>
+                  <p>{c.attorneys[0].name}</p>
+                </div>
+                <div className="case-detail-block">
+                  <p className="case-detail-label">Amount in controversy</p>
+                  <p className="case-detail-amount">{c.amount}</p>
+                  <p className="case-detail-label case-detail-label-spaced">Documents</p>
+                  <p>
+                    <a href="#" className="case-detail-link">
+                      View {c.documents} filings
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <div className="case-docket">
+                <p className="case-detail-label">Last docket entry</p>
+                <p>
+                  <span className="case-docket-date">{c.lastDocket.date}</span> —{' '}
+                  {c.lastDocket.entry}
+                </p>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </article>
+  )
+}
+
+function DeepSearchCard({ businessName }) {
+  const business = businessName || 'Business'
+  return (
+    <article className="result-card card-deep-search">
+      <header className="result-card-header">
+        <div className="result-card-heading">
+          <span className="result-card-label">Deep Search</span>
+          <h3>{business} — Intelligence Report</h3>
+        </div>
+        <span className="status-pill status-pill-warning">ELEVATED RISK</span>
+      </header>
+      <p className="deep-meta">
+        <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+          travel_explore
+        </span>
+        Researched 47 sources · 6m 12s · 24 web pages reviewed
+      </p>
+
+      <section className="deep-section">
+        <h4>Executive summary</h4>
+        <p>
+          {business} shows a pattern of distressed funding history with multiple active litigation
+          matters and reported defaults in the alternative finance industry. Prior counterparties
+          have flagged stacking behavior, and at least one federal RICO matter is currently
+          pending. Manual review is recommended before extending capital.
+        </p>
+      </section>
+
+      <section className="deep-section">
+        <h4>Business overview</h4>
+        <dl className="deep-dl">
+          <div>
+            <dt>Legal name</dt>
+            <dd>{business}</dd>
+          </div>
+          <div>
+            <dt>EIN</dt>
+            <dd>85-3201948</dd>
+          </div>
+          <div>
+            <dt>Formed</dt>
+            <dd>March 2018 — New York</dd>
+          </div>
+          <div>
+            <dt>Industry</dt>
+            <dd>Wholesale Trade — NAICS 4244</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>Active</dd>
+          </div>
+          <div>
+            <dt>HQ</dt>
+            <dd>2841 Atlantic Ave, Brooklyn, NY 11207</dd>
+          </div>
+          <div>
+            <dt>Employees (est.)</dt>
+            <dd>11–25</dd>
+          </div>
+          <div>
+            <dt>Revenue (est.)</dt>
+            <dd>$2.4M — $3.1M annual</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className="deep-section">
+        <h4>Ownership &amp; officers</h4>
+        <ul className="deep-list">
+          <li>
+            <strong>Rajiv Khera</strong> — President / 60% owner. Listed on 4 other active entities.
+          </li>
+          <li>
+            <strong>Anika Khera</strong> — VP Operations / 30% owner. Shares HQ address with Khera
+            Logistics Holdings.
+          </li>
+          <li>
+            <strong>Devon Marsh</strong> — CFO / 10% owner. Joined 2022; prior CFO at flagged MCA
+            broker.
+          </li>
+        </ul>
+      </section>
+
+      <section className="deep-section">
+        <h4>Linked entities</h4>
+        <ul className="deep-list">
+          <li>
+            <strong>KB Logistics Holdings Inc</strong> — shared officers + co-defendant in 2024-CV-00188.
+          </li>
+          <li>
+            <strong>Khera Group Real Estate LLC</strong> — shared HQ address; passive holdings.
+          </li>
+          <li>
+            <strong>Brooklyn Atlantic Trading Co</strong> — same registered agent; dissolved 2023.
+          </li>
+        </ul>
+      </section>
+
+      <section className="deep-section">
+        <h4>Financial signals</h4>
+        <ul className="deep-list">
+          <li>Experian SBCS credit band: <strong>Below average (52)</strong></li>
+          <li>UCC filings on record: <strong>9 active</strong> across 6 secured parties</li>
+          <li>Tax liens: <strong>1 federal</strong> ($38,200, 2023, partially released)</li>
+          <li>Prior MCA positions identified: <strong>at least 5</strong> in last 18 months</li>
+          <li>No bankruptcy filings on record</li>
+        </ul>
+      </section>
+
+      <section className="deep-section">
+        <h4>Legal &amp; regulatory</h4>
+        <ul className="deep-list">
+          <li>
+            4 court matters (see Default History panel for full dockets) — 2 currently open including
+            a federal RICO claim.
+          </li>
+          <li>NY business license active and in good standing.</li>
+          <li>No state regulatory enforcement actions identified.</li>
+        </ul>
+      </section>
+
+      <section className="deep-section">
+        <h4>Adverse media</h4>
+        <ul className="deep-news">
+          <li>
+            <p className="deep-news-title">Brooklyn wholesaler named in $412K RICO suit by funding group</p>
+            <p className="deep-news-meta">deBanked · 2024-01-22 · <span className="sentiment-tag sentiment-negative">Negative</span></p>
+            <p>Coverage of the EDNY filing alleging coordinated stacking and misrepresentation across at least three funders.</p>
+          </li>
+          <li>
+            <p className="deep-news-title">Funders share growing list of stackers as 2024 defaults climb</p>
+            <p className="deep-news-meta">Daily Funder · 2024-11-08 · <span className="sentiment-tag sentiment-negative">Negative</span></p>
+            <p>Industry roundup mentions {business} among recent DataMerch entries flagged by multiple funders.</p>
+          </li>
+          <li>
+            <p className="deep-news-title">Local supply chains adapt as Brooklyn wholesalers shift to hybrid models</p>
+            <p className="deep-news-meta">Brooklyn Eagle · 2023-05-14 · <span className="sentiment-tag sentiment-neutral">Neutral</span></p>
+            <p>Profile piece on small wholesalers in East New York including {business} discussing post-pandemic operations.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section className="deep-section">
+        <h4>Web &amp; reputation</h4>
+        <dl className="deep-dl">
+          <div>
+            <dt>Website</dt>
+            <dd>active · domain registered 2018</dd>
+          </div>
+          <div>
+            <dt>BBB rating</dt>
+            <dd>C+ · 4 complaints (2 unresolved)</dd>
+          </div>
+          <div>
+            <dt>Google reviews</dt>
+            <dd>3.2 ★ (47 reviews)</dd>
+          </div>
+          <div>
+            <dt>Trustpilot</dt>
+            <dd>No profile</dd>
+          </div>
+          <div>
+            <dt>LinkedIn</dt>
+            <dd>14 employees listed</dd>
+          </div>
+          <div>
+            <dt>Social presence</dt>
+            <dd>Facebook (low activity), no Instagram</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className="deep-section">
+        <h4>Customer complaints</h4>
+        <ul className="deep-list">
+          <li>
+            <strong>BBB</strong> — 4 total. 2 cite delivery delays, 1 cites billing dispute,
+            1 unresolved invoice complaint from 2024-09.
+          </li>
+          <li>
+            <strong>Reddit / r/smallbusiness</strong> — 2 mentions in 2024 referencing payment delays
+            on supply contracts.
+          </li>
+        </ul>
+      </section>
+
+      <section className="deep-section deep-sources">
+        <details>
+          <summary>
+            <span>Sources (47)</span>
+            <span className="material-symbols-outlined ui-icon" aria-hidden="true">expand_more</span>
+          </summary>
+          <ol className="deep-sources-list">
+            <li>NY Department of State — Business entity record</li>
+            <li>EDNY PACER — Case 2024-CV-00188 docket</li>
+            <li>NY Supreme Court — Kings County e-filing</li>
+            <li>DataMerch — funder-reported records</li>
+            <li>deBanked — industry coverage 2024-01-22</li>
+            <li>Daily Funder — industry coverage 2024-11-08</li>
+            <li>BBB.org — business profile and complaint records</li>
+            <li>Google Maps — review aggregation</li>
+            <li>LinkedIn — company page and employee count</li>
+            <li>Experian SBCS — credit band lookup</li>
+            <li>UCC filings — secured-party search across NY/NJ</li>
+            <li>… and 36 more</li>
+          </ol>
+        </details>
+      </section>
+    </article>
+  )
+}
+
 function App() {
   const [page, setPage] = useState('home')
   const [colorway, setColorway] = useState('plain')
@@ -11,9 +434,11 @@ function App() {
   const [logoFont, setLogoFont] = useState('montserrat')
   const [ownerName, setOwnerName] = useState('')
   const [businessName, setBusinessName] = useState('')
-  const [resultsTab, setResultsTab] = useState('default')
   const [historyQuery, setHistoryQuery] = useState('')
   const pageContentRef = useRef(null)
+  const isInitialPagePaint = useRef(true)
+
+  const PAGE_FADE_DURATION = 0.18
 
   const searchHistory = [
     'Khera brothers inc',
@@ -66,34 +491,72 @@ function App() {
     blue: 'blue-dark',
   }
   const activeTheme = darkMode ? darkThemeByColorway[colorway] ?? 'midnight' : colorway
+  const transitionToPage = (nextPage, updateState) => {
+    if (nextPage === page && !updateState) return
+    const el = pageContentRef.current
+    if (!el) {
+      updateState?.()
+      if (nextPage !== page) setPage(nextPage)
+      return
+    }
+    gsap.killTweensOf(el)
+    gsap.to(el, {
+      autoAlpha: 0,
+      duration: PAGE_FADE_DURATION,
+      ease: 'sine.inOut',
+      onComplete: () => {
+        updateState?.()
+        if (nextPage !== page) {
+          setPage(nextPage)
+        } else {
+          gsap.fromTo(
+            el,
+            { autoAlpha: 0 },
+            { autoAlpha: 1, duration: PAGE_FADE_DURATION, ease: 'sine.inOut' }
+          )
+        }
+      },
+    })
+  }
+
   const openResultsPage = () => {
     if (!ownerName.trim() && !businessName.trim()) return
-    setResultsTab('default')
-    setPage('results')
+    transitionToPage('results')
   }
   const openResultsFromHistory = (entry) => {
-    setOwnerName('')
-    setBusinessName(entry)
-    setResultsTab('default')
-    setPage('results')
+    transitionToPage('results', () => {
+      setOwnerName('')
+      setBusinessName(entry)
+    })
   }
   const openHomePage = () => {
-    setPage('home')
+    transitionToPage('home')
   }
 
   useLayoutEffect(() => {
     if (!pageContentRef.current) return
-
+    if (isInitialPagePaint.current) {
+      isInitialPagePaint.current = false
+      gsap.set(pageContentRef.current, { autoAlpha: 1 })
+      return
+    }
+    gsap.killTweensOf(pageContentRef.current)
     gsap.fromTo(
       pageContentRef.current,
       { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 0.38, ease: 'power2.out' }
+      { autoAlpha: 1, duration: PAGE_FADE_DURATION, ease: 'sine.inOut' }
     )
   }, [page])
 
+  useLayoutEffect(() => {
+    return () => {
+      if (pageContentRef.current) gsap.killTweensOf(pageContentRef.current)
+    }
+  }, [])
+
   return (
     <div className={`app-shell theme-${activeTheme} font-${globalFont}`}>
-      <div className="workspace page-shell" key={page} ref={pageContentRef}>
+      <div className="workspace page-shell" ref={pageContentRef}>
         {page === 'home' ? (
           <main className="main-area">
             <a href="#" className="about-link">
@@ -296,89 +759,22 @@ function App() {
 
             <main className="results-main">
               <div className="results-header-strip">
-                <header className="results-header">
-                  <h2>Background Search</h2>
-                  <p>
-                    {businessName || 'Business'} {ownerName ? `• Owner: ${ownerName}` : ''}
-                  </p>
-                </header>
-
-                <div className="results-tabs" role="tablist" aria-label="Search depth tabs">
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={resultsTab === 'default'}
-                    className={`results-tab-btn ${resultsTab === 'default' ? 'active' : ''}`}
-                    onClick={() => setResultsTab('default')}
-                  >
-                    Default Results
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={resultsTab === 'deep'}
-                    className={`results-tab-btn ${resultsTab === 'deep' ? 'active' : ''}`}
-                    onClick={() => setResultsTab('deep')}
-                  >
-                    Deep Search
-                  </button>
+                <div className="results-header-row">
+                  <header className="results-header">
+                    <h2>Background Search</h2>
+                    <p>
+                      {businessName || 'Business'} {ownerName ? `• Owner: ${ownerName}` : ''}
+                    </p>
+                  </header>
+                  <HeaderBrand logoFont={logoFont} />
                 </div>
+
               </div>
 
               <div className="results-content">
-                {resultsTab === 'default' ? (
-                  <>
-                    <section className="results-metrics">
-                      <article className="metric-card">
-                        <p>Risk score</p>
-                        <strong>72</strong>
-                      </article>
-                      <article className="metric-card">
-                        <p>Sanctions matches</p>
-                        <strong>2</strong>
-                      </article>
-                      <article className="metric-card">
-                        <p>Open cases</p>
-                        <strong>5</strong>
-                      </article>
-                    </section>
-
-                    <section className="results-panel">
-                      <h3>Key findings</h3>
-                      <ul>
-                        <li>Multiple high-risk jurisdiction transactions in prior 90 days.</li>
-                        <li>Two linked entities share officers and mailing address.</li>
-                        <li>Potential adverse media references require manual review.</li>
-                      </ul>
-                    </section>
-                  </>
-                ) : (
-                  <>
-                    <section className="results-metrics">
-                      <article className="metric-card">
-                        <p>Network entities scanned</p>
-                        <strong>148</strong>
-                      </article>
-                      <article className="metric-card">
-                        <p>High-priority linkages</p>
-                        <strong>11</strong>
-                      </article>
-                      <article className="metric-card">
-                        <p>Deep risk score</p>
-                        <strong>84</strong>
-                      </article>
-                    </section>
-
-                    <section className="results-panel">
-                      <h3>Deep search findings</h3>
-                      <ul>
-                        <li>Detected 3 secondary entities with overlapping beneficial ownership.</li>
-                        <li>Historical payment paths show repeated routing through flagged regions.</li>
-                        <li>Archived litigation references indicate elevated operational risk.</li>
-                      </ul>
-                    </section>
-                  </>
-                )}
+                <DataMerchCard businessName={businessName} />
+                <DefaultHistoryCard businessName={businessName} />
+                <DeepSearchCard businessName={businessName} />
               </div>
             </main>
           </div>
