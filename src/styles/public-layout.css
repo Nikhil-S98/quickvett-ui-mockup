@@ -1,0 +1,302 @@
+/* --- Public marketing routes --- */
+
+.public-layout {
+  /* Matches blue workspace colorway (.app-shell.theme-blue) */
+  --public-accent: #034494;
+  --public-accent-hover: #023a7d;
+  --public-accent-soft: #eef4fb;
+  --public-accent-muted: rgba(3, 68, 148, 0.12);
+  --public-accent-border: rgba(3, 68, 148, 0.35);
+  --public-accent-ring: rgba(59, 130, 246, 0.28);
+}
+
+.public-layout {
+  --public-inner-max: 1040px;
+  --public-inner-pad-x: 1.25rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accent usage across landing + stacked marketing pages */
+.public-layout .public-nav-link:hover {
+  color: var(--public-accent);
+}
+
+.public-layout .public-nav-link:focus-visible {
+  outline: 2px solid var(--public-accent-ring);
+  outline-offset: 2px;
+}
+
+.public-layout .public-nav-link--active {
+  color: var(--public-accent);
+}
+
+.public-layout .public-nav-link--cta {
+  border-color: var(--public-accent-border);
+  color: var(--public-accent);
+}
+
+.public-layout .public-nav-link--cta:hover {
+  background: var(--public-accent-soft);
+  border-color: var(--public-accent);
+  color: var(--public-accent-hover);
+}
+
+.public-layout .public-eyebrow {
+  color: var(--public-accent);
+}
+
+.public-layout .public-title {
+  color: var(--public-accent);
+}
+
+.public-layout .public-step-num {
+  color: var(--public-accent);
+  font-weight: 700;
+}
+
+.public-layout .public-tile-title {
+  color: var(--public-accent);
+}
+
+.public-layout .public-tile {
+  border-left: 3px solid var(--public-accent);
+}
+
+.public-layout .public-pricing-badge {
+  color: var(--public-accent);
+  background: var(--public-accent-soft);
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.22rem 0.42rem;
+  border-radius: 0.22rem;
+  border: 1px solid var(--public-accent-muted);
+}
+
+.public-layout .public-pricing-card--featured {
+  border-color: var(--public-accent-border);
+  box-shadow: 0 0 0 1px var(--public-accent-muted);
+}
+
+.public-layout .public-inline-link {
+  color: var(--public-accent);
+  font-weight: 500;
+}
+
+.public-layout .public-inline-link:hover {
+  color: var(--public-accent-hover);
+}
+
+.public-layout .search-action-btn {
+  border-color: var(--public-accent);
+  background: var(--public-accent);
+  color: #fff;
+}
+
+.public-layout .search-action-btn:hover {
+  border-color: var(--public-accent-hover);
+  background: var(--public-accent-hover);
+}
+
+.public-layout .search-action-btn:focus-visible {
+  outline: 2px solid var(--public-accent-ring);
+  outline-offset: 2px;
+}
+
+.public-layout .landing-btn:focus-visible {
+  outline: 2px solid var(--public-accent-ring);
+  outline-offset: 3px;
+}
+
+.public-layout .landing-btn--primary {
+  color: #fff;
+  background: var(--public-accent);
+  border-color: var(--public-accent);
+}
+
+.public-layout .landing-btn--primary:hover {
+  background: var(--public-accent-hover);
+  border-color: var(--public-accent-hover);
+}
+
+.public-layout .landing-btn--ghost:hover {
+  color: var(--public-accent-hover);
+  border-color: var(--public-accent-border);
+}
+
+.public-layout .landing-btn--cta-solid {
+  color: var(--public-accent);
+  border-color: #fff;
+}
+
+.public-layout .landing-btn--cta-solid:hover {
+  background: var(--public-accent-soft);
+  border-color: var(--public-accent-soft);
+  color: var(--public-accent-hover);
+}
+
+.public-layout .landing-btn--cta-outline:hover {
+  border-color: var(--public-accent-soft);
+  color: #fff;
+  background: rgba(238, 244, 251, 0.12);
+}
+
+.public-layout .public-footer.tiny-footer a:hover {
+  color: var(--public-accent);
+}
+
+.public-layout .public-stat-cell::before {
+  background: var(--public-accent);
+}
+
+.public-layout .public-stat-value {
+  color: var(--public-accent);
+}
+
+.public-layout .public-landing-kicker:not(.public-landing-kicker--on-dark) {
+  border-left-color: var(--public-accent);
+  color: var(--public-accent-hover);
+}
+
+.public-layout .public-step--card .public-step-num {
+  color: #fff;
+  background: var(--public-accent);
+  border-color: var(--public-accent);
+}
+
+.public-layout .public-coverage-dot {
+  background: var(--public-accent);
+  box-shadow: 0 0 0 2px var(--public-accent-soft);
+}
+
+.public-layout .public-compliance-title {
+  color: var(--public-accent-hover);
+}
+
+.public-layout .public-sign-form.public-contact-form {
+  border-left: 4px solid var(--public-accent);
+}
+
+.public-layout .toolbar-text-btn.public-contact-reset:hover {
+  color: var(--public-accent);
+}
+
+.public-layout .public-contact-thanks-title {
+  color: var(--public-accent);
+}
+
+.public-layout .public-pricing-amount {
+  color: var(--public-accent);
+}
+
+a.header-brand {
+  text-decoration: none;
+  color: inherit;
+}
+
+.public-header {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  box-sizing: border-box;
+}
+
+.public-header-inner {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+  padding-block: 0.85rem;
+  padding-inline: max(0.6rem, env(safe-area-inset-left)) max(0.6rem, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.65rem, 2vw, 1rem);
+}
+
+.public-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.35rem, 2vw, 1rem);
+  margin-inline: 0;
+}
+
+.public-nav-link {
+  border: 0;
+  background: transparent;
+  padding: 0.2rem 0.15rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.public-nav-link:hover {
+  color: var(--text-primary);
+}
+
+.public-nav-link--active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.public-nav-link--cta {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0.35rem 0.7rem;
+  border-radius: 0.25rem;
+}
+
+.public-nav-link--cta:hover {
+  background: var(--surface-soft);
+}
+
+.public-main {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.25rem 1.25rem 3rem;
+}
+
+.public-main:has(.public-landing) {
+  max-width: none;
+  width: 100%;
+  padding: 0;
+}
+
+.public-layout .public-footer.tiny-footer {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  margin-top: auto;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.public-layout .public-sign-in-page {
+  max-width: 28rem;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.public-sign-in-back {
+  margin-top: 0.5rem;
+}
+
+.public-btn-block.search-action-btn {
+  box-sizing: border-box;
+}
