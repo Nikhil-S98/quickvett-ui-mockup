@@ -1,0 +1,959 @@
+/* QuickVett V3 — ChatGPT-style shell (sidebar + main; scoped to .app-shell--v3) */
+
+.app-shell--v3 .workspace.page-shell {
+  padding: 0;
+}
+
+/* V3: workspace pane tint over app-shell (opacity tuned with shell + chrome below). */
+.app-shell--v3.theme-plain .workspace.page-shell {
+  background: rgba(255, 255, 255, 0.32);
+  -webkit-backdrop-filter: blur(16px) saturate(1.06);
+  backdrop-filter: blur(16px) saturate(1.06);
+}
+
+.app-shell--v3.theme-blue .workspace.page-shell {
+  background: rgba(214, 228, 247, 0.28);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  backdrop-filter: blur(16px) saturate(1.08);
+}
+
+.app-shell--v3.theme-midnight .workspace.page-shell {
+  background: rgba(1, 3, 12, 0.58);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  backdrop-filter: blur(14px) saturate(1.05);
+}
+
+.app-shell--v3.theme-blue-dark .workspace.page-shell {
+  background: rgba(2, 6, 18, 0.6);
+  -webkit-backdrop-filter: blur(14px) saturate(1.06);
+  backdrop-filter: blur(14px) saturate(1.06);
+}
+
+/* V3 only — shell iridescence much lighter than the shared V2/V3/V4 tokens in workspace.css. */
+.app-shell--v3.theme-plain {
+  --v2-workspace-wash: rgba(255, 255, 255, 0);
+  background-color: #f6fafe42;
+  background-image:
+    radial-gradient(ellipse 130% 100% at 6% -22%, rgba(238, 238, 238, 0.198), transparent 58%),
+    radial-gradient(ellipse 110% 82% at 104% 2%, rgb(255, 255, 255), transparent 56%),
+    radial-gradient(ellipse 120% 92% at 50% 112%, rgb(243, 243, 243), transparent 52%),
+    radial-gradient(ellipse 92% 78% at 90% 40%, rgba(255, 255, 255, 0.642), transparent 60%),
+    linear-gradient(
+      128deg,
+      rgba(227, 232, 239, 0.14) 0%,
+      rgba(186, 199, 220, 0.16) 42%,
+      rgba(226, 232, 240, 0.34) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal, soft-light;
+}
+
+.app-shell--v3.theme-blue {
+  --v2-workspace-wash: rgba(236, 244, 255, 0.78);
+  background-color: #dce8f4;
+  background-image:
+    radial-gradient(ellipse 128% 98% at 4% -20%, rgba(23, 37, 84, 0.2), transparent 56%),
+    radial-gradient(ellipse 108% 84% at 100% 4%, rgba(8, 145, 178, 0.14), transparent 54%),
+    radial-gradient(ellipse 118% 90% at 42% 108%, rgba(30, 58, 138, 0.16), transparent 50%),
+    radial-gradient(ellipse 82% 68% at 92% 46%, rgba(37, 99, 235, 0.17), transparent 58%),
+    linear-gradient(
+      135deg,
+      rgba(191, 219, 254, 0.28) 0%,
+      rgba(219, 234, 254, 0.22) 42%,
+      rgba(239, 246, 255, 0.4) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal, soft-light;
+}
+
+.app-shell--v3.theme-midnight {
+  --v2-workspace-wash: rgba(10, 12, 20, 0.62);
+  background-color: #0b0f18;
+  background-image:
+    radial-gradient(ellipse 112% 92% at 12% 2%, rgba(59, 130, 246, 0.26), transparent 58%),
+    radial-gradient(ellipse 100% 78% at 100% 6%, rgba(14, 165, 233, 0.18), transparent 54%),
+    radial-gradient(ellipse 108% 86% at 40% 100%, rgba(30, 64, 175, 0.24), transparent 52%),
+    radial-gradient(ellipse 78% 62% at 76% 44%, rgba(71, 85, 105, 0.2), transparent 56%),
+    linear-gradient(
+      152deg,
+      rgba(2, 4, 12, 0.9) 0%,
+      rgba(15, 23, 42, 0.78) 38%,
+      rgba(30, 58, 138, 0.52) 55%,
+      rgba(3, 6, 16, 0.9) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal, soft-light;
+}
+
+.app-shell--v3.theme-blue-dark {
+  --v2-workspace-wash: rgba(4, 8, 18, 0.64);
+  background-color: #080f1a;
+  background-image:
+    radial-gradient(ellipse 122% 94% at 8% 0%, rgba(37, 99, 235, 0.26), transparent 56%),
+    radial-gradient(ellipse 102% 80% at 100% 4%, rgba(6, 182, 212, 0.18), transparent 52%),
+    radial-gradient(ellipse 112% 88% at 34% 100%, rgba(30, 64, 175, 0.24), transparent 50%),
+    radial-gradient(ellipse 72% 58% at 86% 48%, rgba(51, 65, 85, 0.2), transparent 56%),
+    linear-gradient(
+      158deg,
+      rgba(2, 6, 18, 0.9) 0%,
+      rgba(15, 23, 42, 0.8) 42%,
+      rgba(12, 74, 110, 0.48) 58%,
+      rgba(2, 5, 14, 0.9) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal, soft-light;
+}
+
+.app-shell--v3 .v3-chat-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* Main column: primary pane + in-flow legal footer (no full-width bar under sidebar). */
+.app-shell--v3 .v3-main-column {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+/* Sidebar filter row: tight inset to the rail. Main results column: comfortable horizontal pad (matches --results-page-gap). */
+.app-shell--v3 {
+  --v3-results-inline-gutter: 0.45rem;
+  --v3-main-results-inline-pad: var(--results-page-gap, 1.5rem);
+}
+
+/* ---- Sidebar ---- */
+.app-shell--v3 .v3-sidebar {
+  flex-shrink: 0;
+  width: 260px;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  align-self: flex-start;
+  overflow: hidden;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  color: var(--text-primary);
+  transition:
+    width 0.2s ease,
+    min-width 0.2s ease,
+    border-color 0.35s ease,
+    background-color 0.35s ease;
+}
+
+/* Fills space under the header; bounds height so history can scroll and footer stays visible. */
+.app-shell--v3 .v3-sidebar-expandable {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.app-shell--v3 .v3-sidebar-filter-row {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  /* Match .v3-main--results .results-header-strip top padding + .results-header-row margin-bottom */
+  padding: 0.65rem var(--v3-results-inline-gutter) 0.55rem;
+  border-bottom: 1px solid var(--border);
+  box-sizing: border-box;
+}
+
+.app-shell--v3 .v3-sidebar-filter-row .v3-sidebar-filter {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.app-shell--v3 .v3-sidebar-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.2s ease;
+}
+
+/* Same chrome height as .header-search / .header-search-btn in results header */
+.app-shell--v3 .v3-sidebar-filter-row .v3-sidebar-icon-btn {
+  width: var(--results-chrome-row-height, 2.75rem);
+  height: var(--results-chrome-row-height, 2.75rem);
+}
+
+.app-shell--v3 .v3-sidebar-icon-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.app-shell--v3 .v3-sidebar-filter {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-sizing: border-box;
+  min-height: var(--results-chrome-row-height, 2.75rem);
+  padding: 0 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--surface);
+}
+
+.app-shell--v3 .v3-sidebar-filter .ui-icon {
+  font-size: 1rem;
+  color: var(--icon-muted);
+  flex-shrink: 0;
+}
+
+.app-shell--v3 .v3-sidebar-filter input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.84rem;
+  color: var(--text-primary);
+}
+
+.app-shell--v3 .v3-sidebar-filter input::placeholder {
+  color: var(--placeholder);
+}
+
+.app-shell--v3 .v3-sidebar-list {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.25rem 0.45rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.app-shell--v3 .v3-thread {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.55rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.86rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.app-shell--v3 .v3-thread:hover {
+  background: var(--surface-hover);
+}
+
+.app-shell--v3 .v3-thread-title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+}
+
+.app-shell--v3 .v3-sidebar-footer {
+  flex-shrink: 0;
+  padding: 0.5rem 0.45rem 0.65rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.app-shell--v3 .v3-sidebar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.84rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.12s ease, color 0.2s ease;
+}
+
+.app-shell--v3 .v3-sidebar-row:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.app-shell--v3 .v3-sidebar-row .ui-icon {
+  font-size: 1.1rem;
+  color: var(--icon-muted);
+}
+
+.app-shell--v3 .v3-sidebar-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.35rem 0.45rem 0.15rem;
+}
+
+.app-shell--v3 .v3-sidebar-footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.app-shell--v3 .v3-sidebar-rail {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0;
+  flex: 1;
+}
+
+@media (min-width: 901px) {
+  .app-shell--v3 .v3-chat-shell--sidebar-collapsed .v3-sidebar {
+    width: 56px;
+    min-width: 56px;
+  }
+
+  .app-shell--v3 .v3-chat-shell--sidebar-collapsed .v3-sidebar-expandable {
+    display: none;
+  }
+
+  .app-shell--v3 .v3-chat-shell--sidebar-collapsed .v3-sidebar-rail {
+    display: flex;
+    padding-top: 0.65rem;
+    padding-bottom: 0.35rem;
+  }
+}
+
+/* ---- Main column ---- */
+/* Transparent main so the V2/V3 shell gradient + workspace wash show through (same as V2 main/results). */
+.app-shell--v3 .v3-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.app-shell--v3 .v3-main--home {
+  align-items: stretch;
+}
+
+.app-shell--v3 .v3-main-topbar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  overflow: visible;
+}
+
+.app-shell--v3 .v3-main-topbar-trailing {
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.app-shell--v3 .v3-main--home .v3-main-topbar {
+  position: relative;
+  z-index: 12;
+}
+
+.app-shell--v3 .v3-main-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem 1.25rem 2rem;
+  text-align: center;
+}
+
+.app-shell--v3 .v3-home-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(var(--content-max-width), 100%);
+  margin: 0 auto;
+}
+
+/* Same horizontal width as `.search-controls` (search bar + button row). */
+.app-shell--v3 .v3-home-search-block {
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.app-shell--v3 .v3-home-search .search-controls {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.app-shell--v3 .v3-main-stage .search-bar,
+.app-shell--v3 .v3-main-stage .search-action-btn {
+  border-radius: 9999px;
+}
+
+.app-shell--v3 .v3-main-hint {
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.app-shell--v3 .v3-main-hint strong {
+  color: var(--text-primary);
+}
+
+/* Results column */
+.app-shell--v3 .v3-main--results {
+  padding: 0;
+  overflow: hidden;
+}
+
+.app-shell--v3 .v3-results-inner {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-shell--v3 .v3-main--results .results-header-strip {
+  position: relative;
+  z-index: 12;
+  flex-shrink: 0;
+  padding: 0.65rem var(--v3-main-results-inline-pad) 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  overflow: visible;
+}
+
+.app-shell--v3 .v3-main--results .results-header-row {
+  margin-bottom: 0.55rem;
+  overflow: visible;
+}
+
+.app-shell--v3 .v3-main--results .sidebar-toggle-mobile-expand {
+  display: none;
+}
+
+/* Appearance & demo: only the summary affects layout; panel is position:fixed via JS. */
+.app-shell--v3 .v3-main-appearance.v3-main-appearance--header {
+  position: relative;
+  z-index: 5;
+  display: inline-block;
+  width: max-content;
+  max-width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.app-shell--v3 .v3-main-appearance--header summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.38rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--surface);
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.35s ease,
+    color 0.2s ease;
+}
+
+.app-shell--v3 .v3-main-appearance--header summary:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.app-shell--v3 .v3-main-appearance--header summary::-webkit-details-marker {
+  display: none;
+}
+
+.app-shell--v3 .v3-main-appearance--header .v3-appearance-body {
+  /* top / left / position set in JS while open so nothing in the header flex shifts */
+  min-width: 13.5rem;
+  max-width: min(18rem, calc(100vw - 2rem));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.app-shell--v3 .v3-main-appearance--header .control-group label {
+  font-size: 0.72rem;
+}
+
+.app-shell--v3 .v3-main-appearance--header .control-group select {
+  font-size: 0.8rem;
+  padding: 0.34rem 1.5rem 0.34rem 0.5rem;
+}
+
+/* Legal links: part of main column only; no panel background (overrides global fixed footer). */
+.app-shell--v3 .v3-main-column > .tiny-footer {
+  position: static;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem var(--v3-main-results-inline-pad) 1rem;
+  margin: 0;
+  flex-shrink: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.app-shell--v3 .v3-main--results .results-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  max-width: none;
+  margin: 0;
+  width: 100%;
+  padding: var(--results-page-gap) var(--v3-main-results-inline-pad) var(--results-page-gap);
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-shell--v3 .v3-mobile-menu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-right: 0.35rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.app-shell--v3 .v3-mobile-menu:hover {
+  background: var(--surface-hover);
+}
+
+@media (max-width: 900px) {
+  .app-shell--v3 {
+    --v3-results-inline-gutter: 1rem;
+    --v3-main-results-inline-pad: clamp(1rem, 4vw + 0.75rem, var(--results-page-gap, 1.5rem));
+  }
+
+  .app-shell--v3 .v3-chat-shell {
+    position: relative;
+  }
+
+  .app-shell--v3 .v3-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 50;
+    width: min(280px, 88vw);
+    min-width: min(280px, 88vw);
+    transform: translateX(0);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    box-shadow: 4px 0 28px rgba(0, 0, 0, 0.14);
+  }
+
+  .app-shell--v3 .v3-chat-shell--sidebar-collapsed .v3-sidebar {
+    transform: translateX(-105%);
+    box-shadow: none;
+  }
+
+  .app-shell--v3 .v3-mobile-menu {
+    display: inline-flex;
+  }
+
+  .app-shell--v3 .v3-main--results .sidebar-toggle-mobile-expand {
+    display: none;
+  }
+}
+
+/* V3 — glass sidebar + search: low white fill + strong blur so shell color reads through workspace + chrome. */
+.app-shell--v3.theme-plain .v3-sidebar {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 224, 224, 0.055) 0%,
+    rgba(148, 163, 184, 0.06) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.app-shell--v3.theme-blue .v3-sidebar {
+  background: linear-gradient(
+    165deg,
+    rgba(191, 219, 254, 0.1) 0%,
+    rgba(125, 211, 252, 0.06) 48%,
+    rgba(96, 165, 250, 0.07) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.app-shell--v3.theme-plain .search-bar,
+.app-shell--v3.theme-plain .header-search-bar {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.055) 0%,
+    rgba(148, 163, 184, 0.06) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    var(--shadow-soft);
+}
+
+.app-shell--v3.theme-blue .search-bar,
+.app-shell--v3.theme-blue .header-search-bar {
+  background: linear-gradient(
+    165deg,
+    rgba(191, 219, 254, 0.1) 0%,
+    rgba(125, 211, 252, 0.06) 48%,
+    rgba(96, 165, 250, 0.07) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    var(--shadow-soft);
+}
+
+.app-shell--v3.theme-plain .v3-sidebar-filter {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.055) 0%,
+    rgba(148, 163, 184, 0.06) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.app-shell--v3.theme-blue .v3-sidebar-filter {
+  background: linear-gradient(
+    165deg,
+    rgba(191, 219, 254, 0.1) 0%,
+    rgba(125, 211, 252, 0.06) 48%,
+    rgba(96, 165, 250, 0.07) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.app-shell--v3.theme-plain .search-action-btn,
+.app-shell--v3.theme-plain .header-search-btn {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(148, 163, 184, 0.07) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.28) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.app-shell--v3.theme-blue .search-action-btn,
+.app-shell--v3.theme-blue .header-search-btn {
+  background: linear-gradient(
+    165deg,
+    rgba(191, 219, 254, 0.11) 0%,
+    rgba(96, 165, 250, 0.08) 100%
+  );
+  -webkit-backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  backdrop-filter: blur(42px) saturate(1.32) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.app-shell--v3.theme-midnight .v3-sidebar {
+  background: linear-gradient(
+    165deg,
+    rgba(42, 52, 72, 0.82) 0%,
+    rgba(30, 41, 59, 0.72) 50%,
+    rgba(15, 23, 42, 0.78) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.app-shell--v3.theme-midnight .search-bar,
+.app-shell--v3.theme-midnight .header-search-bar {
+  background: linear-gradient(
+    165deg,
+    rgba(42, 52, 72, 0.85) 0%,
+    rgba(30, 41, 59, 0.75) 50%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    var(--shadow-soft);
+}
+
+.app-shell--v3.theme-midnight .v3-sidebar-filter {
+  background: linear-gradient(
+    165deg,
+    rgba(42, 52, 72, 0.85) 0%,
+    rgba(30, 41, 59, 0.75) 50%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.app-shell--v3.theme-midnight .search-action-btn,
+.app-shell--v3.theme-midnight .header-search-btn {
+  background: linear-gradient(
+    165deg,
+    rgba(51, 65, 85, 0.78) 0%,
+    rgba(30, 41, 59, 0.72) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.1) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.app-shell--v3.theme-blue-dark .v3-sidebar {
+  background: linear-gradient(
+    165deg,
+    rgba(30, 58, 95, 0.82) 0%,
+    rgba(22, 36, 62, 0.74) 50%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(147, 197, 253, 0.14);
+}
+
+.app-shell--v3.theme-blue-dark .search-bar,
+.app-shell--v3.theme-blue-dark .header-search-bar {
+  background: linear-gradient(
+    165deg,
+    rgba(30, 58, 95, 0.85) 0%,
+    rgba(22, 36, 62, 0.76) 50%,
+    rgba(15, 23, 42, 0.82) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  box-shadow:
+    inset 0 1px 0 rgba(147, 197, 253, 0.14),
+    var(--shadow-soft);
+}
+
+.app-shell--v3.theme-blue-dark .v3-sidebar-filter {
+  background: linear-gradient(
+    165deg,
+    rgba(30, 58, 95, 0.85) 0%,
+    rgba(22, 36, 62, 0.76) 50%,
+    rgba(15, 23, 42, 0.82) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(147, 197, 253, 0.14);
+}
+
+.app-shell--v3.theme-blue-dark .search-action-btn,
+.app-shell--v3.theme-blue-dark .header-search-btn {
+  background: linear-gradient(
+    165deg,
+    rgba(37, 70, 120, 0.8) 0%,
+    rgba(22, 36, 62, 0.74) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  backdrop-filter: blur(18px) saturate(1.12) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(147, 197, 253, 0.14);
+}
+
+/* Results cards — denser fill than earlier V3 glass. */
+.app-shell--v3.theme-plain .v3-main--results .result-card-body {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(241, 245, 249, 0.62) 52%,
+    rgba(248, 250, 252, 0.68) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) brightness(1.01);
+  backdrop-filter: blur(18px) saturate(1.1) brightness(1.01);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    var(--shadow-soft);
+}
+
+.app-shell--v3.theme-blue .v3-main--results .result-card-body {
+  background: linear-gradient(
+    165deg,
+    rgba(239, 246, 255, 0.74) 0%,
+    rgba(224, 236, 255, 0.62) 50%,
+    rgba(219, 234, 254, 0.68) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.12) brightness(1.01);
+  backdrop-filter: blur(18px) saturate(1.12) brightness(1.01);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    var(--shadow-soft);
+}
+
+.app-shell--v3.theme-midnight .v3-main--results .result-card-body {
+  background: linear-gradient(
+    165deg,
+    rgba(42, 48, 60, 0.92) 0%,
+    rgba(34, 36, 48, 0.88) 52%,
+    rgba(30, 32, 44, 0.9) 100%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(1.06);
+  backdrop-filter: blur(14px) saturate(1.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    var(--shadow-soft);
+}
+
+.app-shell--v3.theme-blue-dark .v3-main--results .result-card-body {
+  background: linear-gradient(
+    165deg,
+    rgba(28, 45, 78, 0.92) 0%,
+    rgba(22, 36, 58, 0.88) 50%,
+    rgba(20, 32, 52, 0.9) 100%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  backdrop-filter: blur(14px) saturate(1.08);
+  box-shadow:
+    inset 0 1px 0 rgba(147, 197, 253, 0.12),
+    var(--shadow-soft);
+}
+
+/* Nested panels — match result card density. */
+.app-shell--v3.theme-plain .v3-main--results .case-docket,
+.app-shell--v3.theme-plain .v3-main--results .deep-news li {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(241, 245, 249, 0.58) 55%,
+    rgba(248, 250, 252, 0.65) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) brightness(1.01);
+  backdrop-filter: blur(18px) saturate(1.1) brightness(1.01);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.app-shell--v3.theme-blue .v3-main--results .case-docket,
+.app-shell--v3.theme-blue .v3-main--results .deep-news li {
+  background: linear-gradient(
+    165deg,
+    rgba(239, 246, 255, 0.72) 0%,
+    rgba(224, 236, 255, 0.58) 50%,
+    rgba(219, 234, 254, 0.64) 100%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.12) brightness(1.01);
+  backdrop-filter: blur(18px) saturate(1.12) brightness(1.01);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.app-shell--v3.theme-midnight .v3-main--results .case-docket,
+.app-shell--v3.theme-midnight .v3-main--results .deep-news li {
+  background: linear-gradient(
+    165deg,
+    rgba(42, 48, 60, 0.9) 0%,
+    rgba(34, 36, 48, 0.86) 55%,
+    rgba(30, 32, 44, 0.88) 100%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(1.06);
+  backdrop-filter: blur(14px) saturate(1.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.app-shell--v3.theme-blue-dark .v3-main--results .case-docket,
+.app-shell--v3.theme-blue-dark .v3-main--results .deep-news li {
+  background: linear-gradient(
+    165deg,
+    rgba(28, 45, 78, 0.9) 0%,
+    rgba(22, 36, 58, 0.86) 50%,
+    rgba(20, 32, 52, 0.88) 100%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  backdrop-filter: blur(14px) saturate(1.08);
+  box-shadow: inset 0 1px 0 rgba(147, 197, 253, 0.1);
+}
+
+.app-shell--v3.theme-plain .v3-main--results .case-row > summary:hover {
+  background: rgba(255, 255, 255, 0.38);
+}
+
+.app-shell--v3.theme-blue .v3-main--results .case-row > summary:hover {
+  background: rgba(219, 234, 254, 0.36);
+}
+
+.app-shell--v3.theme-midnight .v3-main--results .case-row > summary:hover {
+  background: rgba(55, 60, 75, 0.75);
+}
+
+.app-shell--v3.theme-blue-dark .v3-main--results .case-row > summary:hover {
+  background: rgba(40, 58, 92, 0.72);
+}

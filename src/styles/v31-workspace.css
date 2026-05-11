@@ -1,0 +1,136 @@
+/* QuickVett V3.1 — Cool white/grey + subtle steel-cobalt wash (no indigo/violet). Clip + overscan contain displacement. */
+
+.app-shell--v3.app-shell--v3-1 {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.app-shell--v3.app-shell--v3-1 .v31-backdrop-clip {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.app-shell--v3.app-shell--v3-1 .v31-svg-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+.app-shell--v3.app-shell--v3-1 .v31-watercolor-backdrop {
+  position: absolute;
+  top: -72px;
+  left: -72px;
+  right: -72px;
+  bottom: -72px;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+  transform: translateZ(0);
+  filter: url(#qv-v31-watercolor);
+}
+
+.app-shell--v3.app-shell--v3-1 .workspace.page-shell {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Shell: neutral cool grey (not purple) */
+.app-shell--v3.app-shell--v3-1.theme-plain {
+  --v2-workspace-wash: rgba(255, 255, 255, 0);
+  background-color: #eef1f6;
+  background-image: none;
+}
+
+.app-shell--v3.app-shell--v3-1.theme-blue {
+  --v2-workspace-wash: rgba(241, 245, 249, 0.5);
+  background-color: #e8edf5;
+  background-image: none;
+}
+
+.app-shell--v3.app-shell--v3-1.theme-midnight {
+  --v2-workspace-wash: rgba(8, 10, 18, 0.42);
+  background-color: #060910;
+  background-image: none;
+}
+
+.app-shell--v3.app-shell--v3-1.theme-blue-dark {
+  --v2-workspace-wash: rgba(4, 8, 18, 0.45);
+  background-color: #050810;
+  background-image: none;
+}
+
+/* Light themes: white/grey base + very soft blue-grey radials (blue-600 / slate, never indigo) */
+.app-shell--v3.app-shell--v3-1.theme-plain .v31-watercolor-backdrop {
+  background-color: #e8ebf2;
+  background-image:
+    radial-gradient(ellipse 118% 90% at 10% -10%, rgba(37, 99, 235, 0.08), transparent 62%),
+    radial-gradient(ellipse 100% 82% at 92% 10%, rgba(100, 116, 139, 0.1), transparent 58%),
+    radial-gradient(ellipse 106% 90% at 48% 102%, rgba(148, 163, 184, 0.12), transparent 56%),
+    linear-gradient(
+      168deg,
+      rgba(183, 183, 236, 0.98) 0%,
+      rgba(211, 231, 252, 0.95) 42%,
+      rgba(207, 220, 222, 0.92) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal;
+}
+
+.app-shell--v3.app-shell--v3-1.theme-blue .v31-watercolor-backdrop {
+  background-color: #e2e8f3;
+  background-image:
+    radial-gradient(ellipse 120% 92% at 8% -8%, rgba(37, 99, 235, 0.1), transparent 60%),
+    radial-gradient(ellipse 100% 80% at 96% 8%, rgba(59, 130, 246, 0.06), transparent 56%),
+    radial-gradient(ellipse 108% 88% at 42% 100%, rgba(100, 116, 139, 0.1), transparent 54%),
+    linear-gradient(
+      165deg,
+      rgba(248, 250, 252, 0.98) 0%,
+      rgba(239, 246, 255, 0.88) 38%,
+      rgba(226, 232, 240, 0.94) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal;
+}
+
+/* Dark themes: navy + slate-blue glows only (no violet orbs) */
+.app-shell--v3.app-shell--v3-1.theme-midnight .v31-watercolor-backdrop {
+  background-color: #070b14;
+  background-image:
+    radial-gradient(ellipse 118% 92% at 12% 2%, rgba(37, 99, 235, 0.14), transparent 58%),
+    radial-gradient(ellipse 100% 78% at 100% 6%, rgba(71, 85, 105, 0.1), transparent 54%),
+    radial-gradient(ellipse 110% 88% at 36% 100%, rgba(30, 58, 138, 0.12), transparent 52%),
+    linear-gradient(
+      168deg,
+      rgba(2, 4, 12, 0.98) 0%,
+      rgba(15, 23, 42, 0.94) 40%,
+      rgba(30, 41, 59, 0.88) 58%,
+      rgba(3, 6, 14, 0.98) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal;
+}
+
+.app-shell--v3.app-shell--v3-1.theme-blue-dark .v31-watercolor-backdrop {
+  background-color: #060910;
+  background-image:
+    radial-gradient(ellipse 122% 94% at 8% 0%, rgba(37, 99, 235, 0.12), transparent 56%),
+    radial-gradient(ellipse 102% 80% at 100% 4%, rgba(51, 65, 85, 0.1), transparent 52%),
+    radial-gradient(ellipse 112% 88% at 30% 100%, rgba(30, 58, 138, 0.1), transparent 52%),
+    linear-gradient(
+      172deg,
+      rgba(2, 4, 14, 0.98) 0%,
+      rgba(15, 23, 42, 0.95) 40%,
+      rgba(30, 41, 59, 0.85) 58%,
+      rgba(2, 4, 12, 0.98) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal;
+}

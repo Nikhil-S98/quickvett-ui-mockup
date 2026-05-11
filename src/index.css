@@ -1,5 +1,9 @@
 @import './styles/fonts.css';
 @import './styles/base.css';
 @import './styles/workspace.css';
+@import './styles/v4-workspace.css';
+@import './styles/v3-workspace.css';
+@import './styles/v32-workspace.css';
+@import './styles/v31-workspace.css';
 @import './styles/public-layout.css';
 @import './styles/landing.css';

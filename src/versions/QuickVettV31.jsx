@@ -34,6 +34,118 @@ function HeaderBrand({ logoFont, onClick }) {
   )
 }
 
+function AppearanceDemoControls({
+  colorway,
+  setColorway,
+  globalFont,
+  setGlobalFont,
+  logoFont,
+  setLogoFont,
+  siteVersion,
+  onSiteVersionChange,
+}) {
+  const detailsRef = useRef(null)
+  const panelRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const details = detailsRef.current
+    const panel = panelRef.current
+    if (!details || !panel) return
+
+    const clearPanel = () => {
+      panel.style.position = ''
+      panel.style.top = ''
+      panel.style.left = ''
+      panel.style.right = ''
+      panel.style.zIndex = ''
+    }
+
+    const placePanel = () => {
+      if (!details.open) {
+        clearPanel()
+        return
+      }
+      const summary = details.querySelector('summary')
+      if (!summary) return
+      const sr = summary.getBoundingClientRect()
+      const margin = 8
+      panel.style.position = 'fixed'
+      panel.style.zIndex = '200'
+      panel.style.top = `${sr.bottom + 4}px`
+      const pw = panel.offsetWidth || 260
+      let left = sr.left
+      if (left + pw > window.innerWidth - margin) {
+        left = window.innerWidth - pw - margin
+      }
+      if (left < margin) {
+        left = margin
+      }
+      panel.style.left = `${left}px`
+      panel.style.right = 'auto'
+    }
+
+    const onToggle = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(placePanel)
+      })
+    }
+
+    details.addEventListener('toggle', onToggle)
+    window.addEventListener('resize', placePanel)
+    window.addEventListener('scroll', placePanel, true)
+    return () => {
+      details.removeEventListener('toggle', onToggle)
+      window.removeEventListener('resize', placePanel)
+      window.removeEventListener('scroll', placePanel, true)
+      clearPanel()
+    }
+  }, [])
+
+  return (
+    <details ref={detailsRef} className="v3-main-appearance v3-main-appearance--header">
+      <summary>Appearance & demo</summary>
+      <div ref={panelRef} className="v3-appearance-body">
+        <div className="control-group">
+          <label htmlFor="v3-colorway-select">Colorway</label>
+          <select
+            id="v3-colorway-select"
+            value={colorway}
+            onChange={(event) => setColorway(event.target.value)}
+          >
+            <option value="plain">Plain</option>
+            <option value="blue">Blue</option>
+          </select>
+        </div>
+        <div className="control-group">
+          <label htmlFor="v3-global-font-select">Global font</label>
+          <select
+            id="v3-global-font-select"
+            value={globalFont}
+            onChange={(event) => setGlobalFont(event.target.value)}
+          >
+            <option value="helvetica-neue">Helvetica Neue</option>
+            <option value="inter">Inter</option>
+            <option value="montserrat">Montserrat</option>
+          </select>
+        </div>
+        <div className="control-group">
+          <label htmlFor="v3-logo-font-select">Logo font</label>
+          <select
+            id="v3-logo-font-select"
+            value={logoFont}
+            onChange={(event) => setLogoFont(event.target.value)}
+          >
+            <option value="montserrat">Montserrat</option>
+            <option value="helvetica-neue">Helvetica Neue</option>
+            <option value="inter">Inter</option>
+          </select>
+        </div>
+        <SiteVersionSelect value={siteVersion} onChange={onSiteVersionChange} />
+      </div>
+    </details>
+  )
+}
+
 function DataMerchCard({ businessName }) {
   const records = [
     {
@@ -620,7 +732,7 @@ function DeepSearchCard({ businessName }) {
   )
 }
 
-function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
+function QuickVettV31({ siteVersion, onSiteVersionChange, onSignOut }) {
   const [page, setPage] = useState('home')
   const [colorway, setColorway] = useState('plain')
   const [darkMode, setDarkMode] = useState(false)
@@ -629,7 +741,7 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
   const [ownerName, setOwnerName] = useState('')
   const [businessName, setBusinessName] = useState('')
   const [historyQuery, setHistoryQuery] = useState('')
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [v3SidebarCollapsed, setV3SidebarCollapsed] = useState(false)
   const [headerOwner, setHeaderOwner] = useState('')
   const [headerBusiness, setHeaderBusiness] = useState('')
   const pageContentRef = useRef(null)
@@ -792,260 +904,211 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
     }
   }, [])
 
+  const v3ShellClass = `v3-chat-shell${v3SidebarCollapsed ? ' v3-chat-shell--sidebar-collapsed' : ''}`
+
+  const openHistoryEntry = (entry) => {
+    openResultsFromHistory(entry)
+  }
+
   return (
-    <div className={`app-shell app-shell--v1 theme-${activeTheme} font-${globalFont}`}>
+    <div className={`app-shell app-shell--v3 app-shell--v3-1 theme-${activeTheme} font-${globalFont}`}>
+      <svg
+        className="v31-svg-filters"
+        aria-hidden="true"
+        focusable="false"
+        width="0"
+        height="0"
+      >
+        <defs>
+          <filter
+            id="qv-v31-watercolor"
+            x="-35%"
+            y="-35%"
+            width="170%"
+            height="170%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.0085"
+              numOctaves="4"
+              seed="21"
+              result="noise"
+            />
+            <feGaussianBlur in="noise" stdDeviation="1.65" result="softNoise" />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="softNoise"
+              scale="11"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="rippled"
+            />
+            <feGaussianBlur in="rippled" stdDeviation="0.38" result="paintSoft" />
+            <feColorMatrix
+              in="paintSoft"
+              type="matrix"
+              values="1 0 0.02 0 0 0 1 0.02 0 0 0.02 0.03 1.02 0 0 0 0 0 1 0"
+              result="cobaltBoost"
+            />
+            <feMerge>
+              <feMergeNode in="cobaltBoost" />
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+      <div className="v31-backdrop-clip" aria-hidden="true">
+        <div className="v31-watercolor-backdrop" />
+      </div>
       <div className="workspace page-shell" ref={pageContentRef}>
-        {page === 'home' ? (
-          <main className="main-area">
-            <a href="#" className="about-link">
-              About
-            </a>
-            <div className="top-right-tools">
-              {onSignOut ? (
-                <button
-                  type="button"
-                  className="toolbar-text-btn"
-                  onClick={onSignOut}
-                  aria-label="Sign out"
-                >
-                  Sign out
-                </button>
-              ) : null}
-              <button
-                type="button"
-                className="dark-mode-toggle"
-                onClick={() => setDarkMode((prev) => !prev)}
-                aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                  {darkMode ? 'light_mode' : 'dark_mode'}
-                </span>
-              </button>
-            </div>
-            <div className="bottom-left-controls">
-              <div className="control-group">
-                <label htmlFor="colorway-select">Colorway</label>
-                <select
-                  id="colorway-select"
-                  value={colorway}
-                  onChange={(event) => setColorway(event.target.value)}
-                >
-                  <option value="plain">Plain</option>
-                  <option value="blue">Blue</option>
-                </select>
-              </div>
-              <div className="control-group">
-                <label htmlFor="global-font-select">Global font</label>
-                <select
-                  id="global-font-select"
-                  value={globalFont}
-                  onChange={(event) => setGlobalFont(event.target.value)}
-                >
-                  <option value="helvetica-neue">Helvetica Neue</option>
-                  <option value="inter">Inter</option>
-                  <option value="montserrat">Montserrat</option>
-                </select>
-              </div>
-              <div className="control-group">
-                <label htmlFor="logo-font-select">Logo font</label>
-                <select
-                  id="logo-font-select"
-                  value={logoFont}
-                  onChange={(event) => setLogoFont(event.target.value)}
-                >
-                  <option value="montserrat">Montserrat</option>
-                  <option value="helvetica-neue">Helvetica Neue</option>
-                  <option value="inter">Inter</option>
-                </select>
-              </div>
-              <SiteVersionSelect value={siteVersion} onChange={onSiteVersionChange} />
-            </div>
-            <div className="search-wrap">
-              <h1 className={`search-brand logo-font-${logoFont}`}>
-                <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
-                  shield
-                </span>
-                <span>QuickVett</span>
-              </h1>
-              <div className="search-controls">
-                <div className="search-bar" role="search">
-                  <div className="search-input-field">
-                    <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
-                      person
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Owner name"
-                      aria-label="Owner name"
-                      value={ownerName}
-                      onChange={(event) => setOwnerName(event.target.value)}
-                    />
-                  </div>
-                  <div className="search-input-field">
-                    <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
-                      business_center
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Business name"
-                      aria-label="Business name"
-                      value={businessName}
-                      onChange={(event) => setBusinessName(event.target.value)}
-                    />
-                  </div>
-                </div>
-                <button type="button" className="search-action-btn" onClick={openResultsPage}>
+        <div className={v3ShellClass}>
+          <aside className="v3-sidebar" aria-label="Workspace navigation">
+            <div className="v3-sidebar-expandable">
+              <div className="v3-sidebar-filter-row">
+                <div className="v3-sidebar-filter">
                   <span className="material-symbols-outlined ui-icon" aria-hidden="true">
                     search
                   </span>
-                  <span>Search</span>
+                  <input
+                    type="text"
+                    value={historyQuery}
+                    onChange={(event) => setHistoryQuery(event.target.value)}
+                    placeholder="Filter search history"
+                    aria-label="Filter search history"
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="v3-sidebar-icon-btn"
+                  onClick={() => setV3SidebarCollapsed((prev) => !prev)}
+                  aria-label={v3SidebarCollapsed ? 'Open sidebar' : 'Close sidebar'}
+                >
+                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                    dock_to_left
+                  </span>
                 </button>
               </div>
-
-              <section className="main-history-section" aria-label="Search history">
-                <div className="main-history-header">
-                  <p className="history-label">Search history</p>
-                  <div className="history-filter">
-                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                      search
+              <nav className="v3-sidebar-list" aria-label="Search history">
+                {filteredHistory.map((entry) => (
+                  <button
+                    key={entry}
+                    type="button"
+                    className="v3-thread"
+                    onClick={() => openHistoryEntry(entry)}
+                    aria-label={`Open background search for ${entry}`}
+                  >
+                    <span className="material-symbols-outlined ui-icon history-icon" aria-hidden="true">
+                      history
                     </span>
-                    <input
-                      type="text"
-                      value={historyQuery}
-                      onChange={(event) => setHistoryQuery(event.target.value)}
-                      placeholder="Filter history"
-                      aria-label="Filter search history"
-                    />
-                  </div>
+                    <span className="v3-thread-title">{entry}</span>
+                  </button>
+                ))}
+              </nav>
+              <div className="v3-sidebar-footer">
+                <button
+                  type="button"
+                  className="v3-sidebar-row"
+                  onClick={() => setDarkMode((prev) => !prev)}
+                  aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                    {darkMode ? 'light_mode' : 'dark_mode'}
+                  </span>
+                  {darkMode ? 'Light mode' : 'Dark mode'}
+                </button>
+                {onSignOut ? (
+                  <button type="button" className="v3-sidebar-row" onClick={onSignOut}>
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      logout
+                    </span>
+                    Sign out
+                  </button>
+                ) : null}
+                <div
+                  className="v3-sidebar-footer-actions"
+                  role="group"
+                  aria-label="Settings, account, help, and about"
+                >
+                  <button type="button" className="v3-sidebar-row">
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      settings
+                    </span>
+                    Settings
+                  </button>
+                  <button type="button" className="v3-sidebar-row">
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      account_circle
+                    </span>
+                    Account
+                  </button>
+                  <button type="button" className="v3-sidebar-row">
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      help
+                    </span>
+                    Help
+                  </button>
+                  <button type="button" className="v3-sidebar-row">
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      info
+                    </span>
+                    About QuickVett
+                  </button>
                 </div>
-                <div className="history-list">
-                  {filteredHistory.map((entry) => (
-                    <button
-                      key={entry}
-                      type="button"
-                      className="history-card"
-                      onClick={() => openResultsFromHistory(entry)}
-                      aria-label={`Open background search for ${entry}`}
-                    >
-                      <span className="material-symbols-outlined ui-icon history-icon" aria-hidden="true">
-                        history
-                      </span>
-                      <div className="history-main">
-                        <span className="history-title">{entry}</span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </section>
+              </div>
             </div>
-          </main>
-        ) : (
-          <div className={`results-layout${sidebarCollapsed ? ' sidebar-collapsed' : ''}`}>
-            <aside className="results-sidebar">
-              {sidebarCollapsed ? (
-                <div className="results-sidebar-header">
-                  <button
-                    type="button"
-                    className="sidebar-toggle"
-                    onClick={() => setSidebarCollapsed((prev) => !prev)}
-                    aria-label="Expand sidebar"
-                    aria-expanded={false}
-                  >
-                    <span className="sidebar-toggle-glyph" aria-hidden="true">
-                      left_panel_open
-                    </span>
-                  </button>
-                </div>
-              ) : null}
-              <div className="results-sidebar-panel" aria-hidden={sidebarCollapsed}>
-              <div className="results-history">
-                <div className="results-history-filter-row">
-                  <div className="history-filter">
-                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                      search
-                    </span>
-                    <input
-                      type="text"
-                      value={historyQuery}
-                      onChange={(event) => setHistoryQuery(event.target.value)}
-                      placeholder="Filter history"
-                      aria-label="Filter search history"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className="sidebar-toggle"
-                    onClick={() => setSidebarCollapsed((prev) => !prev)}
-                    aria-label="Collapse sidebar"
-                    aria-expanded={true}
-                  >
-                    <span className="sidebar-toggle-glyph" aria-hidden="true">
-                      left_panel_close
-                    </span>
-                  </button>
-                </div>
-                <div className="history-list">
-                  {filteredHistory.map((entry) => (
-                    <button
-                      key={entry}
-                      type="button"
-                      className="history-card"
-                      onClick={() => openResultsFromHistory(entry)}
-                      aria-label={`Open background search for ${entry}`}
-                    >
-                      <span className="material-symbols-outlined ui-icon history-icon" aria-hidden="true">
-                        history
-                      </span>
-                      <div className="history-main">
-                        <span className="history-title">{entry}</span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <div className="v3-sidebar-rail">
+              <button
+                type="button"
+                className="v3-sidebar-icon-btn"
+                onClick={() => setV3SidebarCollapsed(false)}
+                aria-label="Open sidebar"
+              >
+                <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                  menu_open
+                </span>
+              </button>
+            </div>
+          </aside>
 
-              <div className="results-sidebar-footer">
-                <button type="button" className="footer-item">
+          <div className="v3-main-column">
+          {page === 'home' ? (
+            <div className="v3-main v3-main--home">
+              <div className="v3-main-topbar">
+                <button
+                  type="button"
+                  className="v3-mobile-menu"
+                  onClick={() => setV3SidebarCollapsed(false)}
+                  aria-label="Open menu"
+                >
                   <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    settings
+                    menu
                   </span>
-                  <span>Settings</span>
                 </button>
-                <button type="button" className="footer-item account-item">
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    account_circle
-                  </span>
-                  <span>Account</span>
-                </button>
-                <button type="button" className="footer-item">
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    help
-                  </span>
-                  <span>Help</span>
-                </button>
+                <div className="v3-main-topbar-trailing">
+                  <AppearanceDemoControls
+                    colorway={colorway}
+                    setColorway={setColorway}
+                    globalFont={globalFont}
+                    setGlobalFont={setGlobalFont}
+                    logoFont={logoFont}
+                    setLogoFont={setLogoFont}
+                    siteVersion={siteVersion}
+                    onSiteVersionChange={onSiteVersionChange}
+                  />
+                </div>
               </div>
-              </div>
-            </aside>
-
-            <main className="results-main">
-              <div className="results-header-strip">
-                <div className="results-header-row">
-                  <button
-                    type="button"
-                    className="sidebar-toggle sidebar-toggle-mobile-expand"
-                    onClick={() => setSidebarCollapsed((prev) => !prev)}
-                    aria-label="Expand sidebar"
-                    aria-expanded={false}
-                  >
-                    <span className="sidebar-toggle-glyph" aria-hidden="true">
-                      left_panel_open
+              <div className="v3-main-stage">
+                <div className="search-wrap v3-home-search">
+                  <h1 className={`search-brand logo-font-${logoFont}`}>
+                    <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
+                      shield
                     </span>
-                  </button>
-                  <header className="results-header">
-                    <div className="header-search">
-                      <div className="header-search-bar" role="search">
-                        <div className="header-search-field">
+                    <span>QuickVett</span>
+                  </h1>
+                  <div className="v3-home-search-block">
+                    <div className="search-controls">
+                      <div className="search-bar" role="search">
+                        <div className="search-input-field">
                           <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
                             person
                           </span>
@@ -1053,14 +1116,14 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
                             type="text"
                             placeholder="Owner name"
                             aria-label="Owner name"
-                            value={headerOwner}
-                            onChange={(event) => setHeaderOwner(event.target.value)}
+                            value={ownerName}
+                            onChange={(event) => setOwnerName(event.target.value)}
                             onKeyDown={(event) => {
-                              if (event.key === 'Enter') submitHeaderSearch()
+                              if (event.key === 'Enter') openResultsPage()
                             }}
                           />
                         </div>
-                        <div className="header-search-field">
+                        <div className="search-input-field">
                           <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
                             business_center
                           </span>
@@ -1068,103 +1131,125 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
                             type="text"
                             placeholder="Business name"
                             aria-label="Business name"
-                            value={headerBusiness}
-                            onChange={(event) => setHeaderBusiness(event.target.value)}
+                            value={businessName}
+                            onChange={(event) => setBusinessName(event.target.value)}
                             onKeyDown={(event) => {
-                              if (event.key === 'Enter') submitHeaderSearch()
+                              if (event.key === 'Enter') openResultsPage()
                             }}
                           />
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        className="header-search-btn"
-                        onClick={submitHeaderSearch}
-                        aria-label="Search"
-                      >
+                      <button type="button" className="search-action-btn" onClick={openResultsPage}>
                         <span className="material-symbols-outlined ui-icon" aria-hidden="true">
                           search
                         </span>
+                        <span>Search</span>
                       </button>
                     </div>
-                  </header>
-                  <div className="results-header-end">
-                    {onSignOut ? (
-                      <button
-                        type="button"
-                        className="toolbar-text-btn"
-                        onClick={onSignOut}
-                        aria-label="Sign out"
-                      >
-                        Sign out
-                      </button>
-                    ) : null}
+                    <p className="v3-main-hint">
+                      <strong>Run a background check</strong> on an owner and business.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="v3-main v3-main--results">
+              <div className="v3-results-inner">
+                <div className="results-header-strip">
+                  <div className="results-header-row">
                     <button
                       type="button"
-                      className="dark-mode-toggle"
-                      onClick={() => setDarkMode((prev) => !prev)}
-                      aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                      title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                      className="v3-mobile-menu"
+                      onClick={() => setV3SidebarCollapsed(false)}
+                      aria-label="Open menu"
                     >
                       <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                        {darkMode ? 'light_mode' : 'dark_mode'}
+                        menu
                       </span>
                     </button>
-                    <HeaderBrand logoFont={logoFont} onClick={openHomePage} />
+                    <header className="results-header">
+                      <div className="header-search">
+                        <div className="header-search-bar" role="search">
+                          <div className="header-search-field">
+                            <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
+                              person
+                            </span>
+                            <input
+                              type="text"
+                              placeholder="Owner name"
+                              aria-label="Owner name"
+                              value={headerOwner}
+                              onChange={(event) => setHeaderOwner(event.target.value)}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter') submitHeaderSearch()
+                              }}
+                            />
+                          </div>
+                          <div className="header-search-field">
+                            <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
+                              business_center
+                            </span>
+                            <input
+                              type="text"
+                              placeholder="Business name"
+                              aria-label="Business name"
+                              value={headerBusiness}
+                              onChange={(event) => setHeaderBusiness(event.target.value)}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter') submitHeaderSearch()
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className="header-search-btn"
+                          onClick={submitHeaderSearch}
+                          aria-label="Search"
+                        >
+                          <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                            search
+                          </span>
+                        </button>
+                      </div>
+                    </header>
+                    <div className="results-header-end">
+                      <AppearanceDemoControls
+                        colorway={colorway}
+                        setColorway={setColorway}
+                        globalFont={globalFont}
+                        setGlobalFont={setGlobalFont}
+                        logoFont={logoFont}
+                        setLogoFont={setLogoFont}
+                        siteVersion={siteVersion}
+                        onSiteVersionChange={onSiteVersionChange}
+                      />
+                      <HeaderBrand logoFont={logoFont} onClick={openHomePage} />
+                    </div>
                   </div>
                 </div>
 
+                <div className="results-content">
+                  <DataMerchCard businessName={businessName} />
+                  <DefaultHistoryCard businessName={businessName} />
+                  <DeepSearchCard businessName={businessName} />
+                </div>
               </div>
-
-              <div className="results-content">
-                <DataMerchCard businessName={businessName} />
-                <DefaultHistoryCard businessName={businessName} />
-                <DeepSearchCard businessName={businessName} />
-              </div>
-            </main>
+            </div>
+          )}
+          <footer className="tiny-footer" aria-label="Legal links">
+            <a href="#">Terms</a>
+            <span>•</span>
+            <a href="#">Privacy</a>
+            <span>•</span>
+            <a href="#">Cookies</a>
+          </footer>
           </div>
-        )}
-      </div>
-
-      {page === 'results' ? (
-        <div className="bottom-left-controls bottom-left-controls--results-overlay">
-          <SiteVersionSelect value={siteVersion} onChange={onSiteVersionChange} />
         </div>
-      ) : null}
-
-      {page === 'home' ? (
-        <aside className="floating-actions" aria-label="Utility actions">
-          <button type="button" className="footer-item account-item">
-            <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-              account_circle
-            </span>
-            <span>Account</span>
-          </button>
-          <button type="button" className="footer-item">
-            <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-              settings
-            </span>
-            <span>Settings</span>
-          </button>
-          <button type="button" className="footer-item">
-            <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-              help
-            </span>
-            <span>Help</span>
-          </button>
-        </aside>
-      ) : null}
-
-      <footer className="tiny-footer" aria-label="Legal links">
-        <a href="#">Terms</a>
-        <span>•</span>
-        <a href="#">Privacy</a>
-        <span>•</span>
-        <a href="#">Cookies</a>
-      </footer>
-
+      </div>
     </div>
   )
 }
 
-export default QuickVettV1
+export default QuickVettV31

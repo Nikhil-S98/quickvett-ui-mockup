@@ -1,8 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SiteVersionSelect from './SiteVersionSelect.jsx'
 import { PENDING_SEARCH_KEY } from '../constants/pendingSearchStorage.js'
 
+gsap.registerPlugin(ScrollTrigger)
 gsap.defaults({ ease: 'power1.out' })
 
 function HeaderBrand({ logoFont, onClick }) {
@@ -620,7 +622,7 @@ function DeepSearchCard({ businessName }) {
   )
 }
 
-function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
+function QuickVettV4({ siteVersion, onSiteVersionChange, onSignOut }) {
   const [page, setPage] = useState('home')
   const [colorway, setColorway] = useState('plain')
   const [darkMode, setDarkMode] = useState(false)
@@ -634,6 +636,12 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
   const [headerBusiness, setHeaderBusiness] = useState('')
   const pageContentRef = useRef(null)
   const isInitialPagePaint = useRef(true)
+  const v4HomeScrollRef = useRef(null)
+  const v4StickyRef = useRef(null)
+  const v4StickyInnerRef = useRef(null)
+  const v4HistorySectionRef = useRef(null)
+  const v4SearchActionLabelRef = useRef(null)
+  const v4CtaRef = useRef(null)
 
   const PAGE_FADE_DURATION = 0.18
 
@@ -792,11 +800,138 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
     }
   }, [])
 
+  useLayoutEffect(() => {
+    if (page !== 'home') return undefined
+    const el = v4HomeScrollRef.current
+    if (el) el.scrollTop = 0
+    return undefined
+  }, [page])
+
+  useLayoutEffect(() => {
+    if (page !== 'home') return undefined
+    const scrollEl = v4HomeScrollRef.current
+    const heroInner = v4StickyInnerRef.current
+    const historyEl = v4HistorySectionRef.current
+    const ctaEl = v4CtaRef.current
+    if (!scrollEl || !heroInner || !historyEl) return undefined
+
+    scrollEl.dataset.docked = 'false'
+    gsap.set(heroInner, { clearProps: 'transform' })
+    gsap.set(historyEl, { y: scrollEl.clientHeight * 0.6, autoAlpha: 0.001 })
+    if (ctaEl) gsap.set(ctaEl, { autoAlpha: 1, y: 0 })
+
+    const targetTop = 64
+    const dockGap = 16
+
+    const getHeroShift = () => {
+      const scrollBox = scrollEl.getBoundingClientRect()
+      const heroBox = heroInner.getBoundingClientRect()
+      const currentTop = heroBox.top - scrollBox.top
+      return Math.round(targetTop - currentTop)
+    }
+
+    const historyDockYForHeroShift = (heroShift) =>
+      Math.round(heroInner.offsetTop + heroInner.offsetHeight + heroShift + dockGap - historyEl.offsetTop)
+
+    const endDist = () => Math.min(320, Math.max(180, scrollEl.clientHeight * 0.28))
+
+    /* Scrub must tween to fixed Y targets. y: () => getHeroShift() re-reads rect each frame (includes
+     * current transform) so the “end” value drifts — logs showed progress~0.97 with getHeroShift 52. */
+    const animEnds = { heroY: 0, historyY: 0 }
+    animEnds.heroY = getHeroShift()
+    animEnds.historyY = historyDockYForHeroShift(animEnds.heroY)
+
+    let homeIntroChoreographyDone = false
+    const onResize = () => ScrollTrigger.refresh()
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        scroller: scrollEl,
+        trigger: scrollEl,
+        start: 'top top',
+        end: () => `+=${endDist()}`,
+        /* Tighter scrub: lag vs scroll (e.g. 0.75) left hero/history short of animEnds when onLeave ran. */
+        scrub: true,
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          if (ctaEl) {
+            const hide = self.progress > 0.02
+            ctaEl.style.pointerEvents = hide ? 'none' : 'auto'
+          }
+        },
+        onLeave() {
+          if (homeIntroChoreographyDone) return
+          homeIntroChoreographyDone = true
+
+          /* Snap to final frame (avoids scrub lag) before layout toggles docked. */
+          gsap.killTweensOf([heroInner, historyEl, ctaEl].filter(Boolean))
+          gsap.set(heroInner, { y: animEnds.heroY })
+          gsap.set(historyEl, { y: animEnds.historyY, autoAlpha: 1 })
+          if (ctaEl) gsap.set(ctaEl, { autoAlpha: 0, y: -8 })
+
+          scrollEl.dataset.docked = 'true'
+
+          /* Kill scrub link: docked flex was shrinking scrollHeight < prior scrollTop, clamping scroll
+           * and driving ScrollTrigger progress backward (snap-back). */
+          window.removeEventListener('resize', onResize)
+          tl.scrollTrigger?.kill()
+          tl.kill()
+
+          scrollEl.scrollTop = 0
+        },
+        onEnterBack() {
+          if (homeIntroChoreographyDone) return
+          scrollEl.dataset.docked = 'false'
+        },
+      },
+    })
+
+    tl.to(
+      heroInner,
+      {
+        y: animEnds.heroY,
+        ease: 'none',
+        duration: 1,
+      },
+      0
+    )
+    tl.to(
+      historyEl,
+      {
+        y: animEnds.historyY,
+        autoAlpha: 1,
+        ease: 'none',
+        duration: 1,
+      },
+      0
+    )
+    if (ctaEl) {
+      tl.to(ctaEl, { autoAlpha: 0, y: -8, ease: 'power1.out', duration: 0.18 }, 0.05)
+    }
+
+    window.addEventListener('resize', onResize)
+    requestAnimationFrame(() => {
+      if (homeIntroChoreographyDone) return
+      ScrollTrigger.refresh()
+    })
+
+    return () => {
+      window.removeEventListener('resize', onResize)
+      if (!homeIntroChoreographyDone) {
+        tl.scrollTrigger?.kill()
+        tl.kill()
+      }
+      scrollEl.dataset.docked = 'false'
+      gsap.set(heroInner, { clearProps: 'transform' })
+      gsap.set(historyEl, { clearProps: 'transform,opacity,visibility' })
+      if (ctaEl) gsap.set(ctaEl, { clearProps: 'transform,opacity,visibility,pointerEvents' })
+    }
+  }, [page])
+
   return (
-    <div className={`app-shell app-shell--v1 theme-${activeTheme} font-${globalFont}`}>
+    <div className={`app-shell app-shell--v4 theme-${activeTheme} font-${globalFont}`}>
       <div className="workspace page-shell" ref={pageContentRef}>
         {page === 'home' ? (
-          <main className="main-area">
+          <main className="main-area v4-home-main">
             <a href="#" className="about-link">
               About
             </a>
@@ -861,49 +996,83 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
               </div>
               <SiteVersionSelect value={siteVersion} onChange={onSiteVersionChange} />
             </div>
-            <div className="search-wrap">
-              <h1 className={`search-brand logo-font-${logoFont}`}>
-                <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
-                  shield
-                </span>
-                <span>QuickVett</span>
-              </h1>
-              <div className="search-controls">
-                <div className="search-bar" role="search">
-                  <div className="search-input-field">
-                    <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
-                      person
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Owner name"
-                      aria-label="Owner name"
-                      value={ownerName}
-                      onChange={(event) => setOwnerName(event.target.value)}
-                    />
-                  </div>
-                  <div className="search-input-field">
-                    <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
-                      business_center
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Business name"
-                      aria-label="Business name"
-                      value={businessName}
-                      onChange={(event) => setBusinessName(event.target.value)}
-                    />
+            <div ref={v4HomeScrollRef} className="v4-home-scroll">
+              <div className="v4-home-flow">
+                <div ref={v4StickyRef} className="v4-home-sticky">
+                  <div className="v4-home-hero">
+                    <div ref={v4StickyInnerRef} className="v4-home-sticky-inner">
+                    <h1 className={`search-brand logo-font-${logoFont} v4-home-logo`}>
+                      <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
+                        shield
+                      </span>
+                      <span>QuickVett</span>
+                    </h1>
+                    <div className="search-controls">
+                      <div className="search-bar" role="search">
+                        <div className="search-input-field">
+                          <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
+                            person
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="Owner name"
+                            aria-label="Owner name"
+                            value={ownerName}
+                            onChange={(event) => setOwnerName(event.target.value)}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter') openResultsPage()
+                            }}
+                          />
+                        </div>
+                        <div className="search-input-field">
+                          <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
+                            business_center
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="Business name"
+                            aria-label="Business name"
+                            value={businessName}
+                            onChange={(event) => setBusinessName(event.target.value)}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter') openResultsPage()
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <button type="button" className="search-action-btn" onClick={openResultsPage}>
+                        <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                          search
+                        </span>
+                        <span ref={v4SearchActionLabelRef} className="v4-search-action-text">
+                          Search
+                        </span>
+                      </button>
+                    </div>
+                      <button
+                        ref={v4CtaRef}
+                        type="button"
+                        className="v4-home-scroll-cta"
+                        onClick={() => {
+                          const el = v4HomeScrollRef.current
+                          if (!el) return
+                          el.scrollTo({ top: Math.min(260, el.scrollHeight), behavior: 'smooth' })
+                        }}
+                        aria-label="Scroll to search history"
+                      >
+                        <span className="material-symbols-outlined v4-home-scroll-cta-icon" aria-hidden="true">
+                          expand_more
+                        </span>
+                        <span>Search history</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <button type="button" className="search-action-btn" onClick={openResultsPage}>
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    search
-                  </span>
-                  <span>Search</span>
-                </button>
-              </div>
-
-              <section className="main-history-section" aria-label="Search history">
+                <section
+                  ref={v4HistorySectionRef}
+                  className="main-history-section v4-home-history-section"
+                  aria-label="Search history"
+                >
                 <div className="main-history-header">
                   <p className="history-label">Search history</p>
                   <div className="history-filter">
@@ -938,6 +1107,7 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
                   ))}
                 </div>
               </section>
+              </div>
             </div>
           </main>
         ) : (
@@ -1167,4 +1337,4 @@ function QuickVettV1({ siteVersion, onSiteVersionChange, onSignOut }) {
   )
 }
 
-export default QuickVettV1
+export default QuickVettV4

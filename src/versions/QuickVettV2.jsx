@@ -58,6 +58,7 @@ function DataMerchCard({ businessName }) {
           <h3>{businessName || 'Business'}</h3>
         </div>
       </header>
+      <div className="result-card-body">
       <div className="datamerch-meta">
         <span>EIN 85-3201948</span>
         <span aria-hidden="true">·</span>
@@ -76,6 +77,7 @@ function DataMerchCard({ businessName }) {
           </li>
         ))}
       </ul>
+      </div>
     </article>
   )
 }
@@ -335,6 +337,7 @@ function DefaultHistoryCard({ businessName }) {
           <h3>{cases.length} cases found</h3>
         </div>
       </header>
+      <div className="result-card-body">
       <div className="case-list">
         {cases.map((c) => (
           <details key={c.caseNumber} className="case-row">
@@ -399,6 +402,7 @@ function DefaultHistoryCard({ businessName }) {
           </details>
         ))}
       </div>
+      </div>
     </article>
   )
 }
@@ -413,6 +417,7 @@ function DeepSearchCard({ businessName }) {
           <h3>{business} — Intelligence Report</h3>
         </div>
       </header>
+      <div className="result-card-body">
       <p className="deep-meta">
         <span className="material-symbols-outlined ui-icon" aria-hidden="true">
           travel_explore
@@ -610,6 +615,7 @@ function DeepSearchCard({ businessName }) {
           </ol>
         </details>
       </section>
+      </div>
     </article>
   )
 }
