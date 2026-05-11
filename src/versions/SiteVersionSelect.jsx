@@ -10,6 +10,7 @@ export default function SiteVersionSelect({ value, onChange }) {
       >
         <option value="v1">V1</option>
         <option value="v2">V2</option>
+        <option value="v3">V3</option>
       </select>
     </div>
   )
