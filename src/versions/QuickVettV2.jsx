@@ -631,15 +631,6 @@ function QuickVettV2({ siteVersion, onSiteVersionChange, onSignOut }) {
 
   const PAGE_FADE_DURATION = 0.18
 
-  const suggestionChips = [
-    { id: 'open-court', label: 'Open court matters', owner: '', business: 'Khera brothers inc' },
-    { id: 'stacking', label: 'Stacking & ACH risk', owner: 'Rajiv Khera', business: 'Khera brothers inc' },
-    { id: 'ein', label: 'EIN + linked entities', owner: '', business: 'Blue Harbor Holdings' },
-    { id: 'deep', label: 'Full intelligence pass', owner: '', business: 'Northbridge Funding Group' },
-    { id: 'datamerch', label: 'DataMerch only', owner: '', business: 'Vox Funding' },
-    { id: 'guarantor', label: 'Personal guaranty search', owner: 'Anika Khera', business: '' },
-  ]
-
   const searchHistory = [
     'Khera brothers inc',
     'Shahji smoke shop',
@@ -719,11 +710,6 @@ function QuickVettV2({ siteVersion, onSiteVersionChange, onSignOut }) {
     })
   }
 
-  const applySuggestionChip = (chip) => {
-    setOwnerName(chip.owner ?? '')
-    setBusinessName(chip.business ?? '')
-  }
-
   const openResultsPage = () => {
     if (!ownerName.trim() && !businessName.trim()) return
     transitionToPage('results')
@@ -801,164 +787,85 @@ function QuickVettV2({ siteVersion, onSiteVersionChange, onSignOut }) {
   }, [])
 
   return (
-    <div
-      className={`app-shell app-shell--v2 theme-${activeTheme} font-${globalFont}${
-        page === 'home' ? ' app-shell--v2-home' : ''
-      }`}
-    >
+    <div className={`app-shell app-shell--v2 theme-${activeTheme} font-${globalFont}`}>
       <div className="workspace page-shell" ref={pageContentRef}>
         {page === 'home' ? (
-          <main className="main-area main-area--v2-chat">
-            <header className="v2-chat-topbar">
-              <div className="v2-chat-topbar-start">
-                <a href="#" className="about-link v2-about-link">
-                  About
-                </a>
-                <div className="v2-dev-tools" aria-label="Demo appearance controls">
-                  <div className="control-group">
-                    <label htmlFor="colorway-select">Colorway</label>
-                    <select
-                      id="colorway-select"
-                      value={colorway}
-                      onChange={(event) => setColorway(event.target.value)}
-                    >
-                      <option value="plain">Plain</option>
-                      <option value="blue">Blue</option>
-                    </select>
-                  </div>
-                  <div className="control-group">
-                    <label htmlFor="global-font-select">Global font</label>
-                    <select
-                      id="global-font-select"
-                      value={globalFont}
-                      onChange={(event) => setGlobalFont(event.target.value)}
-                    >
-                      <option value="helvetica-neue">Helvetica Neue</option>
-                      <option value="inter">Inter</option>
-                      <option value="montserrat">Montserrat</option>
-                    </select>
-                  </div>
-                  <div className="control-group">
-                    <label htmlFor="logo-font-select">Logo font</label>
-                    <select
-                      id="logo-font-select"
-                      value={logoFont}
-                      onChange={(event) => setLogoFont(event.target.value)}
-                    >
-                      <option value="montserrat">Montserrat</option>
-                      <option value="helvetica-neue">Helvetica Neue</option>
-                      <option value="inter">Inter</option>
-                    </select>
-                  </div>
-                  <SiteVersionSelect value={siteVersion} onChange={onSiteVersionChange} />
-                </div>
-              </div>
-              <div className="top-right-tools v2-top-right-tools">
-                {onSignOut ? (
-                  <button
-                    type="button"
-                    className="toolbar-text-btn"
-                    onClick={onSignOut}
-                    aria-label="Sign out"
-                  >
-                    Sign out
-                  </button>
-                ) : null}
+          <main className="main-area">
+            <a href="#" className="about-link">
+              About
+            </a>
+            <div className="top-right-tools">
+              {onSignOut ? (
                 <button
                   type="button"
-                  className="dark-mode-toggle"
-                  onClick={() => setDarkMode((prev) => !prev)}
-                  aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                  title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                  className="toolbar-text-btn"
+                  onClick={onSignOut}
+                  aria-label="Sign out"
                 >
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    {darkMode ? 'light_mode' : 'dark_mode'}
-                  </span>
+                  Sign out
                 </button>
-              </div>
-            </header>
-
-            <div className="v2-chat-body">
-              <div className="v2-chat-brand">
-                <h1 className={`v2-chat-brand-title logo-font-${logoFont}`}>
-                  <span className="material-symbols-outlined ui-icon v2-chat-brand-icon" aria-hidden="true">
-                    shield
-                  </span>
-                  <span>QuickVett</span>
-                </h1>
-                <p className="v2-chat-brand-sub">Assistant</p>
-              </div>
-
-              <div className="v2-chat-thread">
-                <div className="v2-msg v2-msg--assistant">
-                  <div className="v2-msg-avatar" aria-hidden="true">
-                    <span className="material-symbols-outlined ui-icon">smart_toy</span>
-                  </div>
-                  <div className="v2-msg-bubble">
-                    <p className="v2-msg-text">
-                      Tell me who to research. I will pull <strong>DataMerch</strong>,{' '}
-                      <strong>court history</strong>, and a <strong>deep intelligence</strong> pass
-                      when you run a check. Add an owner, a business, or both — then send.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="v2-suggestions" role="group" aria-label="Suggested checks">
-                  {suggestionChips.map((chip) => (
-                    <button
-                      key={chip.id}
-                      type="button"
-                      className="v2-suggestion-chip"
-                      onClick={() => applySuggestionChip(chip)}
-                    >
-                      {chip.label}
-                    </button>
-                  ))}
-                </div>
-
-                <section className="v2-history-panel" aria-label="Search history">
-                  <div className="v2-history-panel-header">
-                    <p className="history-label">Recent</p>
-                    <div className="history-filter v2-history-filter">
-                      <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                        search
-                      </span>
-                      <input
-                        type="text"
-                        value={historyQuery}
-                        onChange={(event) => setHistoryQuery(event.target.value)}
-                        placeholder="Filter"
-                        aria-label="Filter search history"
-                      />
-                    </div>
-                  </div>
-                  <div className="history-list v2-history-list">
-                    {filteredHistory.map((entry) => (
-                      <button
-                        key={entry}
-                        type="button"
-                        className="history-card v2-history-card"
-                        onClick={() => openResultsFromHistory(entry)}
-                        aria-label={`Open background search for ${entry}`}
-                      >
-                        <span className="material-symbols-outlined ui-icon history-icon" aria-hidden="true">
-                          history
-                        </span>
-                        <div className="history-main">
-                          <span className="history-title">{entry}</span>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </section>
-              </div>
+              ) : null}
+              <button
+                type="button"
+                className="dark-mode-toggle"
+                onClick={() => setDarkMode((prev) => !prev)}
+                aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                  {darkMode ? 'light_mode' : 'dark_mode'}
+                </span>
+              </button>
             </div>
-
-            <div className="v2-chat-dock">
-              <div className="v2-composer" role="search">
-                <div className="v2-composer-fields">
-                  <div className="v2-composer-field">
-                    <span className="material-symbols-outlined ui-icon v2-composer-field-icon" aria-hidden="true">
+            <div className="bottom-left-controls">
+              <div className="control-group">
+                <label htmlFor="colorway-select">Colorway</label>
+                <select
+                  id="colorway-select"
+                  value={colorway}
+                  onChange={(event) => setColorway(event.target.value)}
+                >
+                  <option value="plain">Plain</option>
+                  <option value="blue">Blue</option>
+                </select>
+              </div>
+              <div className="control-group">
+                <label htmlFor="global-font-select">Global font</label>
+                <select
+                  id="global-font-select"
+                  value={globalFont}
+                  onChange={(event) => setGlobalFont(event.target.value)}
+                >
+                  <option value="helvetica-neue">Helvetica Neue</option>
+                  <option value="inter">Inter</option>
+                  <option value="montserrat">Montserrat</option>
+                </select>
+              </div>
+              <div className="control-group">
+                <label htmlFor="logo-font-select">Logo font</label>
+                <select
+                  id="logo-font-select"
+                  value={logoFont}
+                  onChange={(event) => setLogoFont(event.target.value)}
+                >
+                  <option value="montserrat">Montserrat</option>
+                  <option value="helvetica-neue">Helvetica Neue</option>
+                  <option value="inter">Inter</option>
+                </select>
+              </div>
+              <SiteVersionSelect value={siteVersion} onChange={onSiteVersionChange} />
+            </div>
+            <div className="search-wrap">
+              <h1 className={`search-brand logo-font-${logoFont}`}>
+                <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
+                  shield
+                </span>
+                <span>QuickVett</span>
+              </h1>
+              <div className="search-controls">
+                <div className="search-bar" role="search">
+                  <div className="search-input-field">
+                    <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
                       person
                     </span>
                     <input
@@ -972,9 +879,8 @@ function QuickVettV2({ siteVersion, onSiteVersionChange, onSignOut }) {
                       }}
                     />
                   </div>
-                  <span className="v2-composer-divider" aria-hidden="true" />
-                  <div className="v2-composer-field">
-                    <span className="material-symbols-outlined ui-icon v2-composer-field-icon" aria-hidden="true">
+                  <div className="search-input-field">
+                    <span className="material-symbols-outlined ui-icon search-icon" aria-hidden="true">
                       business_center
                     </span>
                     <input
@@ -989,28 +895,49 @@ function QuickVettV2({ siteVersion, onSiteVersionChange, onSignOut }) {
                     />
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="v2-composer-send"
-                  onClick={openResultsPage}
-                  disabled={!ownerName.trim() && !businessName.trim()}
-                  aria-label="Run check"
-                >
+                <button type="button" className="search-action-btn" onClick={openResultsPage}>
                   <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    arrow_upward
+                    search
                   </span>
+                  <span>Search</span>
                 </button>
               </div>
-              <p className="v2-chat-disclaimer">
-                Demo data only. Not legal advice. Results are for underwriting review.
-              </p>
-              <div className="v2-chat-legal" aria-label="Legal links">
-                <a href="#">Terms</a>
-                <span aria-hidden="true">·</span>
-                <a href="#">Privacy</a>
-                <span aria-hidden="true">·</span>
-                <a href="#">Cookies</a>
-              </div>
+
+              <section className="main-history-section" aria-label="Search history">
+                <div className="main-history-header">
+                  <p className="history-label">Search history</p>
+                  <div className="history-filter">
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      search
+                    </span>
+                    <input
+                      type="text"
+                      value={historyQuery}
+                      onChange={(event) => setHistoryQuery(event.target.value)}
+                      placeholder="Filter history"
+                      aria-label="Filter search history"
+                    />
+                  </div>
+                </div>
+                <div className="history-list">
+                  {filteredHistory.map((entry) => (
+                    <button
+                      key={entry}
+                      type="button"
+                      className="history-card"
+                      onClick={() => openResultsFromHistory(entry)}
+                      aria-label={`Open background search for ${entry}`}
+                    >
+                      <span className="material-symbols-outlined ui-icon history-icon" aria-hidden="true">
+                        history
+                      </span>
+                      <div className="history-main">
+                        <span className="history-title">{entry}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </section>
             </div>
           </main>
         ) : (
@@ -1229,15 +1156,11 @@ function QuickVettV2({ siteVersion, onSiteVersionChange, onSignOut }) {
       ) : null}
 
       <footer className="tiny-footer" aria-label="Legal links">
-        {page === 'home' ? null : (
-          <>
-            <a href="#">Terms</a>
-            <span>•</span>
-            <a href="#">Privacy</a>
-            <span>•</span>
-            <a href="#">Cookies</a>
-          </>
-        )}
+        <a href="#">Terms</a>
+        <span>•</span>
+        <a href="#">Privacy</a>
+        <span>•</span>
+        <a href="#">Cookies</a>
       </footer>
 
     </div>
