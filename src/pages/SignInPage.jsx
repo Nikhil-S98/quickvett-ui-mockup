@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import GsapReveal from '../components/GsapReveal.jsx'
 
 function safeRedirectPath(from) {
   return typeof from === 'string' && from.startsWith('/app') ? from : '/app'
@@ -41,7 +42,7 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="public-stack public-sign-in-page">
+    <GsapReveal className="public-stack public-sign-in-page" target="self">
       <header className="public-landing-section">
         <p className="public-eyebrow">Workspace</p>
         <h1 className="public-title">Sign in</h1>
@@ -104,6 +105,6 @@ export default function SignInPage() {
           ← Back to home
         </Link>
       </p>
-    </div>
+    </GsapReveal>
   )
 }

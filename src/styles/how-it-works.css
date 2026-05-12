@@ -1,0 +1,242 @@
+/* --- How it works — canvas + alternating step / “What happens” layout --- */
+
+.public-how {
+  --landing-ink: #0b1220;
+  --landing-slate: #334155;
+  --landing-elev: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --landing-canvas: #f4f7f9;
+  --landing-canvas-alt: #eef2f6;
+  --landing-card: #ffffff;
+  --landing-card-border: rgba(203, 213, 225, 0.88);
+  --landing-card-shadow: var(--landing-elev);
+  width: 100%;
+}
+
+.public-how-band {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding-block: clamp(2.65rem, 6.5vw, 4.5rem);
+  padding-inline: 0;
+}
+
+.public-how-band--base {
+  background: var(--landing-canvas);
+}
+
+.public-how-band--alt {
+  background: var(--landing-canvas-alt);
+  border-top: 1px solid rgba(203, 213, 225, 0.45);
+  border-bottom: 1px solid rgba(203, 213, 225, 0.45);
+}
+
+.public-how-hero {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.1rem);
+}
+
+.public-how-hero .public-landing-kicker {
+  justify-content: center;
+}
+
+.public-how-hero-title {
+  margin: 0;
+  max-width: 22ch;
+  font-size: clamp(1.65rem, 3.8vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  color: var(--title-color, #0f172a);
+}
+
+.public-how-hero-title-em {
+  font-style: italic;
+  font-weight: 800;
+  color: var(--public-spot-deep);
+}
+
+.public-how-hero-deck {
+  margin: 0;
+  max-width: 38rem;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #475569);
+}
+
+/* Metrics row */
+.public-how-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  width: 100%;
+}
+
+.public-how-metric {
+  box-sizing: border-box;
+  text-align: center;
+  padding: clamp(1rem, 2.4vw, 1.35rem) 0.65rem;
+  background: var(--landing-card);
+  border: 1px solid var(--landing-card-border);
+  border-radius: var(--v2-r-2xl, 1.125rem);
+  box-shadow: var(--landing-card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.public-how-metric-icon {
+  font-size: 1.5rem !important;
+  color: var(--public-spot-icon);
+}
+
+.public-how-metric-stat {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--public-spot-deep);
+}
+
+.public-how-metric-label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.35;
+  color: var(--text-muted, #64748b);
+}
+
+/* Alternating two-column step rows */
+.public-how-step-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3.5vw, 2.5rem);
+  align-items: start;
+  width: 100%;
+}
+
+.public-how-step-row--flip .public-how-step-main {
+  order: 2;
+}
+
+.public-how-step-row--flip .public-how-wh-card {
+  order: 1;
+}
+
+.public-how-step-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.public-how-step-meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.public-how-step-icon {
+  font-size: 1.65rem !important;
+  color: var(--public-spot-icon);
+  margin-top: 0.15rem;
+}
+
+.public-how-step-num {
+  font-size: clamp(2.75rem, 7vw, 3.85rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: color-mix(in srgb, var(--public-spot) 38%, #94a3b8 62%);
+  user-select: none;
+}
+
+.public-how-step-heading {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--title-color, #0f172a);
+}
+
+.public-how-step-body {
+  margin: 0;
+  font-size: 0.97rem;
+  line-height: 1.58;
+  color: var(--text-secondary, #475569);
+}
+
+/* “What happens” card — same recipe as landing metric / step cards */
+.public-how-wh-card {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: clamp(1.1rem, 2.5vw, 1.45rem);
+  background: var(--landing-card);
+  border: 1px solid var(--landing-card-border);
+  border-radius: var(--v2-r-2xl, 1.125rem);
+  box-shadow: var(--landing-card-shadow);
+}
+
+.public-how-wh-kicker {
+  margin: 0 0 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted, #64748b);
+}
+
+.public-how-wh-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-secondary, #475569);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.public-how-wh-list li + li {
+  margin-top: 0.4rem;
+}
+
+/* Finale CTA reuses landing band + typography; only spacing tweak */
+.public-how .public-landing-band--cta.public-how-final-cta {
+  margin-top: 0;
+}
+
+.public-how .public-how-final-cta .public-how-cta-em {
+  font-style: italic;
+  font-weight: 800;
+  color: rgba(248, 250, 252, 0.98);
+}
+
+@media (max-width: 900px) {
+  .public-how-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .public-how-step-row {
+    grid-template-columns: 1fr;
+  }
+
+  .public-how-step-row--flip .public-how-step-main,
+  .public-how-step-row--flip .public-how-wh-card {
+    order: unset;
+  }
+}
+
+@media (max-width: 520px) {
+  .public-how-metrics {
+    grid-template-columns: 1fr;
+  }
+}

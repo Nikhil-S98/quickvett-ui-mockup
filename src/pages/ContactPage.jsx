@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import GsapReveal from '../components/GsapReveal.jsx'
 
 /**
  * Mock contact form — wire submit to CRM / API later.
@@ -19,7 +20,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="public-stack public-contact-page">
+    <GsapReveal className="public-stack public-contact-page" target="self">
       <header className="public-landing-section">
         <p className="public-eyebrow">Contact</p>
         <h1 className="public-title">Talk to QuickVett</h1>
@@ -125,6 +126,6 @@ export default function ContactPage() {
           </button>
         </form>
       )}
-    </div>
+    </GsapReveal>
   )
 }

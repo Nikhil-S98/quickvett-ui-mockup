@@ -1,0 +1,178 @@
+/* --- Marketing palette v2 (toggle: .public-layout--landing-v2) ---
+   Backgrounds: #091d26 (dark floor), #d6c4b0 (warm band), #ede6df (light floor)
+   Accents: #094044 (“09044” → teal, structure + interactive), #d84f2a (warm, emphasis + action) */
+
+.public-layout.public-layout--landing-v2 {
+  --public-accent: #094044;
+  --public-accent-hover: #073438;
+  --public-accent-warm: #d84f2a;
+  --public-accent-warm-hover: #bf4520;
+  --public-accent-soft: rgba(9, 64, 68, 0.12);
+  --public-accent-muted: rgba(9, 64, 68, 0.18);
+  --public-accent-border: rgba(9, 29, 38, 0.22);
+  --public-accent-ring: rgba(9, 64, 68, 0.38);
+  --public-spot: #094044;
+  --public-spot-deep: #091d26;
+  --public-spot-icon: #094044;
+  --public-spot-soft: rgba(9, 64, 68, 0.1);
+  --public-spot-border: rgba(9, 64, 68, 0.26);
+  --public-glass-fill: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(237, 230, 223, 0.35) 45%,
+    rgba(214, 196, 176, 0.15) 100%
+  );
+}
+
+/* Shell: light pages sit on #ede6df with #d6c4b0 in the wash (analogous warmth). */
+.app-shell.public-layout.public-layout--landing-v2.theme-plain {
+  --text-primary: #091d26;
+  --text-secondary: #1e4048;
+  --text-muted: #5a6d72;
+  --title-color: #091d26;
+  --surface: #ede6df;
+  --surface-soft: #d6c4b0;
+  --surface-hover: #e4d9d0;
+  --border: rgba(9, 29, 38, 0.16);
+  --icon-muted: #5f7178;
+  --placeholder: #7a8b91;
+  --focus-ring: rgba(9, 64, 68, 0.32);
+  background-color: #ede6df;
+  background-image:
+    radial-gradient(ellipse 125% 92% at 6% -16%, rgba(214, 196, 176, 0.55), transparent 58%),
+    radial-gradient(ellipse 96% 78% at 98% 4%, rgba(255, 255, 255, 0.45), transparent 56%),
+    radial-gradient(ellipse 108% 88% at 48% 104%, rgba(214, 196, 176, 0.35), transparent 54%),
+    linear-gradient(128deg, #ede6df 0%, rgba(237, 230, 223, 0.92) 42%, #ede6df 100%);
+  background-blend-mode: normal, normal, normal, soft-light;
+}
+
+/* Marketing bands: alternate the two light floors (no gray #ededed). */
+.public-layout.public-layout--landing-v2 .public-landing,
+.public-layout.public-layout--landing-v2 .public-pricing-page,
+.public-layout.public-layout--landing-v2 .public-uncover-page {
+  --landing-ink: #091d26;
+  --landing-slate: #1e4048;
+  --landing-elev: 0 1px 2px rgba(9, 29, 38, 0.08);
+  --landing-canvas: #ede6df;
+  --landing-canvas-alt: #d6c4b0;
+  --landing-card: #fffdfb;
+  --landing-card-border: rgba(9, 29, 38, 0.14);
+  --landing-card-shadow: var(--landing-elev);
+}
+
+.public-layout.public-layout--landing-v2 .public-how {
+  --landing-ink: #091d26;
+  --landing-slate: #1e4048;
+  --landing-elev: 0 1px 2px rgba(9, 29, 38, 0.08);
+  --landing-canvas: #ede6df;
+  --landing-canvas-alt: #d6c4b0;
+  --landing-card: #fffdfb;
+  --landing-card-border: rgba(9, 29, 38, 0.14);
+  --landing-card-shadow: var(--landing-elev);
+}
+
+.public-layout.public-layout--landing-v2 .public-landing-band.public-landing-band--hero {
+  border-bottom-color: rgba(9, 29, 38, 0.12);
+}
+
+/* Hero wash: cream → sand, faint teal (accent family) in the corner. */
+.public-layout.public-layout--landing-v2 .public-landing-hero-fx__plate {
+  background:
+    radial-gradient(ellipse 88% 68% at 14% 18%, rgba(255, 255, 255, 0.85), transparent 54%),
+    radial-gradient(ellipse 78% 58% at 92% 12%, rgba(214, 196, 176, 0.45), transparent 46%),
+    radial-gradient(ellipse 100% 72% at 48% 96%, rgba(237, 230, 223, 0.8), transparent 50%),
+    radial-gradient(ellipse 62% 52% at 78% 52%, rgba(9, 64, 68, 0.07), transparent 46%),
+    linear-gradient(158deg, #ffffff 0%, #f3ebe4 28%, #ede6df 55%, #d6c4b0 100%);
+}
+
+.public-layout.public-layout--landing-v2 .public-landing-band--soft,
+.public-layout.public-layout--landing-v2 .public-landing-band--surface {
+  border-top-color: rgba(9, 29, 38, 0.1);
+  border-bottom-color: rgba(9, 29, 38, 0.1);
+}
+
+/* Dark CTA: #091d26 base → #094044 (accent 1); warm accent reserved for type highlights. */
+.public-layout.public-layout--landing-v2 .public-landing-band--cta {
+  background: linear-gradient(165deg, #091d26 0%, #0a252e 38%, #094044 100%);
+  border-top-color: rgba(9, 64, 68, 0.45);
+}
+
+.public-layout.public-layout--landing-v2 .public-landing-preview-chrome {
+  border-bottom-color: rgba(9, 29, 38, 0.14);
+}
+
+.public-layout.public-layout--landing-v2 .landing-btn--ghost {
+  border-color: rgba(9, 29, 38, 0.18);
+}
+
+.public-layout.public-layout--landing-v2 .landing-btn--ghost:hover {
+  border-color: rgba(9, 64, 68, 0.35);
+}
+
+.public-layout.public-layout--landing-v2 .public-pricing-band--hero,
+.public-layout.public-layout--landing-v2 .public-pricing-band--tiers,
+.public-layout.public-layout--landing-v2 .public-pricing-band--faq {
+  border-bottom-color: rgba(9, 29, 38, 0.1);
+}
+
+.public-layout.public-layout--landing-v2 .public-uncover-band--hero,
+.public-layout.public-layout--landing-v2 .public-uncover-band--sources,
+.public-layout.public-layout--landing-v2 .public-uncover-band--category {
+  border-bottom-color: rgba(9, 29, 38, 0.1);
+}
+
+.public-layout.public-layout--landing-v2 .public-how-band--alt {
+  border-top-color: rgba(9, 29, 38, 0.1);
+  border-bottom-color: rgba(9, 29, 38, 0.1);
+}
+
+/* Finale ribbon: warm accent (complements dark teal). */
+.public-layout.public-layout--landing-v2 .public-landing-finale-accent {
+  color: #d84f2a;
+}
+
+.public-layout.public-layout--landing-v2 .public-landing-band--cta .public-footer.public-footer--landing-finale {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+.public-layout.public-layout--landing-v2 .public-compliance-detail {
+  color: #5a6d72;
+}
+
+/* Primary solid actions: warm accent; ghost/outline stay teal family via existing tokens. */
+.public-layout.public-layout--landing-v2 .landing-btn--primary {
+  background: #d84f2a;
+  border-color: #d84f2a;
+}
+
+.public-layout.public-layout--landing-v2 .landing-btn--primary:hover {
+  background: #bf4520;
+  border-color: #bf4520;
+}
+
+.public-layout.public-layout--landing-v2 .landing-btn--primary:focus-visible {
+  outline: 2px solid rgba(216, 79, 42, 0.45);
+}
+
+/* Ghost buttons: same teal intent as the default theme, without color-mix. */
+.public-layout.public-layout--landing-v2 .landing-btn--ghost:hover {
+  background: rgba(9, 64, 68, 0.1);
+}
+
+/* How-it-works CTA italic: readable on dark without color-mix. */
+.public-layout.public-layout--landing-v2 .public-how .public-how-final-cta .public-how-cta-em {
+  color: #d84f2a;
+}
+
+/* Featured / emphasis chips: warm border hint on sand bands. */
+.public-layout.public-layout--landing-v2 .public-pricing-tier--featured {
+  border-color: rgba(216, 79, 42, 0.42);
+  box-shadow:
+    0 1px 2px rgba(9, 29, 38, 0.08),
+    0 0 0 1px rgba(216, 79, 42, 0.12);
+}
+
+.public-layout.public-layout--landing-v2 .public-pricing-tier-popular {
+  background: linear-gradient(135deg, #d84f2a 0%, #bf4520 100%);
+  border-color: rgba(255, 255, 255, 0.22);
+}
