@@ -34,7 +34,7 @@
   width: 100%;
   max-width: none;
   margin: 0 auto;
-  text-align: center;
+  text-align: start;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,15 +58,17 @@
 .public-how-hero-title-em {
   font-style: italic;
   font-weight: 800;
-  color: var(--public-spot-deep);
+  color: var(--public-accent);
 }
 
 .public-how-hero-deck {
   margin: 0;
   max-width: 38rem;
+  width: 100%;
   font-size: 1.0625rem;
   line-height: 1.6;
   color: var(--text-secondary, #475569);
+  text-align: start;
 }
 
 /* Metrics row */
@@ -79,7 +81,7 @@
 
 .public-how-metric {
   box-sizing: border-box;
-  text-align: center;
+  text-align: start;
   padding: clamp(1rem, 2.4vw, 1.35rem) 0.65rem;
   background: var(--landing-card);
   border: 1px solid var(--landing-card-border);
@@ -87,12 +89,13 @@
   box-shadow: var(--landing-card-shadow);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.45rem;
   min-width: 0;
 }
 
 .public-how-metric-icon {
+  flex-shrink: 0;
   font-size: 1.5rem !important;
   color: var(--public-spot-icon);
 }
@@ -103,7 +106,7 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.15;
-  color: var(--public-spot-deep);
+  color: var(--title-color, #0f172a);
 }
 
 .public-how-metric-label {
@@ -157,7 +160,7 @@
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.045em;
-  color: color-mix(in srgb, var(--public-spot) 38%, #94a3b8 62%);
+  color: color-mix(in srgb, var(--public-accent) 32%, #94a3b8 68%);
   user-select: none;
 }
 
@@ -175,6 +178,7 @@
   font-size: 0.97rem;
   line-height: 1.58;
   color: var(--text-secondary, #475569);
+  text-align: start;
 }
 
 /* “What happens” card — same recipe as landing metric / step cards */

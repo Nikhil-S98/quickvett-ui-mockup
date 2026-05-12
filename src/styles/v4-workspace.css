@@ -112,14 +112,14 @@
   flex-basis: 100%;
   max-width: 100%;
   margin: 0;
-  font-size: 8rem;
+  font-size: var(--qv-search-brand-rem, 9rem);
   line-height: 1;
   text-align: center;
   justify-content: center;
 }
 
 .app-shell--v4 .v4-home-sticky-inner .search-brand.v4-home-logo .logo-icon {
-  font-size: 0.82em;
+  font-size: 1em;
 }
 
 .app-shell--v4 .v4-home-sticky-inner .search-controls {

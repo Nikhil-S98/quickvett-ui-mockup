@@ -8,12 +8,8 @@
   --public-accent-muted: rgba(51, 65, 85, 0.1);
   --public-accent-border: rgba(51, 65, 85, 0.22);
   --public-accent-ring: rgba(71, 85, 105, 0.32);
-  /* Underwriting / diligence spot — deep blue-teal, restrained (numbers + icons) */
-  --public-spot: #0c4f6e;
-  --public-spot-deep: #083652;
+  /* Teal reserved for icon glyphs only (material-symbols, checkmarks) */
   --public-spot-icon: #12708f;
-  --public-spot-soft: color-mix(in srgb, var(--public-spot) 9%, transparent);
-  --public-spot-border: color-mix(in srgb, var(--public-spot) 28%, rgba(203, 213, 225, 0.88));
   /* Frosted panels — aligned with V3 theme-plain search / sidebar chrome */
   --public-glass-fill: linear-gradient(
     165deg,
@@ -224,16 +220,17 @@
   color: var(--title-color, #0f172a);
 }
 
-.public-layout .public-sign-form.public-contact-form {
-  border-left: 4px solid var(--public-accent);
+.public-layout .public-contact-thanks-heading {
+  color: var(--title-color, #0f172a);
 }
 
-.public-layout .toolbar-text-btn.public-contact-reset:hover {
+.public-layout .public-inline-link.public-inline-link--standout {
   color: var(--public-accent);
+  font-weight: 600;
 }
 
-.public-layout .public-contact-thanks-title {
-  color: var(--public-accent);
+.public-layout .public-inline-link.public-inline-link--standout:hover {
+  color: var(--public-accent-hover);
 }
 
 .public-layout .public-pricing-amount {
@@ -314,46 +311,6 @@ a.header-brand {
   background: var(--surface-soft);
 }
 
-.public-header-palette-wrap {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
-
-.public-layout .public-header-palette-select {
-  appearance: none;
-  -webkit-appearance: none;
-  font-family: inherit;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--text-secondary);
-  background-color: var(--surface);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.45rem center;
-  background-size: 0.65rem;
-  border: 1px solid var(--border);
-  border-radius: 9999px;
-  padding: 0.32rem 1.65rem 0.32rem 0.65rem;
-  max-width: 11.5rem;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease,
-    background-color 0.2s ease;
-}
-
-.public-layout .public-header-palette-select:hover {
-  border-color: var(--public-accent-border);
-  color: var(--text-primary);
-}
-
-.public-layout .public-header-palette-select:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
-
 .public-main {
   flex: 1;
   width: 100%;
@@ -365,11 +322,29 @@ a.header-brand {
 .public-main:has(.public-landing),
 .public-main:has(.public-how),
 .public-main:has(.public-pricing-page),
-.public-main:has(.public-uncover-page) {
+.public-main:has(.public-uncover-page),
+.public-main:has(.public-contact-page) {
   max-width: none;
   width: 100%;
   padding: 0;
   flex-grow: 0;
+}
+
+.public-main:has(.public-sign-in-shell) {
+  max-width: none;
+  width: 100%;
+  padding: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.public-main:has(.public-sign-in-shell) .public-outlet-frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .public-outlet-frame {
@@ -384,16 +359,6 @@ a.header-brand {
   transform: none;
   margin-top: auto;
   padding: 1rem 1.25rem 1.25rem;
-}
-
-.public-layout .public-sign-in-page {
-  max-width: 28rem;
-  margin-inline: auto;
-  width: 100%;
-}
-
-.public-sign-in-back {
-  margin-top: 0.5rem;
 }
 
 .public-btn-block.search-action-btn {

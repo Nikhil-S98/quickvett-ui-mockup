@@ -1,18 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '../gsap/register.js'
 import PublicLegalFooter from '../components/PublicLegalFooter.jsx'
-
-const LANDING_PALETTE_STORAGE = 'quickvett-public-landing-palette'
-
-function readStoredLandingPalette() {
-  if (typeof window === 'undefined') return 'v1'
-  try {
-    return window.localStorage.getItem(LANDING_PALETTE_STORAGE) === 'v2' ? 'v2' : 'v1'
-  } catch {
-    return 'v1'
-  }
-}
 
 function navCls(isActive) {
   return `public-nav-link${isActive ? ' public-nav-link--active' : ''}`
@@ -22,19 +11,12 @@ export default function PublicLayout() {
   const { pathname } = useLocation()
   const pagesWithFinaleFooter =
     pathname === '/how-it-works' || pathname === '/what-we-uncover'
-  const showLayoutFooter = pathname !== '/' && !pagesWithFinaleFooter
+  const showLayoutFooter =
+    pathname !== '/' && !pagesWithFinaleFooter && pathname !== '/sign-in'
   const outletRef = useRef(null)
-  const [landingPalette, setLandingPalette] = useState(readStoredLandingPalette)
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(LANDING_PALETTE_STORAGE, landingPalette)
-    } catch {
-      /* ignore quota / private mode */
-    }
-  }, [landingPalette])
 
   useLayoutEffect(() => {
+    window.scrollTo(0, 0)
     const el = outletRef.current
     if (!el) return
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -56,10 +38,7 @@ export default function PublicLayout() {
     'theme-plain',
     'font-helvetica-neue',
     'public-layout',
-    landingPalette === 'v2' ? 'public-layout--landing-v2' : '',
-  ]
-    .filter(Boolean)
-    .join(' ')
+  ].join(' ')
 
   return (
     <div className={shellClass}>
@@ -93,17 +72,6 @@ export default function PublicLayout() {
               Sign in
             </NavLink>
           </nav>
-          <div className="public-header-palette-wrap">
-            <select
-              className="public-header-palette-select"
-              aria-label="Marketing page color palette"
-              value={landingPalette}
-              onChange={(e) => setLandingPalette(e.target.value === 'v2' ? 'v2' : 'v1')}
-            >
-              <option value="v1">Classic palette</option>
-              <option value="v2">Palette v2</option>
-            </select>
-          </div>
         </div>
       </header>
       <main className="public-main">

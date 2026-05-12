@@ -226,13 +226,16 @@ export default function WhatWeUncoverPage() {
               actionable report.
             </p>
             <div className="public-landing-finale-actions">
-              <Link className="public-landing-cta-btn" to="/contact">
-                Request access
-                <span className="material-symbols-outlined" aria-hidden>
-                  arrow_forward
+              <Link to="/contact" className="landing-btn landing-btn--cta-solid landing-btn--with-icon">
+                <span className="material-symbols-outlined ui-icon" aria-hidden>
+                  outgoing_mail
                 </span>
+                Request access
               </Link>
-              <Link className="public-landing-cta-ghost" to="/how-it-works">
+              <Link to="/how-it-works" className="landing-btn landing-btn--cta-outline landing-btn--with-icon">
+                <span className="material-symbols-outlined ui-icon" aria-hidden>
+                  help
+                </span>
                 See how it works
               </Link>
             </div>

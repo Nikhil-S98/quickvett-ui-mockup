@@ -29,6 +29,7 @@
   --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.06);
   --shadow-focus: 0 1px 2px rgba(15, 23, 42, 0.08);
   --content-max-width: 760px;
+  --qv-search-brand-rem: 9rem;
   /* Results grid gap + results main / V3 scroll padding (keep in sync). */
   --results-page-gap: 1.5rem;
   background: var(--page-bg);
@@ -368,7 +369,8 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
 }
 
 .header-logo-icon {
-  font-size: 1.15rem;
+  font-size: 1em;
+  line-height: 1;
   color: var(--title-color);
 }
 
@@ -449,7 +451,7 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
   align-items: center;
   gap: 0.4rem;
   margin: 0 0 2.25rem;
-  font-size: 8rem;
+  font-size: var(--qv-search-brand-rem, 9rem);
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.035em;
@@ -458,7 +460,8 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
 }
 
 .logo-icon {
-  font-size: 0.82em;
+  font-size: 1em;
+  line-height: 1;
   color: var(--title-color);
 }
 
@@ -1650,7 +1653,7 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
   transition: color 0.35s ease;
 }
 
-/* V2/V3/V4 shell — corporate iridescent (navy / cobalt / slate / restrained teal) */
+/* V2/V3/V4 shell — corporate iridescent (navy / cobalt / slate) */
 .app-shell--v2.theme-plain,
 .app-shell--v3.theme-plain,
 .app-shell--v4.theme-plain {
@@ -1685,9 +1688,9 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
     linear-gradient(
       135deg,
       rgba(191, 219, 254, 0.72) 0%,
-      rgba(125, 211, 252, 0.42) 38%,
-      rgba(96, 165, 250, 0.48) 55%,
-      rgba(186, 230, 253, 0.5) 100%
+      rgba(148, 163, 184, 0.38) 38%,
+      rgba(129, 140, 248, 0.44) 55%,
+      rgba(203, 213, 225, 0.52) 100%
     );
   background-blend-mode: normal, normal, normal, normal, soft-light;
 }

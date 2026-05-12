@@ -4,10 +4,69 @@ import PublicLegalFooter from '../components/PublicLegalFooter.jsx'
 import RevealSection from '../components/RevealSection.jsx'
 
 const statsRow = [
-  { key: 'sources', stat: '50+', label: 'Data sources' },
-  { key: 'records', stat: '100M+', label: 'Records scanned' },
-  { key: 'speed', stat: '< 5 min', label: 'Full report' },
-  { key: 'points', stat: '12+', label: 'Data points per dossier' },
+  {
+    key: 'sources',
+    stat: '50+',
+    label: 'Data sources',
+    icon: 'hub',
+    description:
+      'Courts, credit bureaus, corporate filings, and open-web feeds—normalized behind one search, not a dozen vendor logins.',
+  },
+  {
+    key: 'records',
+    stat: '100M+',
+    label: 'Records scanned',
+    icon: 'query_stats',
+    description:
+      'Broad merchant-relevant corpora stay indexed so re-runs pick up new filings, docket updates, and refreshed screens.',
+  },
+  {
+    key: 'speed',
+    stat: '< 5 min',
+    label: 'Full report',
+    icon: 'bolt',
+    description:
+      'Parallel pulls and structured scoring deliver a committee-ready readout fast enough to matter for same-day decisions.',
+  },
+  {
+    key: 'points',
+    stat: '12+',
+    label: 'Data points per dossier',
+    icon: 'fact_check',
+    description:
+      'Identity, courts, sanctions, credit posture, corporate ties, liens, and more—each block linked to underlying sources.',
+  },
+]
+
+const heroHighlights = [
+  {
+    key: 'sources',
+    icon: 'hub',
+    title: '50+ data sources',
+    description:
+      'Courts, credit bureaus, corporate filings, and open-web context—normalized behind one search, not a dozen logins.',
+  },
+  {
+    key: 'records',
+    icon: 'query_stats',
+    title: '100M+ records scanned',
+    description:
+      'Indexed corpora stay current so re-runs surface new filings, docket lines, and refreshed vendor screens.',
+  },
+  {
+    key: 'speed',
+    icon: 'bolt',
+    title: 'Full report in minutes',
+    description:
+      'Parallel provider pulls and scoring deliver a committee-ready dossier without the overnight wait.',
+  },
+  {
+    key: 'cited',
+    icon: 'link',
+    title: 'Source-linked dossiers',
+    description:
+      'Tables and narrative cite primary sources—deep links, not a folder of watermarked screenshots.',
+  },
 ]
 
 const steps = [
@@ -32,12 +91,42 @@ const steps = [
 ]
 
 const coverageItems = [
-  { label: 'Identity & principals', icon: 'badge' },
-  { label: 'Civil dockets & judgments', icon: 'gavel' },
-  { label: 'Criminal & sanctions', icon: 'policy' },
-  { label: 'Employment & corporate ties', icon: 'corporate_fare' },
-  { label: 'Credit & merchant defaults', icon: 'account_balance' },
-  { label: 'UCC, liens & public records', icon: 'folder_open' },
+  {
+    label: 'Identity & principals',
+    icon: 'badge',
+    description:
+      'TIN/EIN alignment, officers, addresses, and identity-risk signals from SOS, licensing, and registries.',
+  },
+  {
+    label: 'Civil dockets & judgments',
+    icon: 'gavel',
+    description:
+      'Active suits, judgments, and settlements matched to the merchant and the principals you list.',
+  },
+  {
+    label: 'Criminal & sanctions',
+    icon: 'policy',
+    description:
+      'Sanctions and watchlist screening plus relevant criminal indices tied to entities and people.',
+  },
+  {
+    label: 'Employment & corporate ties',
+    icon: 'corporate_fare',
+    description:
+      'Corporate family trees, shared officers, DBAs, and employment-linked ties from public filings.',
+  },
+  {
+    label: 'Credit & merchant defaults',
+    icon: 'account_balance',
+    description:
+      'Bankruptcies, charge-offs, and merchant-default signals—structured for analyst review, not PDF chasing.',
+  },
+  {
+    label: 'UCC, liens & public records',
+    icon: 'folder_open',
+    description:
+      'UCC financing statements, tax liens, judgment liens, and related encumbrances in a single pass.',
+  },
 ]
 
 const enterpriseBadges = [
@@ -141,9 +230,6 @@ export default function LandingPage() {
                   </span>
                   <span className="public-landing-hero-brand-wordmark">QuickVett</span>
                 </div>
-                <p className="public-landing-hero-tagline">
-                  Merchant cash advance and ISO underwriting intelligence Sourced, cited, and ready for your committee.
-                </p>
               </div>
             </div>
             <div className="public-landing-hero-bottom">
@@ -163,25 +249,32 @@ export default function LandingPage() {
               </div>
             </div>
           </header>
-          <button
-            type="button"
-            className="public-landing-hero-scroll-hint"
-            onClick={() =>
-              document.getElementById('landing-next')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
-            aria-label="Scroll to overview"
-          >
-            <span className="public-landing-hero-scroll-hint-line" aria-hidden="true" />
-            <span className="public-landing-hero-scroll-hint-label">Scroll for overview</span>
-            <span
-              className="material-symbols-outlined ui-icon public-landing-hero-scroll-hint-chevron"
-              aria-hidden="true"
-            >
-              keyboard_arrow_down
-            </span>
-          </button>
         </div>
       </section>
+
+      {/* Highlights — below hero */}
+      <RevealSection
+        id="landing-highlights"
+        className="public-landing-band public-landing-band--highlights public-landing-band--soft"
+        aria-label="Product highlights"
+      >
+        <div className="public-landing-inner">
+          <ul className="public-landing-highlight-grid">
+            {heroHighlights.map((item) => (
+              <li key={item.key} className="public-landing-highlight">
+                <span
+                  className="material-symbols-outlined ui-icon public-landing-highlight-icon"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+                <p className="public-landing-highlight-title">{item.title}</p>
+                <p className="public-landing-highlight-desc">{item.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </RevealSection>
 
       {/* Stats */}
       <RevealSection
@@ -193,8 +286,12 @@ export default function LandingPage() {
           <ul className="public-landing-stats">
             {statsRow.map((row) => (
               <li key={row.key} className="public-landing-stat">
+                <span className="material-symbols-outlined ui-icon public-landing-stat-icon" aria-hidden="true">
+                  {row.icon}
+                </span>
                 <p className="public-landing-stat-value">{row.stat}</p>
                 <p className="public-landing-stat-label">{row.label}</p>
+                <p className="public-landing-stat-desc">{row.description}</p>
               </li>
             ))}
           </ul>
@@ -263,7 +360,10 @@ export default function LandingPage() {
                 <span className="material-symbols-outlined ui-icon public-coverage-icon" aria-hidden="true">
                   {item.icon}
                 </span>
-                {item.label}
+                <div className="public-coverage-card-text">
+                  <h3 className="public-coverage-title">{item.label}</h3>
+                  <p className="public-coverage-desc">{item.description}</p>
+                </div>
               </li>
             ))}
           </ul>
