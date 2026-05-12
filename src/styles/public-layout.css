@@ -1,13 +1,53 @@
 /* --- Public marketing routes --- */
 
 .public-layout {
-  /* Matches blue workspace colorway (.app-shell.theme-blue) */
-  --public-accent: #034494;
-  --public-accent-hover: #023a7d;
-  --public-accent-soft: #eef4fb;
-  --public-accent-muted: rgba(3, 68, 148, 0.12);
-  --public-accent-border: rgba(3, 68, 148, 0.35);
-  --public-accent-ring: rgba(59, 130, 246, 0.28);
+  /* Neutral marketing chrome (no blue accent) */
+  --public-accent: #334155;
+  --public-accent-hover: #1e293b;
+  --public-accent-soft: #f1f5f9;
+  --public-accent-muted: rgba(51, 65, 85, 0.1);
+  --public-accent-border: rgba(51, 65, 85, 0.22);
+  --public-accent-ring: rgba(71, 85, 105, 0.32);
+  /* Frosted panels — aligned with V3 theme-plain search / sidebar chrome */
+  --public-glass-fill: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.055) 0%,
+    rgba(148, 163, 184, 0.06) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  --public-glass-blur: blur(42px) saturate(1.28) brightness(1.02);
+  --public-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  /* Corner radii — same tokens as workspace search / results (.app-shell--v2|--v3|--v4) */
+  --v2-r-sm: 0.5rem;
+  --v2-r-md: 0.65rem;
+  --v2-r-lg: 0.85rem;
+  --v2-r-xl: 1rem;
+  --v2-r-2xl: 1.125rem;
+}
+
+/* Atmospheric wash — same family as `.app-shell--v3.theme-plain` (in-app V3 search home). */
+.app-shell.public-layout.theme-plain {
+  --page-bg: transparent;
+  background-color: rgba(246, 250, 254, 0.26);
+  background-image:
+    radial-gradient(ellipse 130% 100% at 6% -22%, rgba(238, 238, 238, 0.35), transparent 58%),
+    radial-gradient(ellipse 110% 82% at 104% 2%, rgba(255, 255, 255, 0.92), transparent 56%),
+    radial-gradient(ellipse 120% 92% at 50% 112%, rgba(243, 243, 243, 0.55), transparent 52%),
+    radial-gradient(ellipse 92% 78% at 90% 40%, rgba(255, 255, 255, 0.55), transparent 60%),
+    linear-gradient(
+      128deg,
+      rgba(227, 232, 239, 0.22) 0%,
+      rgba(186, 199, 220, 0.2) 42%,
+      rgba(226, 232, 240, 0.38) 100%
+    );
+  background-blend-mode: normal, normal, normal, normal, soft-light;
+}
+
+.app-shell.public-layout.theme-plain .public-nav-link--cta {
+  background: var(--public-glass-fill);
+  -webkit-backdrop-filter: blur(20px) saturate(1.15);
+  backdrop-filter: blur(20px) saturate(1.15);
+  box-shadow: var(--public-glass-inset);
 }
 
 .public-layout {
@@ -120,9 +160,17 @@
   border-color: var(--public-accent-hover);
 }
 
+.public-layout .landing-btn--ghost {
+  background: var(--public-glass-fill);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  backdrop-filter: blur(28px) saturate(1.2);
+  box-shadow: var(--public-glass-inset), var(--shadow-soft, 0 1px 2px rgba(15, 23, 42, 0.06));
+}
+
 .public-layout .landing-btn--ghost:hover {
   color: var(--public-accent-hover);
   border-color: var(--public-accent-border);
+  background: color-mix(in srgb, var(--public-accent-soft) 55%, transparent);
 }
 
 .public-layout .landing-btn--cta-solid {
@@ -137,41 +185,37 @@
 }
 
 .public-layout .landing-btn--cta-outline:hover {
-  border-color: var(--public-accent-soft);
+  border-color: rgba(248, 250, 252, 0.45);
   color: #fff;
-  background: rgba(238, 244, 251, 0.12);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .public-layout .public-footer.tiny-footer a:hover {
   color: var(--public-accent);
 }
 
-.public-layout .public-stat-cell::before {
-  background: var(--public-accent);
+.public-layout .public-landing-kicker:not(.public-landing-kicker--on-dark) .public-landing-kicker-index {
+  color: var(--text-muted, #64748b);
 }
 
-.public-layout .public-stat-value {
-  color: var(--public-accent);
+.public-layout .public-landing-kicker:not(.public-landing-kicker--on-dark) .public-landing-kicker-text {
+  color: var(--text-secondary, #475569);
 }
 
-.public-layout .public-landing-kicker:not(.public-landing-kicker--on-dark) {
-  border-left-color: var(--public-accent);
-  color: var(--public-accent-hover);
+.public-layout .public-landing-kicker--on-dark .public-landing-kicker-index {
+  color: rgba(226, 232, 240, 0.72);
 }
 
-.public-layout .public-step--card .public-step-num {
-  color: #fff;
-  background: var(--public-accent);
-  border-color: var(--public-accent);
+.public-layout .public-landing-kicker--on-dark .public-landing-kicker-text {
+  color: #e2e8f0;
 }
 
-.public-layout .public-coverage-dot {
-  background: var(--public-accent);
-  box-shadow: 0 0 0 2px var(--public-accent-soft);
+.public-layout .public-coverage-icon {
+  color: var(--icon-muted, #64748b);
 }
 
 .public-layout .public-compliance-title {
-  color: var(--public-accent-hover);
+  color: var(--title-color, #0f172a);
 }
 
 .public-layout .public-sign-form.public-contact-form {
@@ -237,7 +281,7 @@ a.header-brand {
   font-size: 0.88rem;
   color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 0.2rem;
+  border-radius: var(--v2-r-md, 0.65rem);
   cursor: pointer;
   transition:
     color 0.2s ease,
@@ -257,7 +301,7 @@ a.header-brand {
   border: 1px solid var(--border);
   background: var(--surface);
   padding: 0.35rem 0.7rem;
-  border-radius: 0.25rem;
+  border-radius: 9999px;
 }
 
 .public-nav-link--cta:hover {
@@ -276,6 +320,7 @@ a.header-brand {
   max-width: none;
   width: 100%;
   padding: 0;
+  flex-grow: 0;
 }
 
 .public-layout .public-footer.tiny-footer {

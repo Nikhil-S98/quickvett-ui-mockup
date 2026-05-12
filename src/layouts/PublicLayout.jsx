@@ -1,10 +1,14 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import PublicLegalFooter from '../components/PublicLegalFooter.jsx'
 
 function navCls(isActive) {
   return `public-nav-link${isActive ? ' public-nav-link--active' : ''}`
 }
 
 export default function PublicLayout() {
+  const { pathname } = useLocation()
+  const showLayoutFooter = pathname !== '/'
+
   return (
     <div className="app-shell theme-plain font-helvetica-neue public-layout">
       <header className="public-header">
@@ -42,13 +46,7 @@ export default function PublicLayout() {
       <main className="public-main">
         <Outlet />
       </main>
-      <footer className="public-footer tiny-footer" aria-label="Legal links">
-        <a href="#">Terms</a>
-        <span aria-hidden="true">•</span>
-        <a href="#">Privacy</a>
-        <span aria-hidden="true">•</span>
-        <a href="#">Cookies</a>
-      </footer>
+      {showLayoutFooter && <PublicLegalFooter className="public-footer" />}
     </div>
   )
 }
