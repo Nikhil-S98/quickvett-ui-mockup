@@ -1,13 +1,15 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import SiteVersionSelect from './SiteVersionSelect.jsx'
 import { PENDING_SEARCH_KEY } from '../constants/pendingSearchStorage.js'
 import { readStoredPublicMarketingDark } from '../constants/publicMarketingDarkStorage.js'
 
 gsap.defaults({ ease: 'power1.out' })
 
-function HeaderBrand({ logoFont, onClick }) {
-  const className = `header-brand logo-font-${logoFont}${onClick ? ' header-brand-clickable' : ''}`
+/** Plain colorway only; logo uses Montserrat (body is Inter via `font-inter` on shell). */
+const V3_LOGO_FONT = 'montserrat'
+
+function HeaderBrand({ onClick }) {
+  const className = `header-brand logo-font-${V3_LOGO_FONT}${onClick ? ' header-brand-clickable' : ''}`
   const inner = (
     <>
       <span className="material-symbols-outlined ui-icon header-logo-icon" aria-hidden="true">
@@ -32,118 +34,6 @@ function HeaderBrand({ logoFont, onClick }) {
     <div className={className} aria-label="QuickVett">
       {inner}
     </div>
-  )
-}
-
-function AppearanceDemoControls({
-  colorway,
-  setColorway,
-  globalFont,
-  setGlobalFont,
-  logoFont,
-  setLogoFont,
-  siteVersion,
-  onSiteVersionChange,
-}) {
-  const detailsRef = useRef(null)
-  const panelRef = useRef(null)
-
-  useLayoutEffect(() => {
-    const details = detailsRef.current
-    const panel = panelRef.current
-    if (!details || !panel) return
-
-    const clearPanel = () => {
-      panel.style.position = ''
-      panel.style.top = ''
-      panel.style.left = ''
-      panel.style.right = ''
-      panel.style.zIndex = ''
-    }
-
-    const placePanel = () => {
-      if (!details.open) {
-        clearPanel()
-        return
-      }
-      const summary = details.querySelector('summary')
-      if (!summary) return
-      const sr = summary.getBoundingClientRect()
-      const margin = 8
-      panel.style.position = 'fixed'
-      panel.style.zIndex = '200'
-      panel.style.top = `${sr.bottom + 4}px`
-      const pw = panel.offsetWidth || 260
-      let left = sr.left
-      if (left + pw > window.innerWidth - margin) {
-        left = window.innerWidth - pw - margin
-      }
-      if (left < margin) {
-        left = margin
-      }
-      panel.style.left = `${left}px`
-      panel.style.right = 'auto'
-    }
-
-    const onToggle = () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(placePanel)
-      })
-    }
-
-    details.addEventListener('toggle', onToggle)
-    window.addEventListener('resize', placePanel)
-    window.addEventListener('scroll', placePanel, true)
-    return () => {
-      details.removeEventListener('toggle', onToggle)
-      window.removeEventListener('resize', placePanel)
-      window.removeEventListener('scroll', placePanel, true)
-      clearPanel()
-    }
-  }, [])
-
-  return (
-    <details ref={detailsRef} className="v3-main-appearance v3-main-appearance--header">
-      <summary>Appearance & demo</summary>
-      <div ref={panelRef} className="v3-appearance-body">
-        <div className="control-group">
-          <label htmlFor="v3-colorway-select">Colorway</label>
-          <select
-            id="v3-colorway-select"
-            value={colorway}
-            onChange={(event) => setColorway(event.target.value)}
-          >
-            <option value="plain">Plain</option>
-            <option value="blue">Blue</option>
-          </select>
-        </div>
-        <div className="control-group">
-          <label htmlFor="v3-global-font-select">Global font</label>
-          <select
-            id="v3-global-font-select"
-            value={globalFont}
-            onChange={(event) => setGlobalFont(event.target.value)}
-          >
-            <option value="helvetica-neue">Helvetica Neue</option>
-            <option value="inter">Inter</option>
-            <option value="montserrat">Montserrat</option>
-          </select>
-        </div>
-        <div className="control-group">
-          <label htmlFor="v3-logo-font-select">Logo font</label>
-          <select
-            id="v3-logo-font-select"
-            value={logoFont}
-            onChange={(event) => setLogoFont(event.target.value)}
-          >
-            <option value="montserrat">Montserrat</option>
-            <option value="helvetica-neue">Helvetica Neue</option>
-            <option value="inter">Inter</option>
-          </select>
-        </div>
-        <SiteVersionSelect value={siteVersion} onChange={onSiteVersionChange} />
-      </div>
-    </details>
   )
 }
 
@@ -733,12 +623,9 @@ function DeepSearchCard({ businessName }) {
   )
 }
 
-function QuickVettV3({ siteVersion, onSiteVersionChange, onSignOut }) {
+function QuickVettV3({ onSignOut }) {
   const [page, setPage] = useState('home')
-  const [colorway, setColorway] = useState('plain')
   const [darkMode, setDarkMode] = useState(() => readStoredPublicMarketingDark())
-  const [globalFont, setGlobalFont] = useState('helvetica-neue')
-  const [logoFont, setLogoFont] = useState('montserrat')
   const [ownerName, setOwnerName] = useState('')
   const [businessName, setBusinessName] = useState('')
   const [historyQuery, setHistoryQuery] = useState('')
@@ -796,11 +683,7 @@ function QuickVettV3({ siteVersion, onSiteVersionChange, onSignOut }) {
   const filteredHistory = searchHistory.filter((entry) =>
     entry.toLowerCase().includes(historyQuery.trim().toLowerCase())
   )
-  const darkThemeByColorway = {
-    plain: 'midnight',
-    blue: 'blue-dark',
-  }
-  const activeTheme = darkMode ? darkThemeByColorway[colorway] ?? 'midnight' : colorway
+  const activeTheme = darkMode ? 'midnight' : 'plain'
   const transitionToPage = (nextPage, updateState) => {
     if (nextPage === page && !updateState) return
     const el = pageContentRef.current
@@ -912,7 +795,7 @@ function QuickVettV3({ siteVersion, onSiteVersionChange, onSignOut }) {
   }
 
   return (
-    <div className={`app-shell app-shell--v3 theme-${activeTheme} font-${globalFont}`}>
+    <div className={`app-shell app-shell--v3 theme-${activeTheme} font-inter`}>
       <div className="workspace page-shell" ref={pageContentRef}>
         <div className={v3ShellClass}>
           <aside className="v3-sidebar" aria-label="Workspace navigation">
@@ -958,29 +841,10 @@ function QuickVettV3({ siteVersion, onSiteVersionChange, onSignOut }) {
                 ))}
               </nav>
               <div className="v3-sidebar-footer">
-                <button
-                  type="button"
-                  className="v3-sidebar-row"
-                  onClick={() => setDarkMode((prev) => !prev)}
-                  aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                >
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    {darkMode ? 'light_mode' : 'dark_mode'}
-                  </span>
-                  {darkMode ? 'Light mode' : 'Dark mode'}
-                </button>
-                {onSignOut ? (
-                  <button type="button" className="v3-sidebar-row" onClick={onSignOut}>
-                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                      logout
-                    </span>
-                    Sign out
-                  </button>
-                ) : null}
                 <div
                   className="v3-sidebar-footer-actions"
                   role="group"
-                  aria-label="Settings, account, help, and about"
+                  aria-label="Settings, account, and help"
                 >
                   <button type="button" className="v3-sidebar-row">
                     <span className="material-symbols-outlined ui-icon" aria-hidden="true">
@@ -1000,13 +864,19 @@ function QuickVettV3({ siteVersion, onSiteVersionChange, onSignOut }) {
                     </span>
                     Help
                   </button>
-                  <button type="button" className="v3-sidebar-row">
-                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                      info
-                    </span>
-                    About QuickVett
-                  </button>
                 </div>
+                {onSignOut ? (
+                  <button
+                    type="button"
+                    className="v3-sidebar-row v3-sidebar-sign-out"
+                    onClick={onSignOut}
+                  >
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      logout
+                    </span>
+                    Sign out
+                  </button>
+                ) : null}
               </div>
             </div>
             <div className="v3-sidebar-rail">
@@ -1026,33 +896,19 @@ function QuickVettV3({ siteVersion, onSiteVersionChange, onSignOut }) {
           <div className="v3-main-column">
           {page === 'home' ? (
             <div className="v3-main v3-main--home">
-              <div className="v3-main-topbar">
-                <button
-                  type="button"
-                  className="v3-mobile-menu"
-                  onClick={() => setV3SidebarCollapsed(false)}
-                  aria-label="Open menu"
-                >
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    menu
-                  </span>
-                </button>
-                <div className="v3-main-topbar-trailing">
-                  <AppearanceDemoControls
-                    colorway={colorway}
-                    setColorway={setColorway}
-                    globalFont={globalFont}
-                    setGlobalFont={setGlobalFont}
-                    logoFont={logoFont}
-                    setLogoFont={setLogoFont}
-                    siteVersion={siteVersion}
-                    onSiteVersionChange={onSiteVersionChange}
-                  />
-                </div>
-              </div>
+              <button
+                type="button"
+                className="dark-mode-toggle v3-home-theme-toggle"
+                onClick={() => setDarkMode((prev) => !prev)}
+                aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                  {darkMode ? 'light_mode' : 'dark_mode'}
+                </span>
+              </button>
               <div className="v3-main-stage">
-                <div className="search-wrap v3-home-search">
-                  <h1 className={`search-brand logo-font-${logoFont}`}>
+                  <div className="search-wrap v3-home-search">
+                  <h1 className={`search-brand logo-font-${V3_LOGO_FONT}`}>
                     <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
                       shield
                     </span>
@@ -1168,17 +1024,17 @@ function QuickVettV3({ siteVersion, onSiteVersionChange, onSignOut }) {
                       </div>
                     </header>
                     <div className="results-header-end">
-                      <AppearanceDemoControls
-                        colorway={colorway}
-                        setColorway={setColorway}
-                        globalFont={globalFont}
-                        setGlobalFont={setGlobalFont}
-                        logoFont={logoFont}
-                        setLogoFont={setLogoFont}
-                        siteVersion={siteVersion}
-                        onSiteVersionChange={onSiteVersionChange}
-                      />
-                      <HeaderBrand logoFont={logoFont} onClick={openHomePage} />
+                      <button
+                        type="button"
+                        className="dark-mode-toggle v3-results-theme-toggle"
+                        onClick={() => setDarkMode((prev) => !prev)}
+                        aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                      >
+                        <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                          {darkMode ? 'light_mode' : 'dark_mode'}
+                        </span>
+                      </button>
+                      <HeaderBrand onClick={openHomePage} />
                     </div>
                   </div>
                 </div>

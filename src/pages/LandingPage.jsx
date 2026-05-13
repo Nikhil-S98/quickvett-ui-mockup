@@ -227,7 +227,7 @@ export default function LandingPage() {
             <div className="public-landing-hero-main">
               <div className="public-landing-hero-top">
                 <div className="public-landing-hero-stack">
-                  <div className="public-landing-hero-brand logo-font-helvetica-neue" aria-label="QuickVett">
+                  <div className="public-landing-hero-brand logo-font-montserrat" aria-label="QuickVett">
                     <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
                       shield
                     </span>

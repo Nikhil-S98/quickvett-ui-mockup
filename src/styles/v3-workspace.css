@@ -314,6 +314,12 @@
   gap: 0.2rem;
 }
 
+.app-shell--v3 .v3-sidebar-sign-out {
+  margin-top: 0.35rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
 .app-shell--v3 .v3-sidebar-rail {
   display: none;
   flex-direction: column;
@@ -352,7 +358,55 @@
 }
 
 .app-shell--v3 .v3-main--home {
+  position: relative;
   align-items: stretch;
+}
+
+/* Search (home): icon-only theme control — top right, no caption */
+.app-shell--v3 .v3-main--home .v3-home-theme-toggle {
+  position: absolute;
+  top: 0.65rem;
+  right: var(--v3-main-results-inline-pad, 1.5rem);
+  z-index: 20;
+  padding: 0.45rem;
+  border-radius: 0.45rem;
+}
+
+.app-shell--v3 .v3-main--home .v3-home-theme-toggle .ui-icon {
+  font-size: 1.35rem;
+}
+
+.app-shell--v3 .v3-main--home .v3-home-theme-toggle:hover {
+  background: var(--surface-hover);
+  opacity: 1;
+}
+
+/* Results header: icon-only theme toggle beside QuickVett wordmark (no chip / card) */
+.app-shell--v3 .v3-main--results .v3-results-theme-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0.35rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.app-shell--v3 .v3-main--results .v3-results-theme-toggle .ui-icon {
+  font-size: 1.25rem;
+}
+
+.app-shell--v3 .v3-main--results .v3-results-theme-toggle:hover {
+  background: transparent;
+  color: var(--text-primary);
+  opacity: 0.85;
 }
 
 .app-shell--v3 .v3-main-topbar {

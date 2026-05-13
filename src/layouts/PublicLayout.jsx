@@ -54,7 +54,7 @@ export default function PublicLayout() {
   const shellClass = [
     'app-shell',
     'theme-plain',
-    'font-helvetica-neue',
+    'font-inter',
     'public-layout',
     marketingDark ? 'public-layout--dark' : '',
   ]
@@ -65,7 +65,7 @@ export default function PublicLayout() {
     <div className={shellClass}>
       <header className="public-header">
         <div className="public-header-inner">
-          <NavLink to="/" className="header-brand logo-font-helvetica-neue" aria-label="QuickVett — home">
+          <NavLink to="/" className="header-brand logo-font-montserrat" aria-label="QuickVett — home">
             <span className="material-symbols-outlined ui-icon header-logo-icon" aria-hidden="true">
               shield
             </span>
