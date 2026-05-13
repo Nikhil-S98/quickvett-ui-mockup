@@ -194,10 +194,57 @@
   max-width: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: stretch;
+}
+
+/* Stacked in one row: main stays vertically centered in the full hero; trailer pins to the bottom */
+.public-landing-hero-main {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  justify-self: stretch;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
+}
+
+.public-landing-hero-trailer {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: end;
+  justify-self: stretch;
+  width: 100%;
+  padding-top: clamp(0.75rem, 2vw, 1.25rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.4rem, 1.2vw, 0.55rem);
+  text-align: center;
+}
+
+.public-landing-hero-trailer-lead {
+  margin: 0;
+  max-width: 36rem;
+  text-align: center;
+  text-wrap: balance;
+  font-size: clamp(0.875rem, 1.35vw, 0.97rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--text-secondary, #475569);
+}
+
+.public-landing-hero-trailer-topics {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted, #64748b);
 }
 
 /* Logo row + actions; vertically centered as a block in the hero. */
@@ -2404,13 +2451,13 @@
 
 .public-layout--dark .public-landing-hero-fx__plate {
   background:
-    radial-gradient(ellipse 88% 68% at 14% 18%, rgba(var(--marketing-brand-teal-rgb), 0.11), transparent 54%),
-    radial-gradient(ellipse 78% 58% at 92% 12%, rgba(var(--marketing-brand-teal-rgb), 0.06), transparent 46%),
-    radial-gradient(ellipse 100% 72% at 48% 96%, rgba(var(--marketing-brand-teal-rgb), 0.055), transparent 50%),
-    radial-gradient(ellipse 62% 52% at 78% 52%, rgba(var(--marketing-brand-teal-rgb), 0.035), transparent 46%),
-    radial-gradient(ellipse 92% 58% at 50% 102%, rgba(var(--marketing-brand-teal-rgb), 0.035), transparent 55%),
-    radial-gradient(ellipse 55% 40% at 12% 88%, rgba(var(--marketing-brand-teal-rgb), 0.05), transparent 60%),
-    linear-gradient(158deg, #101820 0%, #0c1218 30%, #0a0f14 54%, #111921 100%);
+    radial-gradient(ellipse 88% 68% at 14% 18%, rgba(var(--marketing-brand-teal-rgb), 0.045), transparent 54%),
+    radial-gradient(ellipse 78% 58% at 92% 12%, rgba(var(--marketing-brand-teal-rgb), 0.026), transparent 46%),
+    radial-gradient(ellipse 100% 72% at 48% 96%, rgba(var(--marketing-brand-teal-rgb), 0.024), transparent 50%),
+    radial-gradient(ellipse 62% 52% at 78% 52%, rgba(var(--marketing-brand-teal-rgb), 0.016), transparent 46%),
+    radial-gradient(ellipse 92% 58% at 50% 102%, rgba(var(--marketing-brand-teal-rgb), 0.016), transparent 55%),
+    radial-gradient(ellipse 55% 40% at 12% 88%, rgba(var(--marketing-brand-teal-rgb), 0.022), transparent 60%),
+    linear-gradient(158deg, #0e1318 0%, #0c1016 42%, #0e1318 100%);
 }
 
 .public-layout--dark .public-landing-band--soft {
@@ -2423,9 +2470,35 @@
 }
 
 .public-layout--dark .public-landing-band--cta {
-  background: linear-gradient(165deg, #06090e 0%, #0c141c 46%, #070d14 100%);
+  background: linear-gradient(165deg, #070a0e 0%, #080c10 52%, #070a0e 100%);
   color: #dce7e8;
   border-top-color: rgba(var(--marketing-brand-teal-rgb), 0.22);
+}
+
+.public-layout--dark .public-landing-preview-chrome {
+  border-bottom-color: rgba(var(--marketing-brand-teal-rgb), 0.22);
+}
+
+.public-layout--dark .public-landing-preview-row {
+  border-bottom-color: rgba(var(--marketing-brand-teal-rgb), 0.16);
+}
+
+.public-layout--dark .public-landing-preview-banner {
+  border-top: 1px solid rgba(var(--marketing-brand-teal-rgb), 0.16);
+  color: #dce7e8;
+  background: linear-gradient(165deg, #070a0e 0%, #080c10 52%, #070a0e 100%);
+}
+
+.public-layout--dark .public-landing-preview-badge--clear {
+  color: var(--marketing-brand-teal);
+  background: rgba(var(--marketing-brand-teal-rgb), 0.11);
+  border: 1px solid rgba(var(--marketing-brand-teal-rgb), 0.32);
+}
+
+.public-layout--dark .public-landing-preview-badge--action {
+  color: #fca5a5;
+  background: rgba(220, 38, 38, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.42);
 }
 
 .public-layout--dark .landing-btn--cta-solid {
@@ -2463,13 +2536,13 @@
 
 .public-layout--dark .public-sign-in-submit {
   color: #e8f1ef;
-  background: linear-gradient(180deg, #1c2629 0%, #141a1f 100%);
+  background: linear-gradient(180deg, #1b2428 0%, #181e22 100%);
   border: 1px solid rgba(var(--marketing-brand-teal-rgb), 0.32);
   box-shadow: var(--landing-card-shadow);
 }
 
 .public-layout--dark .public-sign-in-submit:hover:not(:disabled) {
-  background: linear-gradient(180deg, #283238 0%, #1f282e 100%);
+  background: linear-gradient(180deg, #252d32 0%, #22282d 100%);
   border-color: rgba(var(--marketing-brand-teal-rgb), 0.45);
 }
 
@@ -2508,7 +2581,7 @@
 
 .public-layout--dark .public-pricing-tier-popular {
   color: var(--title-color);
-  background: linear-gradient(135deg, #2a3338 0%, #1c2226 100%);
+  background: linear-gradient(135deg, #232a2f 0%, #1f2529 100%);
   border-color: rgba(var(--marketing-brand-teal-rgb), 0.28);
 }
 
@@ -2529,9 +2602,9 @@
 .public-layout--dark .public-uncover-title-accent {
   background: linear-gradient(
     120deg,
-    color-mix(in srgb, var(--marketing-brand-teal) 92%, #0f172a) 0%,
-    var(--marketing-brand-teal) 50%,
-    color-mix(in srgb, var(--marketing-brand-teal) 88%, #020617) 100%
+    color-mix(in srgb, var(--marketing-brand-teal) 72%, #0f172a) 0%,
+    color-mix(in srgb, var(--marketing-brand-teal) 82%, #1e293b) 48%,
+    color-mix(in srgb, var(--marketing-brand-teal) 68%, #020617) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;

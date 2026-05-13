@@ -54,9 +54,9 @@ html.public-marketing-dark body {
   --public-spot-icon: var(--marketing-teal-icon);
   --public-glass-fill: linear-gradient(
     165deg,
-    rgba(var(--marketing-brand-teal-rgb), 0.04) 0%,
-    rgba(var(--marketing-brand-teal-rgb), 0.025) 50%,
-    rgba(var(--marketing-brand-teal-rgb), 0.035) 100%
+    rgba(var(--marketing-brand-teal-rgb), 0.018) 0%,
+    rgba(var(--marketing-brand-teal-rgb), 0.01) 50%,
+    rgba(var(--marketing-brand-teal-rgb), 0.014) 100%
   );
   --public-glass-inset: inset 0 1px 0 rgba(var(--marketing-brand-teal-rgb), 0.1);
 }
@@ -87,10 +87,10 @@ html.public-marketing-dark body {
   --page-bg: transparent;
   background-color: #06090d;
   background-image:
-    radial-gradient(ellipse 115% 90% at 8% -15%, rgba(var(--marketing-brand-teal-rgb), 0.11), transparent 58%),
-    radial-gradient(ellipse 95% 72% at 102% 8%, rgba(var(--marketing-brand-teal-rgb), 0.06), transparent 54%),
-    radial-gradient(ellipse 100% 80% at 50% 108%, rgba(var(--marketing-brand-teal-rgb), 0.09), transparent 52%),
-    linear-gradient(168deg, #080b10 0%, #0b1016 42%, #070a0f 100%);
+    radial-gradient(ellipse 115% 90% at 8% -15%, rgba(var(--marketing-brand-teal-rgb), 0.042), transparent 58%),
+    radial-gradient(ellipse 95% 72% at 102% 8%, rgba(var(--marketing-brand-teal-rgb), 0.022), transparent 54%),
+    radial-gradient(ellipse 100% 80% at 50% 108%, rgba(var(--marketing-brand-teal-rgb), 0.032), transparent 52%),
+    linear-gradient(168deg, #080b10 0%, #090c11 38%, #080b10 100%);
   background-blend-mode: normal, normal, normal, normal;
 }
 
@@ -103,13 +103,13 @@ html.public-marketing-dark body {
 
 .app-shell.public-layout.public-layout--dark .landing-btn--primary {
   color: #e8f1ef;
-  background: linear-gradient(180deg, #1c2629 0%, #141a1f 100%);
+  background: linear-gradient(180deg, #1b2428 0%, #181e22 100%);
   border: 1px solid rgba(var(--marketing-brand-teal-rgb), 0.45);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 12px 36px rgba(0, 0, 0, 0.28);
 }
 
 .app-shell.public-layout.public-layout--dark .landing-btn--primary:hover {
-  background: linear-gradient(180deg, #243138 0%, #1a2228 100%);
+  background: linear-gradient(180deg, #232d32 0%, #1f282e 100%);
   border-color: rgba(var(--marketing-brand-teal-rgb), 0.65);
   color: #f4faf9;
 }

@@ -38,6 +38,8 @@ const statsRow = [
   },
 ]
 
+const heroTrailerTopics = ['Court', 'Credit', 'Corporate', 'Sanctions']
+
 const heroHighlights = [
   {
     key: 'sources',
@@ -222,31 +224,46 @@ export default function LandingPage() {
         <div className="public-landing-inner public-landing-inner--hero">
           <header className="public-landing-hero">
             <h1 className="public-landing-visually-hidden">QuickVett</h1>
-            <div className="public-landing-hero-top">
-              <div className="public-landing-hero-stack">
-                <div className="public-landing-hero-brand logo-font-helvetica-neue" aria-label="QuickVett">
-                  <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
-                    shield
-                  </span>
-                  <span className="public-landing-hero-brand-wordmark">QuickVett</span>
+            <div className="public-landing-hero-main">
+              <div className="public-landing-hero-top">
+                <div className="public-landing-hero-stack">
+                  <div className="public-landing-hero-brand logo-font-helvetica-neue" aria-label="QuickVett">
+                    <span className="material-symbols-outlined ui-icon logo-icon" aria-hidden="true">
+                      shield
+                    </span>
+                    <span className="public-landing-hero-brand-wordmark">QuickVett</span>
+                  </div>
+                </div>
+              </div>
+              <div className="public-landing-hero-bottom">
+                <div className="public-landing-hero-actions">
+                  <Link to="/sign-in" className="landing-btn landing-btn--primary landing-btn--with-icon">
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      login
+                    </span>
+                    Sign in to workspace
+                  </Link>
+                  <Link to="/how-it-works" className="landing-btn landing-btn--ghost landing-btn--with-icon">
+                    <span className="material-symbols-outlined ui-icon" aria-hidden="true">
+                      help
+                    </span>
+                    How it works
+                  </Link>
                 </div>
               </div>
             </div>
-            <div className="public-landing-hero-bottom">
-              <div className="public-landing-hero-actions">
-                <Link to="/sign-in" className="landing-btn landing-btn--primary landing-btn--with-icon">
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    login
+            <div className="public-landing-hero-trailer" aria-label="What we check">
+              <p className="public-landing-hero-trailer-lead">
+                One cited dossier for every merchant you underwrite
+              </p>
+              <p className="public-landing-hero-trailer-topics">
+                {heroTrailerTopics.map((label, i) => (
+                  <span key={label}>
+                    {i > 0 && <span aria-hidden="true"> · </span>}
+                    {label}
                   </span>
-                  Sign in to workspace
-                </Link>
-                <Link to="/how-it-works" className="landing-btn landing-btn--ghost landing-btn--with-icon">
-                  <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-                    help
-                  </span>
-                  How it works
-                </Link>
-              </div>
+                ))}
+              </p>
             </div>
           </header>
         </div>
