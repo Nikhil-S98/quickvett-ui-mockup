@@ -1176,6 +1176,8 @@
   border: 0;
   border-bottom: 1px solid var(--results-panel-border);
   background: transparent;
+  font-size: var(--results-font-meta);
+  line-height: 1.45;
 }
 
 .app-shell--v3 .v3-main--results .card-datamerch .datamerch-records {
@@ -1228,9 +1230,16 @@
 }
 
 .app-shell--v3 .v3-main--results .card-datamerch .datamerch-category-pill--stacking {
-  border-color: color-mix(in srgb, var(--results-warning) 46%, transparent);
-  color: var(--results-warning);
-  background: color-mix(in srgb, var(--results-warning) 14%, transparent);
+  border-color: rgba(217, 131, 33, 0.34);
+  color: #e69354;
+  background: rgba(254, 243, 199, 0.86);
+}
+
+.app-shell--v3.theme-midnight .v3-main--results .card-datamerch .datamerch-category-pill--stacking,
+.app-shell--v3.theme-blue-dark .v3-main--results .card-datamerch .datamerch-category-pill--stacking {
+  border-color: rgba(251, 191, 36, 0.48);
+  color: #fde68a;
+  background: rgba(251, 191, 36, 0.16);
 }
 
 /* ---- Deep search — report-style digest (right column card) ---- */
@@ -1259,7 +1268,7 @@
   min-height: 100%;
   box-sizing: border-box;
   font-size: var(--results-font-body);
-  padding: 0.85rem 1rem 1rem;
+  padding: 0 0 1rem;
 }
 
 .app-shell--v3 .deep-intel-host .deep-term-meta {
@@ -1269,6 +1278,7 @@
   font-size: var(--results-font-meta);
   font-weight: 700;
   letter-spacing: 0.01em;
+  line-height: 1.45;
   color: var(--deep-term-muted);
 }
 
@@ -1324,7 +1334,8 @@
 }
 
 .app-shell--v3 .deep-intel-host .deep-term-flag .material-symbols-outlined {
-  font-size: 1rem;
+  font-size: 1.18rem;
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
   line-height: 1;
 }
 

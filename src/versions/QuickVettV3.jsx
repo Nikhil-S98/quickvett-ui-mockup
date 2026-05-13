@@ -183,6 +183,7 @@ function getDefaultHistorySearchGroups(business, owner) {
       cases: [
         {
           title: `Palmer Vs ${owner}`,
+          icon: 'gavel',
           meta: `Palmer Vs ${owner} | Filed: 2023-04-03 | Court: New Jersey Superior Courts | Class: Civil | Area: Commercial and Trade | Type: Contract | Status: Closed`,
           details: {
             filed: '2023-04-03',
@@ -200,6 +201,7 @@ function getDefaultHistorySearchGroups(business, owner) {
         },
         {
           title: `State Of New York Vs ${owner}`,
+          icon: 'gavel',
           meta: `State Of New York Vs ${owner} | Filed: 2021-09-17 | Court: Kings County Civil Court | Class: Civil | Area: Tax | Type: Warrant | Status: Satisfied`,
           details: {
             filed: '2021-09-17',
@@ -225,6 +227,7 @@ function getDefaultHistorySearchGroups(business, owner) {
       cases: [
         {
           title: `Velocity Capital LLC Vs ${business}`,
+          icon: 'gavel',
           meta: `Velocity Capital LLC Vs ${business} | Filed: 2024-06-12 | Court: NY Supreme Court - Kings County | Class: Civil | Area: Commercial and Trade | Type: Contract | Status: Open`,
           details: {
             filed: '2024-06-12',
@@ -242,6 +245,7 @@ function getDefaultHistorySearchGroups(business, owner) {
         },
         {
           title: `Northbridge Funding Group Vs ${business}`,
+          icon: 'gavel',
           meta: `Northbridge Funding Group Vs ${business} | Filed: 2024-01-09 | Court: US District Court - EDNY | Class: Federal Civil | Area: Commercial and Trade | Type: Contract | Status: Open`,
           details: {
             filed: '2024-01-09',
@@ -349,7 +353,7 @@ function DefaultHistoryCard({ businessName, ownerName }) {
                   <details key={caseRecord.title} className="dh-case-card" open={idx === 0}>
                     <summary className="dh-case-summary">
                       <span className="dh-case-type-icon" aria-hidden="true">
-                        <span className="material-symbols-outlined">account_balance</span>
+                        <span className="material-symbols-outlined">{caseRecord.icon}</span>
                       </span>
                       <div>
                         <h4>{caseRecord.title}</h4>
