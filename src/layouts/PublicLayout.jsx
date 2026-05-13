@@ -13,10 +13,8 @@ function readStoredPublicDark() {
   } catch {
     /* ignore */
   }
-  if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    return true
-  }
-  return false
+  /* No stored preference yet: default to dark (marketing briefing); toggle still writes '0' / '1'. */
+  return true
 }
 
 function navCls(isActive) {

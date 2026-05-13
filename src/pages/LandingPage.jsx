@@ -414,7 +414,6 @@ export default function LandingPage() {
           <div className="public-landing-preview">
             <div className="public-landing-preview-chrome">
               <span className="public-landing-preview-chrome-title">Merchant dossier</span>
-              <span className="public-landing-preview-chrome-pill">Workspace preview</span>
             </div>
             <div className="public-landing-preview-body">
               <ul className="public-landing-preview-list">

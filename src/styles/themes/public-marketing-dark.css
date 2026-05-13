@@ -66,13 +66,51 @@ html.public-marketing-dark body {
   color: var(--title-color);
 }
 
-.app-shell.public-layout.public-layout--dark .header-brand,
+.app-shell.public-layout.public-layout--dark .header-brand {
+  color: var(--marketing-brand-teal);
+  text-shadow:
+    0 0 18px rgba(var(--marketing-brand-teal-rgb), 0.2),
+    0 0 40px rgba(var(--marketing-brand-teal-rgb), 0.08);
+}
+
 .app-shell.public-layout.public-layout--dark .header-brand .ui-icon {
   color: var(--marketing-brand-teal);
+  text-shadow: none;
 }
 
 .public-layout--dark .public-landing-hero-brand {
   color: var(--marketing-brand-teal);
+  text-shadow:
+    0 0 22px rgba(var(--marketing-brand-teal-rgb), 0.22),
+    0 0 52px rgba(var(--marketing-brand-teal-rgb), 0.09);
+}
+
+.public-layout--dark .public-landing-hero-brand .logo-icon {
+  text-shadow: none;
+}
+
+/* Italic accent phrases — soft neon bloom (not full headings) */
+.public-layout--dark .public-landing-title-accent {
+  text-shadow:
+    0 0 20px rgba(var(--marketing-brand-teal-rgb), 0.2),
+    0 0 48px rgba(var(--marketing-brand-teal-rgb), 0.09);
+}
+
+.public-layout--dark .public-landing-finale-accent {
+  text-shadow:
+    0 0 18px rgba(var(--marketing-brand-teal-rgb), 0.16),
+    0 0 42px rgba(var(--marketing-brand-teal-rgb), 0.07);
+}
+
+/* Gradient-filled accent: filter follows glyph shape in supporting browsers */
+.public-layout--dark .public-uncover-title-accent {
+  filter: drop-shadow(0 0 14px rgba(var(--marketing-brand-teal-rgb), 0.2))
+    drop-shadow(0 0 32px rgba(var(--marketing-brand-teal-rgb), 0.08));
+}
+
+/* Dossier-style section index */
+.public-layout--dark .public-landing-kicker {
+  font-variant-numeric: tabular-nums;
 }
 
 .app-shell.public-layout.public-layout--dark .public-theme-toggle {

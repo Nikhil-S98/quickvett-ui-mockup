@@ -49,6 +49,81 @@
   padding-bottom: clamp(2rem, 5vw, 3rem);
   background: transparent;
   border-bottom: 1px solid rgba(203, 213, 225, 0.45);
+  --hero-tactical-bracket: rgba(71, 85, 105, 0.4);
+  --hero-tactical-grid: rgba(148, 163, 184, 0.032);
+  --hero-tactical-inset: clamp(1rem, 3.25vw, 1.85rem);
+  --hero-tactical-arm: 2.35rem;
+  --hero-tactical-grid-size: 100px;
+}
+
+/* Four-corner frame + very subtle grid (bracket layers first = painted on top) */
+.public-landing-band.public-landing-band--hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    /* top-left */
+    linear-gradient(to right, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    linear-gradient(to bottom, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    /* top-right */
+    linear-gradient(to left, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    linear-gradient(to bottom, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    /* bottom-right */
+    linear-gradient(to left, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    linear-gradient(to top, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    /* bottom-left */
+    linear-gradient(to right, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    linear-gradient(to top, var(--hero-tactical-bracket), var(--hero-tactical-bracket)),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 calc(var(--hero-tactical-grid-size) - 1px),
+      var(--hero-tactical-grid) calc(var(--hero-tactical-grid-size) - 1px) var(--hero-tactical-grid-size)
+    ),
+    repeating-linear-gradient(
+      to right,
+      transparent 0 calc(var(--hero-tactical-grid-size) - 1px),
+      var(--hero-tactical-grid) calc(var(--hero-tactical-grid-size) - 1px) var(--hero-tactical-grid-size)
+    );
+  background-position:
+    left var(--hero-tactical-inset) top var(--hero-tactical-inset),
+    left var(--hero-tactical-inset) top var(--hero-tactical-inset),
+    right var(--hero-tactical-inset) top var(--hero-tactical-inset),
+    right var(--hero-tactical-inset) top var(--hero-tactical-inset),
+    right var(--hero-tactical-inset) bottom var(--hero-tactical-inset),
+    right var(--hero-tactical-inset) bottom var(--hero-tactical-inset),
+    left var(--hero-tactical-inset) bottom var(--hero-tactical-inset),
+    left var(--hero-tactical-inset) bottom var(--hero-tactical-inset),
+    0 0,
+    0 0;
+  background-size:
+    var(--hero-tactical-arm) 1px,
+    1px var(--hero-tactical-arm),
+    var(--hero-tactical-arm) 1px,
+    1px var(--hero-tactical-arm),
+    var(--hero-tactical-arm) 1px,
+    1px var(--hero-tactical-arm),
+    var(--hero-tactical-arm) 1px,
+    1px var(--hero-tactical-arm),
+    var(--hero-tactical-grid-size) var(--hero-tactical-grid-size),
+    var(--hero-tactical-grid-size) var(--hero-tactical-grid-size);
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    repeat,
+    repeat;
+}
+
+.public-landing-band--hero > .public-landing-inner {
+  position: relative;
+  z-index: 2;
 }
 
 /* SVG displacement — animated noise field behind hero content */
@@ -666,7 +741,7 @@
 .public-landing-preview-chrome {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.75rem;
   padding: 0.65rem 1rem;
   background: var(--landing-canvas-alt);
@@ -679,18 +754,6 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-secondary, #475569);
-}
-
-.public-landing-preview-chrome-pill {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.22rem 0.5rem;
-  border-radius: 9999px;
-  border: 1px solid var(--public-accent-border);
-  color: var(--public-accent);
-  background: var(--public-accent-soft);
 }
 
 .public-landing-preview-body {
@@ -2447,6 +2510,8 @@
 
 .public-layout--dark .public-landing-band.public-landing-band--hero {
   border-bottom-color: rgba(var(--marketing-brand-teal-rgb), 0.22);
+  --hero-tactical-bracket: rgba(var(--marketing-brand-teal-rgb), 0.48);
+  --hero-tactical-grid: rgba(var(--marketing-brand-teal-rgb), 0.038);
 }
 
 .public-layout--dark .public-landing-hero-fx__plate {
