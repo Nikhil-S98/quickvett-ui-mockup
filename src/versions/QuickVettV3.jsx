@@ -64,8 +64,7 @@ function DataMerchCard({ businessName }) {
     <article className="result-card card-datamerch">
       <header className="result-card-header">
         <div className="result-card-heading">
-          <span className="result-card-label">DataMerch</span>
-          <h3>{businessName || 'Business'}</h3>
+          <h3>DataMerch</h3>
         </div>
       </header>
       <div className="result-card-body">
@@ -78,13 +77,16 @@ function DataMerchCard({ businessName }) {
         <ul className="datamerch-records">
           {records.map((record) => (
             <li key={`${record.category}-${record.reportedAt}`} className="datamerch-record-row">
-              <span className="datamerch-category-pill">{datamerchCategoryLabel(record.category)}</span>
               <div className="datamerch-record-body">
                 <p className="datamerch-record-pill">
-                  File submitted by: {record.reportedBy.toUpperCase()}
+                  File submitted by:{' '}
+                  <span className="datamerch-submitter-name">{record.reportedBy}</span>
                 </p>
                 <p className="datamerch-record-note">{record.note}</p>
               </div>
+              <span className={`datamerch-category-pill datamerch-category-pill--${record.category.toLowerCase()}`}>
+                {datamerchCategoryLabel(record.category)}
+              </span>
             </li>
           ))}
         </ul>
@@ -171,6 +173,94 @@ function getDeepTerminalSections(business, owner) {
   ]
 }
 
+function getDefaultHistorySearchGroups(business, owner) {
+  return [
+    {
+      id: 'owner-searches',
+      title: 'Searches on the Owner',
+      icon: 'person_search',
+      summary: `${owner} matched 3 civil and identity records across state and county indexes.`,
+      cases: [
+        {
+          title: `Palmer Vs ${owner}`,
+          meta: `Palmer Vs ${owner} | Filed: 2023-04-03 | Court: New Jersey Superior Courts | Class: Civil | Area: Commercial and Trade | Type: Contract | Status: Closed`,
+          details: {
+            filed: '2023-04-03',
+            court: 'New Jersey Superior Courts',
+            className: 'Civil',
+            area: 'Commercial and Trade',
+            type: 'Contract',
+            status: 'Closed',
+          },
+          documents: [
+            { title: 'Unknown', date: 'Apr 5, 2023' },
+            { title: 'Unknown', date: 'Apr 5, 2023' },
+            { title: 'Unknown', date: 'Apr 3, 2023' },
+          ],
+        },
+        {
+          title: `State Of New York Vs ${owner}`,
+          meta: `State Of New York Vs ${owner} | Filed: 2021-09-17 | Court: Kings County Civil Court | Class: Civil | Area: Tax | Type: Warrant | Status: Satisfied`,
+          details: {
+            filed: '2021-09-17',
+            court: 'Kings County Civil Court',
+            className: 'Civil',
+            area: 'Tax',
+            type: 'Warrant',
+            status: 'Satisfied',
+          },
+          documents: [
+            { title: 'Tax warrant docket', date: 'Sep 17, 2021' },
+            { title: 'Satisfaction notice', date: 'Feb 11, 2022' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'business-searches',
+      title: 'Searches on the Business',
+      icon: 'domain',
+      summary: `${business} matched 4 commercial, contract, and financing records across court indexes.`,
+      defaultOpen: true,
+      cases: [
+        {
+          title: `Velocity Capital LLC Vs ${business}`,
+          meta: `Velocity Capital LLC Vs ${business} | Filed: 2024-06-12 | Court: NY Supreme Court - Kings County | Class: Civil | Area: Commercial and Trade | Type: Contract | Status: Open`,
+          details: {
+            filed: '2024-06-12',
+            court: 'NY Supreme Court - Kings County',
+            className: 'Civil',
+            area: 'Commercial and Trade',
+            type: 'Contract',
+            status: 'Open',
+          },
+          documents: [
+            { title: 'Summons and complaint', date: 'Jun 12, 2024' },
+            { title: 'Affidavit of service', date: 'Jul 2, 2024' },
+            { title: 'Motion for summary judgment', date: 'Apr 22, 2026' },
+          ],
+        },
+        {
+          title: `Northbridge Funding Group Vs ${business}`,
+          meta: `Northbridge Funding Group Vs ${business} | Filed: 2024-01-09 | Court: US District Court - EDNY | Class: Federal Civil | Area: Commercial and Trade | Type: Contract | Status: Open`,
+          details: {
+            filed: '2024-01-09',
+            court: 'US District Court - EDNY',
+            className: 'Federal Civil',
+            area: 'Commercial and Trade',
+            type: 'Contract',
+            status: 'Open',
+          },
+          documents: [
+            { title: 'Complaint', date: 'Jan 9, 2024' },
+            { title: 'Discovery order', date: 'Mar 8, 2026' },
+          ],
+        },
+      ],
+    },
+  ]
+}
+
 function DeepSearchCard({ businessName, ownerName }) {
   const business = businessName.trim() || 'Khera Brothers Inc'
   const owner = ownerName.trim() || 'Rajiv Khera'
@@ -180,8 +270,7 @@ function DeepSearchCard({ businessName, ownerName }) {
     <article className="result-card card-deep-search">
       <header className="result-card-header">
         <div className="result-card-heading">
-          <span className="result-card-label">Deep Search</span>
-          <h3>Intel digest</h3>
+          <h3>Deep Search</h3>
         </div>
       </header>
       <div className="result-card-body">
@@ -229,326 +318,83 @@ function DeepSearchCard({ businessName, ownerName }) {
   )
 }
 
-function DefaultHistoryCard({ businessName }) {
+function DefaultHistoryCard({ businessName, ownerName }) {
   const business = businessName.trim() || 'Khera Brothers Inc'
-  const cases = [
-    {
-      caption: `Velocity Capital LLC v. ${business}`,
-      caseNumber: '2024-CV-04821',
-      court: 'NY Supreme Court — Kings County',
-      filedOn: '2024-06-12',
-      caseType: 'Breach of Contract',
-      status: 'Open',
-      parties: [
-        { role: 'Plaintiff', name: 'Velocity Capital LLC' },
-        { role: 'Defendant', name: business },
-        { role: 'Defendant', name: 'Rajiv Khera (personal guaranty)' },
-      ],
-      judge: 'Hon. Lawrence Knipel',
-      attorneys: [{ for: 'Plaintiff', name: 'Berkovitch & Bouskila PLLC' }],
-      amount: '$184,500',
-      lastDocket: { date: '2026-04-22', entry: 'Motion for summary judgment filed by plaintiff.' },
-      documents: 14,
-    },
-    {
-      caption: `Yellowstone Capital East v. ${business}`,
-      caseNumber: '2023-CV-11204',
-      court: 'NJ Superior Court — Bergen County',
-      filedOn: '2023-09-30',
-      caseType: 'Confession of Judgment',
-      status: 'Judgment Entered',
-      parties: [
-        { role: 'Plaintiff', name: 'Yellowstone Capital East' },
-        { role: 'Defendant', name: business },
-      ],
-      judge: 'Hon. Estela M. De La Cruz',
-      attorneys: [{ for: 'Plaintiff', name: 'Giuliano McDonnell & Perrone' }],
-      amount: '$92,800',
-      lastDocket: { date: '2024-02-14', entry: 'Default judgment entered against defendant.' },
-      documents: 6,
-    },
-    {
-      caption: `Northbridge Funding Group v. ${business}`,
-      caseNumber: '2024-CV-00188',
-      court: 'US District Court — EDNY',
-      filedOn: '2024-01-09',
-      caseType: 'RICO / Fraud',
-      status: 'Open',
-      parties: [
-        { role: 'Plaintiff', name: 'Northbridge Funding Group' },
-        { role: 'Defendant', name: business },
-        { role: 'Co-Defendant', name: 'KB Logistics Holdings Inc' },
-      ],
-      judge: 'Hon. Margo K. Brodie',
-      attorneys: [{ for: 'Plaintiff', name: 'White & Williams LLP' }],
-      amount: '$412,000',
-      lastDocket: { date: '2026-03-08', entry: 'Discovery motion granted; deposition scheduled.' },
-      documents: 31,
-    },
-    {
-      caption: `Roosevelt Plaza Holdings LLC v. ${business}`,
-      caseNumber: '2022-LT-07733',
-      court: 'NY Civil Court — Queens County',
-      filedOn: '2022-11-04',
-      caseType: 'Commercial Landlord-Tenant',
-      status: 'Closed',
-      parties: [
-        { role: 'Plaintiff', name: 'Roosevelt Plaza Holdings LLC' },
-        { role: 'Defendant', name: business },
-      ],
-      judge: 'Hon. Sergio Jimenez',
-      attorneys: [{ for: 'Plaintiff', name: 'Belkin Burden Goldman LLP' }],
-      amount: '$48,200',
-      lastDocket: { date: '2023-04-19', entry: 'Stipulation of settlement filed; case closed.' },
-      documents: 9,
-    },
-    {
-      caption: `${business} v. Pinnacle Merchant Services LLC`,
-      caseNumber: '2025-CV-02199',
-      court: 'NY Supreme Court — New York County',
-      filedOn: '2025-02-21',
-      caseType: 'Breach of Contract / Counterclaim',
-      status: 'Open',
-      parties: [
-        { role: 'Plaintiff', name: business },
-        { role: 'Defendant', name: 'Pinnacle Merchant Services LLC' },
-      ],
-      judge: 'Hon. Andrea Masley',
-      attorneys: [{ for: 'Plaintiff', name: 'Davidoff Hutcher & Citron LLP' }],
-      amount: '$76,300',
-      lastDocket: { date: '2026-01-30', entry: 'Answer with counterclaims filed by defendant.' },
-      documents: 11,
-    },
-    {
-      caption: `Atlantic Lender Group LLC v. ${business}`,
-      caseNumber: '2023-CV-08820',
-      court: 'NJ Superior Court — Hudson County',
-      filedOn: '2023-04-15',
-      caseType: 'Account Stated',
-      status: 'Closed',
-      parties: [
-        { role: 'Plaintiff', name: 'Atlantic Lender Group LLC' },
-        { role: 'Defendant', name: business },
-      ],
-      judge: 'Hon. Joseph A. Turula',
-      attorneys: [{ for: 'Plaintiff', name: 'Loeb & Loeb LLP' }],
-      amount: '$31,500',
-      lastDocket: { date: '2023-11-02', entry: 'Settlement agreement filed; case dismissed with prejudice.' },
-      documents: 7,
-    },
-    {
-      caption: `Brookhaven Wholesale Co v. ${business}`,
-      caseNumber: '2022-CV-31194',
-      court: 'NY Civil Court — Bronx County',
-      filedOn: '2022-08-22',
-      caseType: 'Goods Sold and Delivered',
-      status: 'Closed',
-      parties: [
-        { role: 'Plaintiff', name: 'Brookhaven Wholesale Co' },
-        { role: 'Defendant', name: business },
-      ],
-      judge: 'Hon. Lucindo Suarez',
-      attorneys: [{ for: 'Plaintiff', name: 'Furman Kornfeld & Brennan LLP' }],
-      amount: '$14,750',
-      lastDocket: { date: '2023-02-07', entry: 'Stipulation of discontinuance filed.' },
-      documents: 4,
-    },
-    {
-      caption: `${business} v. United Freight Holdings Corp`,
-      caseNumber: '2023-CV-15042',
-      court: 'NY Supreme Court — Nassau County',
-      filedOn: '2023-12-04',
-      caseType: 'Breach of Service Contract',
-      status: 'Closed',
-      parties: [
-        { role: 'Plaintiff', name: business },
-        { role: 'Defendant', name: 'United Freight Holdings Corp' },
-      ],
-      judge: 'Hon. Sharon M.J. Gianelli',
-      attorneys: [{ for: 'Plaintiff', name: 'Tannenbaum Helpern Syracuse & Hirschtritt LLP' }],
-      amount: '$53,400',
-      lastDocket: { date: '2024-09-18', entry: 'Confidential settlement; case closed.' },
-      documents: 12,
-    },
-    {
-      caption: `Empire Capital Funding Inc v. ${business}`,
-      caseNumber: '2024-CV-09877',
-      court: 'NJ Superior Court — Essex County',
-      filedOn: '2024-03-19',
-      caseType: 'Confession of Judgment',
-      status: 'Judgment Entered',
-      parties: [
-        { role: 'Plaintiff', name: 'Empire Capital Funding Inc' },
-        { role: 'Defendant', name: business },
-        { role: 'Defendant', name: 'Rajiv Khera (personal guaranty)' },
-      ],
-      judge: 'Hon. Stephanie M. Wauters',
-      attorneys: [{ for: 'Plaintiff', name: 'Akerman LLP' }],
-      amount: '$128,900',
-      lastDocket: { date: '2024-04-02', entry: 'Judgment by confession entered; abstract docketed.' },
-      documents: 5,
-    },
-    {
-      caption: `Pioneer Tax Services LLC v. ${business}`,
-      caseNumber: '2024-CV-22018',
-      court: 'NY Civil Court — Kings County',
-      filedOn: '2024-05-29',
-      caseType: 'Professional Services Collection',
-      status: 'Closed',
-      parties: [
-        { role: 'Plaintiff', name: 'Pioneer Tax Services LLC' },
-        { role: 'Defendant', name: business },
-      ],
-      judge: 'Hon. Sandra E. Roper',
-      attorneys: [{ for: 'Plaintiff', name: 'Klein Slowik PLLC' }],
-      amount: '$8,200',
-      lastDocket: { date: '2024-10-11', entry: 'Settled and discontinued.' },
-      documents: 3,
-    },
-    {
-      caption: `Bayside Equipment Leasing Corp v. ${business}`,
-      caseNumber: '2025-CV-04412',
-      court: 'NY Supreme Court — Suffolk County',
-      filedOn: '2025-01-08',
-      caseType: 'UCC / Replevin',
-      status: 'Open',
-      parties: [
-        { role: 'Plaintiff', name: 'Bayside Equipment Leasing Corp' },
-        { role: 'Defendant', name: business },
-      ],
-      judge: 'Hon. Robert F. Quinlan',
-      attorneys: [{ for: 'Plaintiff', name: 'Wilson Elser Moskowitz Edelman & Dicker LLP' }],
-      amount: '$67,500',
-      lastDocket: { date: '2026-02-26', entry: 'Order of seizure granted as to leased equipment.' },
-      documents: 8,
-    },
-    {
-      caption: `${business} v. Coastal Insurance Brokers Inc`,
-      caseNumber: '2025-CV-07733',
-      court: 'NY Supreme Court — New York County',
-      filedOn: '2025-03-04',
-      caseType: 'Insurance Coverage Dispute',
-      status: 'Open',
-      parties: [
-        { role: 'Plaintiff', name: business },
-        { role: 'Defendant', name: 'Coastal Insurance Brokers Inc' },
-        { role: 'Defendant', name: 'Atlas Surety & Casualty Co' },
-      ],
-      judge: 'Hon. Joel M. Cohen',
-      attorneys: [{ for: 'Plaintiff', name: 'Greenberg Traurig LLP' }],
-      amount: '$215,000',
-      lastDocket: { date: '2026-04-15', entry: 'Plaintiff opposition to motion to dismiss filed.' },
-      documents: 19,
-    },
-    {
-      caption: `State of New York v. ${business}`,
-      caseNumber: '2023-TW-00428',
-      court: 'NY Division of Tax Appeals',
-      filedOn: '2023-07-11',
-      caseType: 'Tax Warrant',
-      status: 'Judgment Entered',
-      parties: [
-        { role: 'Petitioner', name: 'NY State Department of Taxation and Finance' },
-        { role: 'Respondent', name: business },
-      ],
-      judge: 'Hon. Dennis M. Galliher (ALJ)',
-      attorneys: [{ for: 'Petitioner', name: 'NY State Office of Counsel' }],
-      amount: '$38,200',
-      lastDocket: { date: '2023-12-02', entry: 'Tax warrant docketed; partial release recorded 2024-08.' },
-      documents: 5,
-    },
-    {
-      caption: `Brennan & Associates CPAs PLLC v. ${business}`,
-      caseNumber: '2025-CV-01284',
-      court: 'NY Supreme Court — Westchester County',
-      filedOn: '2025-04-22',
-      caseType: 'Professional Services Collection',
-      status: 'Open',
-      parties: [
-        { role: 'Plaintiff', name: 'Brennan & Associates CPAs PLLC' },
-        { role: 'Defendant', name: business },
-      ],
-      judge: 'Hon. Linda S. Jamieson',
-      attorneys: [{ for: 'Plaintiff', name: 'Bell Davis & Pitt PA' }],
-      amount: '$11,400',
-      lastDocket: { date: '2026-03-19', entry: 'Defendant served; answer due April 30.' },
-      documents: 2,
-    },
-  ]
+  const owner = ownerName.trim() || 'Rajiv Khera'
+  const searchGroups = getDefaultHistorySearchGroups(business, owner)
 
   return (
     <article className="result-card card-default-history">
       <header className="result-card-header">
         <div className="result-card-heading">
-          <span className="result-card-label">Default History</span>
-          <h3>{cases.length} cases found</h3>
+          <h3>Default History</h3>
         </div>
       </header>
       <div className="result-card-body">
-        <div className="case-list">
-        {cases.map((c) => (
-          <details key={c.caseNumber} className="case-row">
-            <summary>
-              <div className="case-summary-main">
-                <div className="case-summary-top">
-                  <span className="case-caption">{c.caption}</span>
-                </div>
-                <div className="case-summary-meta">
-                  <span className="case-number">{c.caseNumber}</span>
-                  <span aria-hidden="true">·</span>
-                  <span className="case-type">{c.caseType}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{c.court}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>Filed {c.filedOn}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{c.status}</span>
-                </div>
+        <div className="dh-simple-shell" aria-label="Default history owner and business searches">
+          {searchGroups.map((group) => (
+            <section key={group.id} className="dh-search-section">
+              <header className="dh-search-section-header">
+                <span className="dh-section-icon" aria-hidden="true">
+                  <span className="material-symbols-outlined">{group.icon}</span>
+                </span>
+                <span className="dh-search-group-copy">
+                  <span className="dh-search-group-title">{group.title}</span>
+                  <span className="dh-search-group-summary">{group.summary}</span>
+                </span>
+                <span className="dh-search-count">{group.cases.length} cases</span>
+              </header>
+              <div className="dh-case-list">
+                {group.cases.map((caseRecord, idx) => (
+                  <details key={caseRecord.title} className="dh-case-card" open={idx === 0}>
+                    <summary className="dh-case-summary">
+                      <span className="dh-case-type-icon" aria-hidden="true">
+                        <span className="material-symbols-outlined">account_balance</span>
+                      </span>
+                      <div>
+                        <h4>{caseRecord.title}</h4>
+                        <p>{caseRecord.meta}</p>
+                      </div>
+                      <span className="material-symbols-outlined dh-case-chevron" aria-hidden="true">
+                        expand_more
+                      </span>
+                    </summary>
+                    <div className="dh-case-content">
+                      <div className="dh-case-divider" />
+                      <section className="dh-case-details" aria-label={`${caseRecord.title} case details`}>
+                        <p className="dh-case-section-label">Case Details</p>
+                        <p>
+                          {caseRecord.title} | Filed: {caseRecord.details.filed} | Court:{' '}
+                          {caseRecord.details.court} | Class: {caseRecord.details.className} | Area:{' '}
+                          {caseRecord.details.area} | Type: {caseRecord.details.type} | Status:{' '}
+                          {caseRecord.details.status}
+                        </p>
+                      </section>
+                      <div className="dh-case-divider" />
+                      <section className="dh-case-documents" aria-label={`${caseRecord.title} documents`}>
+                        <p className="dh-case-section-label">Documents</p>
+                        <div className="dh-document-list">
+                          {caseRecord.documents.map((document) => (
+                            <div
+                              key={`${caseRecord.title}-${document.title}-${document.date}`}
+                              className="dh-document-row"
+                            >
+                              <span className="material-symbols-outlined" aria-hidden="true">
+                                description
+                              </span>
+                              <span>{document.title}</span>
+                              <span className="dh-document-date">({document.date})</span>
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    </div>
+                  </details>
+                ))}
               </div>
-              <span className="material-symbols-outlined ui-icon case-chevron" aria-hidden="true">
-                expand_more
-              </span>
-            </summary>
-            <div className="case-detail">
-              <div className="case-detail-grid">
-                <div className="case-detail-block">
-                  <p className="case-detail-label">Parties</p>
-                  <ul>
-                    {c.parties.map((p) => (
-                      <li key={`${p.role}-${p.name}`}>
-                        <span className="case-detail-role">{p.role}:</span> {p.name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="case-detail-block">
-                  <p className="case-detail-label">Judge</p>
-                  <p>{c.judge}</p>
-                  <p className="case-detail-label case-detail-label-spaced">Plaintiff counsel</p>
-                  <p>{c.attorneys[0].name}</p>
-                </div>
-                <div className="case-detail-block">
-                  <p className="case-detail-label">Amount in controversy</p>
-                  <p className="case-detail-amount">{c.amount}</p>
-                  <p className="case-detail-label case-detail-label-spaced">Documents</p>
-                  <p>
-                    <a href="#" className="case-detail-link">
-                      View {c.documents} filings
-                    </a>
-                  </p>
-                </div>
-              </div>
-              <div className="case-docket">
-                <p className="case-detail-label">Last docket entry</p>
-                <p>
-                  <span className="case-docket-date">{c.lastDocket.date}</span> —{' '}
-                  {c.lastDocket.entry}
-                </p>
-              </div>
-            </div>
-          </details>
-        ))}
-      </div>
+            </section>
+          ))}
+        </div>
       </div>
     </article>
   )
@@ -720,6 +566,8 @@ function QuickVettV3({ onSignOut }) {
   }, [])
 
   const v3ShellClass = `v3-chat-shell${v3SidebarCollapsed ? ' v3-chat-shell--sidebar-collapsed' : ''}`
+  const resultsBusinessName = businessName.trim() || 'Khera Brothers Inc'
+  const resultsOwnerName = ownerName.trim() || 'Rajiv Khera'
 
   const openHistoryEntry = (entry) => {
     openResultsFromHistory(entry)
@@ -971,8 +819,17 @@ function QuickVettV3({ onSignOut }) {
                 </div>
 
                 <div className="results-content">
+                  <section className="results-entity-strip" aria-label="Search subject">
+                    <div>
+                      <p className="results-entity-label">Search subject</p>
+                      <h2>{resultsBusinessName}</h2>
+                    </div>
+                    <p className="results-entity-meta">
+                      Owner: {resultsOwnerName} · Brooklyn, NY · EIN: 85-3201948
+                    </p>
+                  </section>
                   <DataMerchCard businessName={businessName} />
-                  <DefaultHistoryCard businessName={businessName} />
+                  <DefaultHistoryCard businessName={businessName} ownerName={ownerName} />
                   <DeepSearchCard businessName={businessName} ownerName={ownerName} />
                 </div>
               </div>
