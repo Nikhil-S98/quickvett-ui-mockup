@@ -37,17 +37,24 @@ function HeaderBrand({ onClick }) {
   )
 }
 
+function datamerchCategoryLabel(category) {
+  if (category === 'Default') return 'Default Account'
+  return category
+}
+
 function DataMerchCard({ businessName }) {
+  const ein = '85-3201948'
+  const lookupTimes = 89
   const records = [
     {
       category: 'Default',
-      reportedBy: 'Anonymous Funder #142',
+      reportedBy: 'CFG Merchant Solutions',
       reportedAt: '2024-11-03',
       note: 'Stopped ACH on day 9 of contract. No response to outreach calls or emails after initial draw.',
     },
     {
       category: 'Stacking',
-      reportedBy: 'Anonymous Funder #87',
+      reportedBy: 'EBF Holdings',
       reportedAt: '2024-08-17',
       note: 'Took 3 concurrent positions within 72 hrs without disclosure. Original contract explicitly prohibited.',
     },
@@ -62,31 +69,168 @@ function DataMerchCard({ businessName }) {
         </div>
       </header>
       <div className="result-card-body">
-      <div className="datamerch-meta">
-        <span>EIN 85-3201948</span>
-        <span aria-hidden="true">·</span>
-        <span>{records.length} records</span>
-        <span aria-hidden="true">·</span>
-        <span>Searched 2s ago</span>
+        <p className="datamerch-summary-line">
+          <span className="datamerch-record-label">EIN</span> <strong>{ein}</strong>
+          <span className="datamerch-record-label"> · Records</span> <strong>{records.length}</strong>
+          <span className="datamerch-record-label"> · Searched</span> <strong>{lookupTimes}</strong>
+          <span className="datamerch-record-label"> times</span>
+        </p>
+        <ul className="datamerch-records">
+          {records.map((record) => (
+            <li key={`${record.category}-${record.reportedAt}`} className="datamerch-record-row">
+              <span className="datamerch-category-pill">{datamerchCategoryLabel(record.category)}</span>
+              <div className="datamerch-record-body">
+                <p className="datamerch-record-pill">
+                  File submitted by: {record.reportedBy.toUpperCase()}
+                </p>
+                <p className="datamerch-record-note">{record.note}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="datamerch-records">
-        {records.map((record) => (
-          <li key={`${record.category}-${record.reportedAt}`}>
-            <div className="datamerch-record-head">
-              <span className="datamerch-record-date">{record.reportedAt}</span>
-            </div>
-            <p className="datamerch-record-note">{record.note}</p>
-            <p className="datamerch-record-source">— {record.reportedBy}</p>
-          </li>
-        ))}
-      </ul>
+    </article>
+  )
+}
+
+function getDeepTerminalSections(business, owner) {
+  return [
+    {
+      id: 'legal',
+      title: 'Legal History',
+      entries: [
+        {
+          flag: 'red',
+          text: `${business} appears as defendant in Velocity Capital LLC v. ${business} (2024-CV-04821, Kings County). Motion calendar lists conference 2026-06-02.`,
+        },
+        {
+          flag: 'red',
+          text: `Federal action Northbridge Funding Group v. ${business} et al. (EDNY 2024-CV-00188) remains open — discovery order entered; depositions expected Q3.`,
+        },
+        {
+          flag: 'red',
+          text: `Judgment entered Yellowstone Capital East v. ${business} (NJ Bergen 2023-CV-11204); abstract indexed against trade name.`,
+        },
+      ],
+    },
+    {
+      id: 'owner',
+      title: 'Owner',
+      entries: [
+        {
+          flag: 'green',
+          text: `${owner} listed as control person with majority governance stake; NY DOS shows signature authority on 4 active filings since 2022.`,
+        },
+      ],
+    },
+    {
+      id: 'entity',
+      title: 'Entity Linkage',
+      entries: [
+        {
+          flag: 'yellow',
+          text: `Registered office 2841 Atlantic Ave matches KB Logistics Holdings Inc (inactive agent overlap March 2023).`,
+        },
+        {
+          flag: 'yellow',
+          text: `Prior trade name filing “${business} DBA Atlantic Wholesale” discontinued 2021-09.`,
+        },
+        {
+          flag: 'green',
+          text: `No NY DOS penalties on file for ${business}; certificate status active.`,
+        },
+      ],
+    },
+    {
+      id: 'business',
+      title: 'Business',
+      entries: [
+        {
+          flag: 'yellow',
+          text: `NAICS 4244 wholesale trade; Experian SBCS band below average (52) as of last bureau refresh.`,
+        },
+        {
+          flag: 'yellow',
+          text: `Secured financing filings show 9 active UCC-1 continuations naming MCA-style lenders (NY/NJ index, 18 months).`,
+        },
+        {
+          flag: 'yellow',
+          text: `Web presence limited to directory listings; primary domain registered 2018 with privacy WHOIS.`,
+        },
+        {
+          flag: 'green',
+          text: `No bankruptcy petitions located under current EIN or principal trade names.`,
+        },
+      ],
+    },
+    {
+      id: 'reviews',
+      title: 'Reviews & Reputation',
+      empty: true,
+    },
+  ]
+}
+
+function DeepSearchCard({ businessName, ownerName }) {
+  const business = businessName.trim() || 'Khera Brothers Inc'
+  const owner = ownerName.trim() || 'Rajiv Khera'
+  const deepSections = getDeepTerminalSections(business, owner)
+
+  return (
+    <article className="result-card card-deep-search">
+      <header className="result-card-header">
+        <div className="result-card-heading">
+          <span className="result-card-label">Deep Search</span>
+          <h3>Intel digest</h3>
+        </div>
+      </header>
+      <div className="result-card-body">
+        <div className="deep-intel-host" aria-label="Deep search digest">
+          <div className="deep-terminal">
+            <p className="deep-term-meta">Completed May 13, 2026</p>
+            {deepSections.map((section) => (
+              <section key={section.id} className="deep-term-section">
+                <h4 className="deep-term-section-title">{section.title}</h4>
+                {section.empty ? (
+                  <p className="deep-term-empty">No significant findings.</p>
+                ) : (
+                  <div className="deep-term-rows">
+                    {section.entries.map((entry, idx) => (
+                      <div key={`${section.id}-${idx}`} className="deep-term-row">
+                        <span
+                          className={`deep-term-flag deep-term-flag--${entry.flag}`}
+                          aria-hidden="true"
+                          title={
+                            entry.flag === 'red'
+                              ? 'High attention'
+                              : entry.flag === 'yellow'
+                                ? 'Review'
+                                : 'Clear / positive'
+                          }
+                        >
+                          <span className="material-symbols-outlined">flag</span>
+                        </span>
+                        <p className="deep-term-row-text">{entry.text}</p>
+                        <button type="button" className="deep-term-info" aria-label="Source detail">
+                          <span className="material-symbols-outlined" aria-hidden="true">
+                            info
+                          </span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            ))}
+          </div>
+        </div>
       </div>
     </article>
   )
 }
 
 function DefaultHistoryCard({ businessName }) {
-  const business = businessName || 'Khera Brothers Inc'
+  const business = businessName.trim() || 'Khera Brothers Inc'
   const cases = [
     {
       caption: `Velocity Capital LLC v. ${business}`,
@@ -341,7 +485,7 @@ function DefaultHistoryCard({ businessName }) {
         </div>
       </header>
       <div className="result-card-body">
-      <div className="case-list">
+        <div className="case-list">
         {cases.map((c) => (
           <details key={c.caseNumber} className="case-row">
             <summary>
@@ -405,219 +549,6 @@ function DefaultHistoryCard({ businessName }) {
           </details>
         ))}
       </div>
-      </div>
-    </article>
-  )
-}
-
-function DeepSearchCard({ businessName }) {
-  const business = businessName || 'Business'
-  return (
-    <article className="result-card card-deep-search">
-      <header className="result-card-header">
-        <div className="result-card-heading">
-          <span className="result-card-label">Deep Search</span>
-          <h3>{business} — Intelligence Report</h3>
-        </div>
-      </header>
-      <div className="result-card-body">
-      <p className="deep-meta">
-        <span className="material-symbols-outlined ui-icon" aria-hidden="true">
-          travel_explore
-        </span>
-        Researched 47 sources · 6m 12s · 24 web pages reviewed
-      </p>
-
-      <section className="deep-section">
-        <h4>Executive summary</h4>
-        <p>
-          {business} shows a pattern of distressed funding history with multiple active litigation
-          matters and reported defaults in the alternative finance industry. Prior counterparties
-          have flagged stacking behavior, and at least one federal RICO matter is currently
-          pending. Manual review is recommended before extending capital.
-        </p>
-      </section>
-
-      <section className="deep-section">
-        <h4>Business overview</h4>
-        <dl className="deep-dl">
-          <div>
-            <dt>Legal name</dt>
-            <dd>{business}</dd>
-          </div>
-          <div>
-            <dt>EIN</dt>
-            <dd>85-3201948</dd>
-          </div>
-          <div>
-            <dt>Formed</dt>
-            <dd>March 2018 — New York</dd>
-          </div>
-          <div>
-            <dt>Industry</dt>
-            <dd>Wholesale Trade — NAICS 4244</dd>
-          </div>
-          <div>
-            <dt>Status</dt>
-            <dd>Active</dd>
-          </div>
-          <div>
-            <dt>HQ</dt>
-            <dd>2841 Atlantic Ave, Brooklyn, NY 11207</dd>
-          </div>
-          <div>
-            <dt>Employees (est.)</dt>
-            <dd>11–25</dd>
-          </div>
-          <div>
-            <dt>Revenue (est.)</dt>
-            <dd>$2.4M — $3.1M annual</dd>
-          </div>
-        </dl>
-      </section>
-
-      <section className="deep-section">
-        <h4>Ownership &amp; officers</h4>
-        <ul className="deep-list">
-          <li>
-            <strong>Rajiv Khera</strong> — President / 60% owner. Listed on 4 other active entities.
-          </li>
-          <li>
-            <strong>Anika Khera</strong> — VP Operations / 30% owner. Shares HQ address with Khera
-            Logistics Holdings.
-          </li>
-          <li>
-            <strong>Devon Marsh</strong> — CFO / 10% owner. Joined 2022; prior CFO at flagged MCA
-            broker.
-          </li>
-        </ul>
-      </section>
-
-      <section className="deep-section">
-        <h4>Linked entities</h4>
-        <ul className="deep-list">
-          <li>
-            <strong>KB Logistics Holdings Inc</strong> — shared officers + co-defendant in 2024-CV-00188.
-          </li>
-          <li>
-            <strong>Khera Group Real Estate LLC</strong> — shared HQ address; passive holdings.
-          </li>
-          <li>
-            <strong>Brooklyn Atlantic Trading Co</strong> — same registered agent; dissolved 2023.
-          </li>
-        </ul>
-      </section>
-
-      <section className="deep-section">
-        <h4>Financial signals</h4>
-        <ul className="deep-list">
-          <li>Experian SBCS credit band: <strong>Below average (52)</strong></li>
-          <li>UCC filings on record: <strong>9 active</strong> across 6 secured parties</li>
-          <li>Tax liens: <strong>1 federal</strong> ($38,200, 2023, partially released)</li>
-          <li>Prior MCA positions identified: <strong>at least 5</strong> in last 18 months</li>
-          <li>No bankruptcy filings on record</li>
-        </ul>
-      </section>
-
-      <section className="deep-section">
-        <h4>Legal &amp; regulatory</h4>
-        <ul className="deep-list">
-          <li>
-            4 court matters (see Default History panel for full dockets) — 2 currently open including
-            a federal RICO claim.
-          </li>
-          <li>NY business license active and in good standing.</li>
-          <li>No state regulatory enforcement actions identified.</li>
-        </ul>
-      </section>
-
-      <section className="deep-section">
-        <h4>Adverse media</h4>
-        <ul className="deep-news">
-          <li>
-            <p className="deep-news-title">Brooklyn wholesaler named in $412K RICO suit by funding group</p>
-            <p className="deep-news-meta">deBanked · 2024-01-22</p>
-            <p>Coverage of the EDNY filing alleging coordinated stacking and misrepresentation across at least three funders.</p>
-          </li>
-          <li>
-            <p className="deep-news-title">Funders share growing list of stackers as 2024 defaults climb</p>
-            <p className="deep-news-meta">Daily Funder · 2024-11-08</p>
-            <p>Industry roundup mentions {business} among recent DataMerch entries flagged by multiple funders.</p>
-          </li>
-          <li>
-            <p className="deep-news-title">Local supply chains adapt as Brooklyn wholesalers shift to hybrid models</p>
-            <p className="deep-news-meta">Brooklyn Eagle · 2023-05-14</p>
-            <p>Profile piece on small wholesalers in East New York including {business} discussing post-pandemic operations.</p>
-          </li>
-        </ul>
-      </section>
-
-      <section className="deep-section">
-        <h4>Web &amp; reputation</h4>
-        <dl className="deep-dl">
-          <div>
-            <dt>Website</dt>
-            <dd>active · domain registered 2018</dd>
-          </div>
-          <div>
-            <dt>BBB rating</dt>
-            <dd>C+ · 4 complaints (2 unresolved)</dd>
-          </div>
-          <div>
-            <dt>Google reviews</dt>
-            <dd>3.2 ★ (47 reviews)</dd>
-          </div>
-          <div>
-            <dt>Trustpilot</dt>
-            <dd>No profile</dd>
-          </div>
-          <div>
-            <dt>LinkedIn</dt>
-            <dd>14 employees listed</dd>
-          </div>
-          <div>
-            <dt>Social presence</dt>
-            <dd>Facebook (low activity), no Instagram</dd>
-          </div>
-        </dl>
-      </section>
-
-      <section className="deep-section">
-        <h4>Customer complaints</h4>
-        <ul className="deep-list">
-          <li>
-            <strong>BBB</strong> — 4 total. 2 cite delivery delays, 1 cites billing dispute,
-            1 unresolved invoice complaint from 2024-09.
-          </li>
-          <li>
-            <strong>Reddit / r/smallbusiness</strong> — 2 mentions in 2024 referencing payment delays
-            on supply contracts.
-          </li>
-        </ul>
-      </section>
-
-      <section className="deep-section deep-sources">
-        <details>
-          <summary>
-            <span>Sources (47)</span>
-            <span className="material-symbols-outlined ui-icon" aria-hidden="true">expand_more</span>
-          </summary>
-          <ol className="deep-sources-list">
-            <li>NY Department of State — Business entity record</li>
-            <li>EDNY PACER — Case 2024-CV-00188 docket</li>
-            <li>NY Supreme Court — Kings County e-filing</li>
-            <li>DataMerch — funder-reported records</li>
-            <li>deBanked — industry coverage 2024-01-22</li>
-            <li>Daily Funder — industry coverage 2024-11-08</li>
-            <li>BBB.org — business profile and complaint records</li>
-            <li>Google Maps — review aggregation</li>
-            <li>LinkedIn — company page and employee count</li>
-            <li>Experian SBCS — credit band lookup</li>
-            <li>UCC filings — secured-party search across NY/NJ</li>
-            <li>… and 36 more</li>
-          </ol>
-        </details>
-      </section>
       </div>
     </article>
   )
@@ -1042,7 +973,7 @@ function QuickVettV3({ onSignOut }) {
                 <div className="results-content">
                   <DataMerchCard businessName={businessName} />
                   <DefaultHistoryCard businessName={businessName} />
-                  <DeepSearchCard businessName={businessName} />
+                  <DeepSearchCard businessName={businessName} ownerName={ownerName} />
                 </div>
               </div>
             </div>

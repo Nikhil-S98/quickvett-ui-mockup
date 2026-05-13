@@ -561,7 +561,8 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
 }
 
 .header-brand.logo-font-montserrat,
-.search-brand.logo-font-montserrat {
+.search-brand.logo-font-montserrat,
+.public-landing-hero-brand.logo-font-montserrat {
   font-family:
     Montserrat,
     'Helvetica Neue',
@@ -950,9 +951,89 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
 .datamerch-records li {
   border-top: 1px solid var(--border);
   padding-top: 0.6rem;
+}
+
+.datamerch-records li:not(.datamerch-record-row) {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+}
+
+.datamerch-records li.datamerch-record-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.datamerch-records li.datamerch-record-row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.datamerch-record-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.datamerch-category-pill {
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding: 0.38rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #0f766e;
+  line-height: 1.2;
+  max-width: 11rem;
+  text-align: center;
+}
+
+.datamerch-summary-line {
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--result-type-body);
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.datamerch-record-topline {
+  margin: 0;
+  font-size: var(--result-type-body);
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.datamerch-record-topline strong,
+.datamerch-summary-line strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.datamerch-record-label {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.datamerch-record-pill {
+  margin: 0;
+  align-self: flex-start;
+  padding: 0.32rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
 }
 
 .datamerch-record-head {
@@ -1019,15 +1100,10 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 0.1rem;
-  transition: background-color 0.15s ease;
 }
 
 .case-row > summary::-webkit-details-marker {
   display: none;
-}
-
-.case-row > summary:hover {
-  background: var(--surface-hover);
 }
 
 .case-summary-main {
