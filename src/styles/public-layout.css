@@ -1,15 +1,14 @@
 /* --- Public marketing routes --- */
 
 .public-layout {
-  /* Neutral marketing chrome (no blue accent) */
+  /* Light marketing: muted slate accents (not stark black; cyan is dark mode only) */
   --public-accent: #334155;
   --public-accent-hover: #1e293b;
   --public-accent-soft: #f1f5f9;
   --public-accent-muted: rgba(51, 65, 85, 0.1);
   --public-accent-border: rgba(51, 65, 85, 0.22);
   --public-accent-ring: rgba(71, 85, 105, 0.32);
-  /* Teal reserved for icon glyphs only (material-symbols, checkmarks) */
-  --public-spot-icon: #12708f;
+  --public-spot-icon: #475569;
   /* Frosted panels — aligned with V3 theme-plain search / sidebar chrome */
   --public-glass-fill: linear-gradient(
     165deg,
@@ -139,6 +138,7 @@
 .public-layout .search-action-btn:hover {
   border-color: var(--public-accent-hover);
   background: var(--public-accent-hover);
+  color: #fff;
 }
 
 .public-layout .search-action-btn:focus-visible {
@@ -158,6 +158,7 @@
 }
 
 .public-layout .landing-btn--primary:hover {
+  color: #fff;
   background: var(--public-accent-hover);
   border-color: var(--public-accent-hover);
 }
@@ -363,4 +364,42 @@ a.header-brand {
 
 .public-btn-block.search-action-btn {
   box-sizing: border-box;
+}
+
+/* Marketing dark tokens + shell overrides: src/styles/themes/public-marketing-dark.css */
+
+.public-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font: inherit;
+  line-height: 0;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.public-theme-toggle .ui-icon {
+  font-size: 1.2rem !important;
+}
+
+.public-theme-toggle:hover {
+  color: var(--text-primary);
+  background: var(--surface-hover);
+  border-color: var(--public-accent-border);
+}
+
+.public-theme-toggle:focus-visible {
+  outline: 2px solid var(--public-accent-ring);
+  outline-offset: 2px;
 }

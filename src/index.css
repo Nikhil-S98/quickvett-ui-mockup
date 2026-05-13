@@ -6,5 +6,6 @@
 @import './styles/v32-workspace.css';
 @import './styles/v31-workspace.css';
 @import './styles/public-layout.css';
+@import './styles/themes/public-marketing-dark.css';
 @import './styles/landing.css';
 @import './styles/how-it-works.css';

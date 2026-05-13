@@ -1,0 +1,147 @@
+/*
+ * Public marketing — DARK mode
+ * Brand: #00f7ff (display / logo / accents). Body & section headings use light neutrals.
+ */
+
+html.public-marketing-dark {
+  --marketing-brand-teal: #00f7ff;
+  --marketing-brand-teal-rgb: 0, 247, 255;
+
+  --marketing-teal-heading: var(--marketing-brand-teal);
+  --marketing-teal-heading-soft: var(--marketing-brand-teal);
+  --marketing-teal-icon: var(--marketing-brand-teal);
+  --marketing-teal-accent: var(--marketing-brand-teal);
+  --marketing-teal-accent-hover: color-mix(in srgb, var(--marketing-brand-teal) 72%, #ffffff 28%);
+  --marketing-teal-border: rgba(var(--marketing-brand-teal-rgb), 0.35);
+  --marketing-teal-border-soft: rgba(var(--marketing-brand-teal-rgb), 0.22);
+  --marketing-teal-ring: rgba(var(--marketing-brand-teal-rgb), 0.4);
+  --marketing-teal-glow-soft: rgba(var(--marketing-brand-teal-rgb), 0.14);
+  --marketing-teal-glow-muted: rgba(var(--marketing-brand-teal-rgb), 0.12);
+
+  --marketing-page-bg: #070a0e;
+  --marketing-body-text: #e2e8f0;
+  --marketing-text-secondary: #94a3b8;
+  --marketing-text-muted: #6b7c8c;
+}
+
+html.public-marketing-dark body {
+  background: var(--marketing-page-bg);
+  color: var(--marketing-body-text);
+  color-scheme: dark;
+}
+
+.app-shell.public-layout.public-layout--dark {
+  --page-bg: var(--marketing-page-bg);
+  --text-primary: var(--marketing-body-text);
+  --text-secondary: var(--marketing-text-secondary);
+  --text-muted: var(--marketing-text-muted);
+  --title-color: #f1f5f9;
+  --surface: #111820;
+  --surface-soft: #0d1118;
+  --surface-hover: #182028;
+  --border: var(--marketing-teal-border-soft);
+  --placeholder: #64748b;
+  --icon-muted: #7c8c9a;
+  --focus-ring: rgba(var(--marketing-brand-teal-rgb), 0.22);
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-focus: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --public-accent: var(--marketing-teal-accent);
+  --public-accent-hover: var(--marketing-teal-accent-hover);
+  --public-accent-soft: var(--marketing-teal-glow-soft);
+  --public-accent-muted: var(--marketing-teal-glow-muted);
+  --public-accent-border: var(--marketing-teal-border);
+  --public-accent-ring: var(--marketing-teal-ring);
+  --public-spot-icon: var(--marketing-teal-icon);
+  --public-glass-fill: linear-gradient(
+    165deg,
+    rgba(var(--marketing-brand-teal-rgb), 0.04) 0%,
+    rgba(var(--marketing-brand-teal-rgb), 0.025) 50%,
+    rgba(var(--marketing-brand-teal-rgb), 0.035) 100%
+  );
+  --public-glass-inset: inset 0 1px 0 rgba(var(--marketing-brand-teal-rgb), 0.1);
+}
+
+.app-shell.public-layout.public-layout--dark .public-eyebrow,
+.app-shell.public-layout.public-layout--dark .public-title {
+  color: var(--title-color);
+}
+
+.app-shell.public-layout.public-layout--dark .header-brand,
+.app-shell.public-layout.public-layout--dark .header-brand .ui-icon {
+  color: var(--marketing-brand-teal);
+}
+
+.public-layout--dark .public-landing-hero-brand {
+  color: var(--marketing-brand-teal);
+}
+
+.app-shell.public-layout.public-layout--dark .public-theme-toggle {
+  color: var(--public-spot-icon);
+}
+
+.app-shell.public-layout.public-layout--dark .public-theme-toggle:hover {
+  color: var(--marketing-teal-accent-hover);
+}
+
+.app-shell.public-layout.public-layout--dark.theme-plain {
+  --page-bg: transparent;
+  background-color: #06090d;
+  background-image:
+    radial-gradient(ellipse 115% 90% at 8% -15%, rgba(var(--marketing-brand-teal-rgb), 0.11), transparent 58%),
+    radial-gradient(ellipse 95% 72% at 102% 8%, rgba(var(--marketing-brand-teal-rgb), 0.06), transparent 54%),
+    radial-gradient(ellipse 100% 80% at 50% 108%, rgba(var(--marketing-brand-teal-rgb), 0.09), transparent 52%),
+    linear-gradient(168deg, #080b10 0%, #0b1016 42%, #070a0f 100%);
+  background-blend-mode: normal, normal, normal, normal;
+}
+
+.app-shell.public-layout.public-layout--dark.theme-plain .public-nav-link--cta {
+  background: var(--public-glass-fill);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  backdrop-filter: blur(18px) saturate(1.08);
+  box-shadow: var(--public-glass-inset);
+}
+
+.app-shell.public-layout.public-layout--dark .landing-btn--primary {
+  color: #e8f1ef;
+  background: linear-gradient(180deg, #1c2629 0%, #141a1f 100%);
+  border: 1px solid rgba(var(--marketing-brand-teal-rgb), 0.45);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 12px 36px rgba(0, 0, 0, 0.28);
+}
+
+.app-shell.public-layout.public-layout--dark .landing-btn--primary:hover {
+  background: linear-gradient(180deg, #243138 0%, #1a2228 100%);
+  border-color: rgba(var(--marketing-brand-teal-rgb), 0.65);
+  color: #f4faf9;
+}
+
+.app-shell.public-layout.public-layout--dark .landing-btn--primary:focus-visible {
+  outline-color: rgba(var(--marketing-brand-teal-rgb), 0.55);
+}
+
+.app-shell.public-layout.public-layout--dark .landing-btn--ghost {
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--public-glass-inset), var(--shadow-soft);
+}
+
+.app-shell.public-layout.public-layout--dark .landing-btn--ghost:hover {
+  color: var(--text-primary);
+  border-color: var(--public-accent-border);
+  background: rgba(var(--marketing-brand-teal-rgb), 0.07);
+}
+
+/* Shared marketing surfaces (landing, pricing, uncover, contact, how-it-works) */
+.public-layout--dark .public-landing,
+.public-layout--dark .public-pricing-page,
+.public-layout--dark .public-uncover-page,
+.public-layout--dark .public-contact-page,
+.public-layout--dark .public-how {
+  --landing-ink: #f1f5f9;
+  --landing-slate: #e2e8f0;
+  --landing-elev: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --landing-canvas: #0c1016;
+  --landing-canvas-alt: #080b10;
+  --landing-card: #121a22;
+  --landing-card-border: rgba(var(--marketing-brand-teal-rgb), 0.32);
+}

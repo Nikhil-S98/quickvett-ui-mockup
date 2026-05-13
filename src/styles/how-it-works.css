@@ -244,3 +244,12 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* --- How it works — dark stack --- */
+
+/* Dark canvas tokens: themes/public-marketing-dark.css (.public-layout--dark .public-how) */
+
+.public-layout--dark .public-how-band--alt {
+  border-top-color: rgba(var(--marketing-brand-teal-rgb), 0.22);
+  border-bottom-color: rgba(var(--marketing-brand-teal-rgb), 0.22);
+}
