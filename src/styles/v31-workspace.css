@@ -60,14 +60,14 @@
 }
 
 .app-shell--v3.app-shell--v3-1.theme-midnight {
-  --v2-workspace-wash: rgba(8, 10, 18, 0.42);
-  background-color: #060910;
+  --v2-workspace-wash: rgba(7, 10, 14, 0.52);
+  background-color: #06090d;
   background-image: none;
 }
 
 .app-shell--v3.app-shell--v3-1.theme-blue-dark {
-  --v2-workspace-wash: rgba(4, 8, 18, 0.45);
-  background-color: #050810;
+  --v2-workspace-wash: rgba(7, 10, 14, 0.52);
+  background-color: #06090d;
   background-image: none;
 }
 
@@ -104,33 +104,31 @@
 
 /* Dark themes: navy + slate-blue glows only (no violet orbs) */
 .app-shell--v3.app-shell--v3-1.theme-midnight .v31-watercolor-backdrop {
-  background-color: #070b14;
+  background-color: #06090d;
   background-image:
-    radial-gradient(ellipse 118% 92% at 12% 2%, rgba(37, 99, 235, 0.14), transparent 58%),
-    radial-gradient(ellipse 100% 78% at 100% 6%, rgba(71, 85, 105, 0.1), transparent 54%),
-    radial-gradient(ellipse 110% 88% at 36% 100%, rgba(30, 58, 138, 0.12), transparent 52%),
+    radial-gradient(ellipse 115% 90% at 8% -15%, rgba(0, 247, 255, 0.042), transparent 58%),
+    radial-gradient(ellipse 95% 72% at 102% 8%, rgba(0, 247, 255, 0.022), transparent 54%),
+    radial-gradient(ellipse 100% 80% at 50% 108%, rgba(0, 247, 255, 0.032), transparent 52%),
     linear-gradient(
       168deg,
-      rgba(2, 4, 12, 0.98) 0%,
-      rgba(15, 23, 42, 0.94) 40%,
-      rgba(30, 41, 59, 0.88) 58%,
-      rgba(3, 6, 14, 0.98) 100%
+      #080b10 0%,
+      #090c11 38%,
+      #080b10 100%
     );
   background-blend-mode: normal, normal, normal, normal;
 }
 
 .app-shell--v3.app-shell--v3-1.theme-blue-dark .v31-watercolor-backdrop {
-  background-color: #060910;
+  background-color: #06090d;
   background-image:
-    radial-gradient(ellipse 122% 94% at 8% 0%, rgba(37, 99, 235, 0.12), transparent 56%),
-    radial-gradient(ellipse 102% 80% at 100% 4%, rgba(51, 65, 85, 0.1), transparent 52%),
-    radial-gradient(ellipse 112% 88% at 30% 100%, rgba(30, 58, 138, 0.1), transparent 52%),
+    radial-gradient(ellipse 115% 90% at 8% -15%, rgba(0, 247, 255, 0.042), transparent 58%),
+    radial-gradient(ellipse 95% 72% at 102% 8%, rgba(0, 247, 255, 0.022), transparent 54%),
+    radial-gradient(ellipse 100% 80% at 50% 108%, rgba(0, 247, 255, 0.032), transparent 52%),
     linear-gradient(
-      172deg,
-      rgba(2, 4, 14, 0.98) 0%,
-      rgba(15, 23, 42, 0.95) 40%,
-      rgba(30, 41, 59, 0.85) 58%,
-      rgba(2, 4, 12, 0.98) 100%
+      168deg,
+      #080b10 0%,
+      #090c11 38%,
+      #080b10 100%
     );
   background-blend-mode: normal, normal, normal, normal;
 }

@@ -18,6 +18,24 @@ html.public-marketing-dark {
   --marketing-teal-glow-soft: rgba(var(--marketing-brand-teal-rgb), 0.14);
   --marketing-teal-glow-muted: rgba(var(--marketing-brand-teal-rgb), 0.12);
 
+  /* Letter glow — marketing stack (tweak opacities / radii here) */
+  --marketing-letter-glow:
+    0 0 16px rgba(var(--marketing-brand-teal-rgb), 0.34),
+    0 0 36px rgba(var(--marketing-brand-teal-rgb), 0.2),
+    0 0 72px rgba(var(--marketing-brand-teal-rgb), 0.11);
+  --marketing-letter-glow-hero:
+    0 0 20px rgba(var(--marketing-brand-teal-rgb), 0.4),
+    0 0 46px rgba(var(--marketing-brand-teal-rgb), 0.24),
+    0 0 96px rgba(var(--marketing-brand-teal-rgb), 0.12);
+  --marketing-letter-glow-accent:
+    0 0 18px rgba(var(--marketing-brand-teal-rgb), 0.36),
+    0 0 42px rgba(var(--marketing-brand-teal-rgb), 0.18),
+    0 0 82px rgba(var(--marketing-brand-teal-rgb), 0.1);
+  --marketing-letter-glow-finale:
+    0 0 16px rgba(var(--marketing-brand-teal-rgb), 0.3),
+    0 0 38px rgba(var(--marketing-brand-teal-rgb), 0.14),
+    0 0 70px rgba(var(--marketing-brand-teal-rgb), 0.08);
+
   --marketing-page-bg: #070a0e;
   --marketing-body-text: #e2e8f0;
   --marketing-text-secondary: #94a3b8;
@@ -62,15 +80,16 @@ html.public-marketing-dark body {
 }
 
 .app-shell.public-layout.public-layout--dark .public-eyebrow,
-.app-shell.public-layout.public-layout--dark .public-title {
-  color: var(--title-color);
+.app-shell.public-layout.public-layout--dark .public-title,
+.app-shell.public-layout.public-layout--dark .public-tile-title,
+.app-shell.public-layout.public-layout--dark .public-step-num {
+  color: var(--marketing-brand-teal);
+  text-shadow: var(--marketing-letter-glow);
 }
 
 .app-shell.public-layout.public-layout--dark .header-brand {
   color: var(--marketing-brand-teal);
-  text-shadow:
-    0 0 18px rgba(var(--marketing-brand-teal-rgb), 0.2),
-    0 0 40px rgba(var(--marketing-brand-teal-rgb), 0.08);
+  text-shadow: var(--marketing-letter-glow);
 }
 
 .app-shell.public-layout.public-layout--dark .header-brand .ui-icon {
@@ -80,9 +99,7 @@ html.public-marketing-dark body {
 
 .public-layout--dark .public-landing-hero-brand {
   color: var(--marketing-brand-teal);
-  text-shadow:
-    0 0 22px rgba(var(--marketing-brand-teal-rgb), 0.22),
-    0 0 52px rgba(var(--marketing-brand-teal-rgb), 0.09);
+  text-shadow: var(--marketing-letter-glow-hero);
 }
 
 .public-layout--dark .public-landing-hero-brand .logo-icon {
@@ -91,21 +108,18 @@ html.public-marketing-dark body {
 
 /* Italic accent phrases — soft neon bloom (not full headings) */
 .public-layout--dark .public-landing-title-accent {
-  text-shadow:
-    0 0 20px rgba(var(--marketing-brand-teal-rgb), 0.2),
-    0 0 48px rgba(var(--marketing-brand-teal-rgb), 0.09);
+  text-shadow: var(--marketing-letter-glow-accent);
 }
 
 .public-layout--dark .public-landing-finale-accent {
-  text-shadow:
-    0 0 18px rgba(var(--marketing-brand-teal-rgb), 0.16),
-    0 0 42px rgba(var(--marketing-brand-teal-rgb), 0.07);
+  text-shadow: var(--marketing-letter-glow-finale);
 }
 
 /* Gradient-filled accent: filter follows glyph shape in supporting browsers */
 .public-layout--dark .public-uncover-title-accent {
-  filter: drop-shadow(0 0 14px rgba(var(--marketing-brand-teal-rgb), 0.2))
-    drop-shadow(0 0 32px rgba(var(--marketing-brand-teal-rgb), 0.08));
+  filter: drop-shadow(0 0 18px rgba(var(--marketing-brand-teal-rgb), 0.32))
+    drop-shadow(0 0 40px rgba(var(--marketing-brand-teal-rgb), 0.18))
+    drop-shadow(0 0 72px rgba(var(--marketing-brand-teal-rgb), 0.1));
 }
 
 /* Dossier-style section index */

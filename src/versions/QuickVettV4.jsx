@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SiteVersionSelect from './SiteVersionSelect.jsx'
 import { PENDING_SEARCH_KEY } from '../constants/pendingSearchStorage.js'
+import { readStoredPublicMarketingDark } from '../constants/publicMarketingDarkStorage.js'
 
 gsap.registerPlugin(ScrollTrigger)
 gsap.defaults({ ease: 'power1.out' })
@@ -625,7 +626,7 @@ function DeepSearchCard({ businessName }) {
 function QuickVettV4({ siteVersion, onSiteVersionChange, onSignOut }) {
   const [page, setPage] = useState('home')
   const [colorway, setColorway] = useState('plain')
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => readStoredPublicMarketingDark())
   const [globalFont, setGlobalFont] = useState('helvetica-neue')
   const [logoFont, setLogoFont] = useState('montserrat')
   const [ownerName, setOwnerName] = useState('')

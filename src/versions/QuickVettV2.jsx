@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import SiteVersionSelect from './SiteVersionSelect.jsx'
 import { PENDING_SEARCH_KEY } from '../constants/pendingSearchStorage.js'
+import { readStoredPublicMarketingDark } from '../constants/publicMarketingDarkStorage.js'
 
 gsap.defaults({ ease: 'power1.out' })
 
@@ -623,7 +624,7 @@ function DeepSearchCard({ businessName }) {
 function QuickVettV2({ siteVersion, onSiteVersionChange, onSignOut }) {
   const [page, setPage] = useState('home')
   const [colorway, setColorway] = useState('plain')
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => readStoredPublicMarketingDark())
   const [globalFont, setGlobalFont] = useState('helvetica-neue')
   const [logoFont, setLogoFont] = useState('montserrat')
   const [ownerName, setOwnerName] = useState('')

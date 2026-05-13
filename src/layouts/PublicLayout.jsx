@@ -2,20 +2,10 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger } from '../gsap/register.js'
 import PublicLegalFooter from '../components/PublicLegalFooter.jsx'
-
-const PUBLIC_DARK_STORAGE_KEY = 'quickvett-public-dark'
-
-function readStoredPublicDark() {
-  try {
-    const raw = localStorage.getItem(PUBLIC_DARK_STORAGE_KEY)
-    if (raw === '1') return true
-    if (raw === '0') return false
-  } catch {
-    /* ignore */
-  }
-  /* No stored preference yet: default to dark (marketing briefing); toggle still writes '0' / '1'. */
-  return true
-}
+import {
+  PUBLIC_MARKETING_DARK_KEY,
+  readStoredPublicMarketingDark,
+} from '../constants/publicMarketingDarkStorage.js'
 
 function navCls(isActive) {
   return `public-nav-link${isActive ? ' public-nav-link--active' : ''}`
@@ -23,7 +13,7 @@ function navCls(isActive) {
 
 export default function PublicLayout() {
   const { pathname } = useLocation()
-  const [marketingDark, setMarketingDark] = useState(() => readStoredPublicDark())
+  const [marketingDark, setMarketingDark] = useState(() => readStoredPublicMarketingDark())
   const pagesWithFinaleFooter =
     pathname === '/how-it-works' || pathname === '/what-we-uncover'
   const showLayoutFooter =
@@ -50,7 +40,7 @@ export default function PublicLayout() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(PUBLIC_DARK_STORAGE_KEY, marketingDark ? '1' : '0')
+      localStorage.setItem(PUBLIC_MARKETING_DARK_KEY, marketingDark ? '1' : '0')
     } catch {
       /* ignore */
     }

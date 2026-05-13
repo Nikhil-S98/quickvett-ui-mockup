@@ -2515,14 +2515,8 @@
 }
 
 .public-layout--dark .public-landing-hero-fx__plate {
-  background:
-    radial-gradient(ellipse 88% 68% at 14% 18%, rgba(var(--marketing-brand-teal-rgb), 0.045), transparent 54%),
-    radial-gradient(ellipse 78% 58% at 92% 12%, rgba(var(--marketing-brand-teal-rgb), 0.026), transparent 46%),
-    radial-gradient(ellipse 100% 72% at 48% 96%, rgba(var(--marketing-brand-teal-rgb), 0.024), transparent 50%),
-    radial-gradient(ellipse 62% 52% at 78% 52%, rgba(var(--marketing-brand-teal-rgb), 0.016), transparent 46%),
-    radial-gradient(ellipse 92% 58% at 50% 102%, rgba(var(--marketing-brand-teal-rgb), 0.016), transparent 55%),
-    radial-gradient(ellipse 55% 40% at 12% 88%, rgba(var(--marketing-brand-teal-rgb), 0.022), transparent 60%),
-    linear-gradient(158deg, #0e1318 0%, #0c1016 42%, #0e1318 100%);
+  background: linear-gradient(158deg, #0e1318 0%, #0c1016 42%, #0e1318 100%);
+  filter: none !important;
 }
 
 .public-layout--dark .public-landing-band--soft {

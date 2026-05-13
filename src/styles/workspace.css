@@ -110,6 +110,50 @@
   --shadow-focus: none;
 }
 
+/* V3 dark — match public-marketing-dark / landing stack (teal accent, slate neutrals). */
+.app-shell--v3.theme-blue-dark {
+  --page-bg: #070a0e;
+  --workspace-bg: #070a0e;
+  --sidebar-bg: #111820;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #6b7c8c;
+  --title-color: #f1f5f9;
+  --surface: #111820;
+  --surface-soft: #0d1118;
+  --surface-hover: #182028;
+  --border: rgba(0, 247, 255, 0.22);
+  --sidebar-border: var(--border);
+  --input-border: var(--border);
+  --placeholder: #64748b;
+  --icon-muted: #7c8c9a;
+  --focus-ring: rgba(0, 247, 255, 0.22);
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-focus: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* V3 plain colorway + dark toggle → theme-midnight; same marketing stack as landing. */
+.app-shell--v3.theme-midnight {
+  --page-bg: #070a0e;
+  --workspace-bg: #070a0e;
+  --sidebar-bg: #111820;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #6b7c8c;
+  --title-color: #f1f5f9;
+  --surface: #111820;
+  --surface-soft: #0d1118;
+  --surface-hover: #182028;
+  --border: rgba(0, 247, 255, 0.22);
+  --sidebar-border: var(--border);
+  --input-border: var(--border);
+  --placeholder: #64748b;
+  --icon-muted: #7c8c9a;
+  --focus-ring: rgba(0, 247, 255, 0.22);
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-focus: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
 .app-shell.theme-blue {
   --page-bg: #e8eef6;
   --workspace-bg: #f2f6fb;
@@ -463,6 +507,57 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
   font-size: 1em;
   line-height: 1;
   color: var(--title-color);
+}
+
+/* Dark workspace — neon teal wordmarks / card titles (no letter glow; marketing stack color only). */
+.app-shell.theme-midnight .header-brand,
+.app-shell.theme-blue-dark .header-brand {
+  color: #00f7ff;
+  text-shadow: none;
+}
+
+.app-shell.theme-midnight .header-brand .header-logo-icon,
+.app-shell.theme-blue-dark .header-brand .header-logo-icon {
+  color: #00f7ff;
+  text-shadow: none;
+}
+
+.app-shell.theme-midnight button.header-brand.header-brand-clickable:hover,
+.app-shell.theme-blue-dark button.header-brand.header-brand-clickable:hover {
+  color: color-mix(in srgb, #00f7ff 72%, #ffffff 28%);
+}
+
+.app-shell.theme-midnight button.header-brand.header-brand-clickable:hover .header-logo-icon,
+.app-shell.theme-blue-dark button.header-brand.header-brand-clickable:hover .header-logo-icon {
+  color: color-mix(in srgb, #00f7ff 72%, #ffffff 28%);
+}
+
+.app-shell.theme-midnight button.header-brand.header-brand-clickable:active,
+.app-shell.theme-blue-dark button.header-brand.header-brand-clickable:active {
+  color: color-mix(in srgb, #00f7ff 58%, #94a3b8 42%);
+}
+
+.app-shell.theme-midnight button.header-brand.header-brand-clickable:active .header-logo-icon,
+.app-shell.theme-blue-dark button.header-brand.header-brand-clickable:active .header-logo-icon {
+  color: color-mix(in srgb, #00f7ff 58%, #94a3b8 42%);
+}
+
+.app-shell.theme-midnight .search-brand,
+.app-shell.theme-blue-dark .search-brand {
+  color: #00f7ff;
+  text-shadow: none;
+}
+
+.app-shell.theme-midnight .search-brand .logo-icon,
+.app-shell.theme-blue-dark .search-brand .logo-icon {
+  color: #00f7ff;
+  text-shadow: none;
+}
+
+.app-shell.theme-midnight .result-card-header h3,
+.app-shell.theme-blue-dark .result-card-header h3 {
+  color: #00f7ff;
+  text-shadow: none;
 }
 
 .header-brand.logo-font-montserrat,
@@ -1696,7 +1791,6 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
 }
 
 .app-shell--v2.theme-midnight,
-.app-shell--v3.theme-midnight,
 .app-shell--v4.theme-midnight {
   --v2-workspace-wash: rgba(10, 12, 20, 0.64);
   background-color: #010208;
@@ -1715,8 +1809,18 @@ button.header-brand.header-brand-clickable:active .header-logo-icon {
   background-blend-mode: normal, normal, normal, normal, soft-light;
 }
 
+.app-shell--v3.theme-midnight {
+  --v2-workspace-wash: rgba(7, 10, 14, 0.55);
+  background-color: #06090d;
+  background-image:
+    radial-gradient(ellipse 115% 90% at 8% -15%, rgba(0, 247, 255, 0.042), transparent 58%),
+    radial-gradient(ellipse 95% 72% at 102% 8%, rgba(0, 247, 255, 0.022), transparent 54%),
+    radial-gradient(ellipse 100% 80% at 50% 108%, rgba(0, 247, 255, 0.032), transparent 52%),
+    linear-gradient(168deg, #080b10 0%, #090c11 38%, #080b10 100%);
+  background-blend-mode: normal, normal, normal, normal;
+}
+
 .app-shell--v2.theme-blue-dark,
-.app-shell--v3.theme-blue-dark,
 .app-shell--v4.theme-blue-dark {
   --v2-workspace-wash: rgba(4, 8, 18, 0.66);
   background-color: #01040c;
